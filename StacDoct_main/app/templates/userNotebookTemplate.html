@@ -1,0 +1,19 @@
+<div style="border:1px solid black;margin:2px;">
+    <div style="max-height:200px;overflow:auto;margin-left:3px;">
+        #if(html){#
+        <div class='user-note'>#= html #</div>
+        #}else{#
+        <div style="margin-left:5px;">#: text #</div>
+        #}#
+    </div>
+    <div style="margin-top:3px;margin-left:5px;">
+        <a class="k-button k-edit-button" title="Изменить" href="\\#"><span class="k-icon k-i-edit"></span></a>
+        <a class="k-button k-delete-button" title="Удалить" href="\\#"><span class="k-icon k-i-delete"></span></a>
+        <div class="pull-right">
+            <span>Создано: #: kendo.toString(created,"d") # </span>&nbsp;
+            #if(modified){#
+                <span>Изменено: #: kendo.toString(modified,"d") # </span>&nbsp;
+            #}#
+        </div>
+    </div>
+</div>

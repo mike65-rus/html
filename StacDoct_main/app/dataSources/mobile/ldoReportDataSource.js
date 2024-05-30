@@ -1,0 +1,25 @@
+/**
+ * Created by STAR_06 on 04.12.2015.
+ */
+define(["kendo.all.min","models/ldoReportModel"],function(kendo,model){
+    'use strict';
+    var ds = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: "default.aspx?action=StacDoct_main/ldo_AJAX&action2=make_ldo_report",
+                dataType: "json"
+            }
+        },
+        schema: {
+            data: "alinks.rows",
+            total: "records",
+            errors: "error",
+            model: model
+        },
+        error: function(e) {
+//            utils.ajax_error(e);
+        }
+
+    });
+    return ds;
+});

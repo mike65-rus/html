@@ -1,0 +1,204 @@
+<div id="doc-058-dop-data">
+    <form id="form-058">
+        <div class="ot-058-old" style="display: none">
+            <label for="ot-58-001">МКБ:</label>
+            <div class='input-div'>
+                <input class='form-input' type='input' id="ot-58-001"
+                />
+            </div>
+            <label for="ot-58-002">Степень тяжести:</label>
+            <div class='input-div'>
+                <input class='form-input' type='input' id="ot-58-002"
+                />
+            </div>
+            <label for="ot-58-003">Наличие беременности:</label>
+            <div class='input-div'>
+                <input class='form-input' type='input' id="ot-58-003" />
+            </div>
+        </div>
+        <div class="ot-58-new">
+            <div>
+                <table class="ot-58-form-table">
+                    <col class="ot-58-col1">
+                    <col class="ot-58-col2">
+                <tr>
+                    <td>
+                        <label for="type-058">Тип диагноза</label>
+                    </td>
+                    <td>
+                        <input id="type-058" data-role="dropdownlist"
+                               data-auto-bind="true"
+                               data-value-primitive="true"
+                               data-text-field="name"
+                               data-value-field="id"
+                               data-bind="value: type58,
+                                source: dsType58
+                               "
+                               style="width: 100%;" />
+                    </td>
+                </tr>
+                </table>
+
+            </div>
+            <div data-bind="visible:type58">
+                <table class="ot-58-form-table">
+                    <col class="ot-58-col1">
+                    <col class="ot-58-col2">
+                    <tr data-bind="visible:isCovid">
+                        <td><label for="mkb-covid">Диагноз по МКБ-10</label>
+                        </td>
+                        <td>
+                            <input id="mkb-covid" data-role="dropdownlist"
+                                   data-auto-bind="true"
+                                   data-value-primitive="true"
+                                   data-text-field="name"
+                                   data-value-field="id"
+                                   data-bind="value: mkbMain,
+                                source: dsCovid,
+                                visible: isCovid,events:{change:onItemSelected}
+                               "
+                                   style="width: 100%;" />
+                        </td>
+                    </tr>
+                    <tr data-bind="visible:isPnevm">
+                        <td><label for="mkb-pnevm">Диагноз по МКБ-10</label>
+                        </td>
+                        <td>
+                            <input id="mkb-pnevm" data-role="dropdownlist"
+                                   data-auto-bind="true"
+                                   data-value-primitive="true"
+                                   data-text-field="name"
+                                   data-value-field="id"
+                                   data-bind="value: mkbMain,
+                                source: dsPnevm,events:{change:onItemSelected}
+                               "
+                                   data-height="500"
+                                   style="width: 100%;" />
+                        </td>
+                    </tr>
+                    <tr data-bind="visible:isGripp">
+                        <td><label for="mkb-gripp">Диагноз по МКБ-10</label>
+                        </td>
+                        <td>
+                            <input id="mkb-gripp" data-role="dropdownlist"
+                                   data-auto-bind="true"
+                                   data-value-primitive="true"
+                                   data-text-field="name"
+                                   data-value-field="id"
+                                   data-bind="value: mkbMain,
+                                source: dsGripp,events:{change:onItemSelected}
+                               "
+                                   style="width: 100%;" />
+                        </td>
+                    </tr>
+                    <!--
+                    <tr data-bind="visible:mkbMain">
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            <input type="checkbox" id="chk-ident" class="k-checkbox" data-bind="checked:isIdent">
+                            <label class="k-checkbox-label" for="chk-ident">Диагноз подтвержден лабораторно</label>
+                        </td>
+                    </tr>
+                    -->
+                </table>
+            </div>
+            <div data-bind="visible:isCovid">
+                <table class="ot-58-form-table">
+                    <col class="ot-58-col1">
+                    <col class="ot-58-col2">
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            <input type="radio" name="gr1" id="chk-covid-pnevm" value="1" class="k-radio" data-bind="checked:isCovidPnevm">
+                            <label class="k-radio-label" for="chk-covid-pnevm">Проявляется в виде пневмонии или ОРВИ</label>
+                            <span style="min-width:50px;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input type="radio" name="gr1" id="chk-covid-pnevm2" value="0" class="k-radio" data-bind="checked:isCovidPnevm">
+                            <label class="k-radio-label" for="chk-covid-pnevm2">Без клинических проявлений</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="mkb-covid-pnevm">МКБ пневмонии или ОРВИ</label>
+                        </td>
+                        <td>
+                            <input id="mkb-covid-pnevm" data-role="dropdownlist"
+                                   data-auto-bind="true"
+                                   data-value-primitive="true"
+                                   data-text-field="name"
+                                   data-value-field="id"
+                                   data-bind="value: mkbSecond,
+                                source: dsPnevm,enabled:isCovidPnevmListEnabled
+                               "
+                                   data-height="500"
+                                   style="width: 100%;" />
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div data-bind="visible:isIdent">
+                <table class="ot-58-form-table">
+                    <col class="ot-58-col1">
+                    <col class="ot-58-col2">
+                    <tr>
+                        <td>
+                            <label for="virus-type">Тип вируса</label>
+                        </td>
+                        <td>
+                            <input id="virus-type" name="Тип вируса"
+                                   data-role="combobox" data-bind="value:virusType,source:dsSpr.subtypes"
+                                   data-height="400"
+                                   data-value-primitive="true"
+                                   style="min-height:30px;">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table class="ot-58-form-table">
+                    <col class="ot-58-col1">
+                    <col class="ot-58-col2">
+                    <tr>
+                        <td>
+                            <span>Диагноз основной</span>
+                            <span><button type="button" class="k-button" data-bind="visible:isOthers,events:{click:showMkbDialog}">Выбор</button></span>
+                        </td>
+                        <td>
+                            <div data-bind="text:mkbMain" style="font-weight: bold"></div>
+                            <div data-bind="text:mkbMainName" style="font-weight:bold"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Диагноз дополнительный
+                        </td>
+                        <td>
+                            <div data-bind="text:mkbSecond" style="font-weight: bold"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="color:red" data-bind="text:validationError">
+
+            </div>
+         </div>
+        <p>
+    <div class="pull-right">
+        <button id="ot-58-save" rel="tooltip" title="Сохранить и закрыть"
+                class="k-button" type="button" data-bind="events:{click:save}">Сохранить</button>
+        <span>&nbsp;</span>
+        <span>&nbsp;</span>
+        <button id="ot-58-close" rel="tooltip" title="Закрыть без сохранения" class="k-button" type="button"
+            data-bind="events:{click:close}">
+            Закрыть</button>
+    </div>
+    </p>
+    </form>
+
+</div>
+
+

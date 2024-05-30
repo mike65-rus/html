@@ -1,0 +1,154 @@
+
+<head>
+<style type="text/css">
+		body { font-size: 62.5%; }
+		</style>
+</head>
+
+<%= include("header.avfp") %>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="16%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          	<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<a href="http://affiliate.godaddy.com/redirect/C536501AFDED7217700477046BECCF905134E0194DAC0E300443444C140BE50D7B401880AAC3CA99E8FE89874EE4A708" title="GoDaddy.com Hosting Plans">Cloud Web Hosting</a><img src="http://affiliate.godaddy.com/content/spacer.png?q=C536501AFDED7217700477046BECCF905134E0194DAC0E300443444C140BE50D7B401880AAC3CA99E8FE89874EE4A708" width="0" height="0" alt=""/><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/D637B91824E8AB208DC5C3E9A6BCF12201CEBDB2337B4868D946B171E5E0293C6C53D6B9E76954936DA60A9103F1EEEB" title="Go Daddy $12.99 SSL Sale!">SSL Certificates</a><br>
+<img src="http://affiliate.godaddy.com/content/spacer.png?q=D637B91824E8AB208DC5C3E9A6BCF12201CEBDB2337B4868D946B171E5E0293C6C53D6B9E76954936DA60A9103F1EEEB" width="0" height="0" alt=""/>
+<a href="http://affiliate.godaddy.com/redirect/FBF30519EF2549A6C7FD931E0110F4A3A6AD0C0B4185ED53B4B4A35A82155280BD1BE7FFBC72914B5D13DD5286A24C63" title="Domain Sale! $7.49 .com at GoDaddy">Domains</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/5D4E84FDB824DA1BF2EBEAA8AEC031477920D18EEF3CE5E303D9A14761A0E673CFD6EFAA251C2F64D3FB278DB2D84E29" title="Group Email from GoDaddy.com">Email Plans</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/5346D2E3C84B6485D98715FC579DA88FEFD87AB00CA25E07F1404C0CF93CB820DB40455B834BBF241E7A77AD17F788FE" title="GoDaddy.com Virtual Dedicated Servers">Virtual Dedicated Servers</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/E724A54E4B99D26CE0DED191029B609A5F8405C2B213A4317114CC5CA04116DF5BEC8D942CB954A47E9D1AEEF5C3F97D" title="Dedicated Servers at GoDaddy.com">Dedicated Servers</a></TD>
+          <TD vAlign=top width=104% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                  <form method="POST" name="theForm" action="<%= oProp.ScriptPath+[?action=email2]%>">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath %>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    SMTP E-Mail&nbsp;&nbsp;&nbsp; <input TYPE="submit" VALUE="Send!">&nbsp;&nbsp;
+                    <font face size="4"><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="history.back()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					<font face size="4"><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></font></small></font></font></b></font></td>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+                    <div align="center">
+					     <table border="0" cellpadding="2" width="100%">
+                        <tr>
+                          <td width="18%">
+                            <p align="right">To:</p>
+                          </td>
+                  <center>
+                          <td width="82%">
+                           
+                              <p><input type="text" name="txtMailTo" size="40"></p>
+                           
+                          </td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">From:</td>
+                  <center>
+                          <td width="82%"><input type="text" name="txtMailFrom" size="40"></td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">BCC:</td>
+                  <center>
+                          <td width="82%"><input type="text" name="txtMailBcc" size="40"></td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">Reply-To:</td>
+                  <center>
+                          <td width="82%"><input type="text" name="txtMailReplyTo" size="40"></td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%" valign="baseline">
+                            <p align="right">Importance:</td>
+                          <td width="82%" valign="baseline">
+                            
+                              <p align="left"><select size="1" name="D1">
+                              <option value="CdoLow">Low</option>
+                              <option selected value="CdoNormal">Normal</option>
+                              <option value="CdoHigh">High</option>
+                              
+                              
+                              
+                              &nbsp;
+                              </select></p>
+                            
+                  <center>
+                              <p></p>
+                              </center>
+                            </td>
+                        </tr>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">Subject:</td>
+                  <center>
+                          <td width="82%"><input type="text" name="txtMailSubject" size="40"></td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">File Attachment:</td>
+                  <center>
+                          <td width="82%"><input type="text" name="txtMailAttachment" size="40"></td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">&nbsp;File Description</td>
+                          <td width="82%"><input type="text" name="txtMailFileDesc" size="40"></td>
+                        </tr>
+                        <tr>
+                          <td width="18%" valign="top">
+                            <p align="right">Body:</td>
+                          <td width="82%">
+                            
+                             
+                              <p align="left"><textarea rows="6" name="S1" cols="44"></textarea></p>
+                  <center>
+                            <p></p>
+                            </center>
+                            </td>
+                        </tr>
+                        <tr>
+                          <td width="18%"></td>
+                          <td width="82%"><input TYPE="submit" VALUE="Send!"> <font face="Arial"><b><font face size="4"><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="history.back()"></font></small></font></b></font></td>
+                        </tr>
+                      </table>
+                            </form>
+<script language="JavaScript">
+<!--
+document.theForm.txtMailTo.focus();
+//-->
+                         </script>
+
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+            </div>
+  </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%= include("footer.avfp") %>

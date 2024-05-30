@@ -1,0 +1,60 @@
+body {
+    color : #000000;
+    background : #ffffff;
+    font-family : "Times New Roman", Times, serif;
+    font-size : 8pt;
+    /* this affects the margin on the content before sending to printer */
+    margin: 0px;
+}
+p {font-size:1.4em}
+table.lab-table {
+    page-break-inside:avoid;  word-break:break-all; border-collapse:collapse}
+tr { page-break-inside:avoid; page-break-after:auto }
+.td1 {font-size: 8pt; width: 6cm}
+.td2 {font-size: 8pt; width: 1.5cm}
+.td3 {font-size: 8pt; width: 1.5cm}
+.td0, .td-hidden {font-size: 8pt; width: 1.5cm}
+.td-small {font-size: 6pt; width: 1.5cm}
+.td-razdel {font-size: 8pt}
+.td-name {font-size: 10pt}
+.td-bold {font-weight: bold}
+.td-hidden {display:none}
+.td1,.td2,.td3,.td-razdel,.td-name, .td0, .td-small {border: solid 1pt}
+
+.red, .blue .green {color:  #000000}
+.grey {background-color: LightGrey !important}
+em {font-size: 7pt}
+p.lab-divider {  margin-top: 0.2cm; margin-bottom: 0cm; line-height: 0.1cm}
+.no-print {display:none;}
+
+div.ext-anal {margin-top:3px;}
+table.ext-anal-table {word-break:normal; border-collapse:collapse}
+table.ext-anal-sub {width: 100% ;   cellpadding: 0; border-collapse:collapse}
+td.ext-anal-table-td {color: black; border: 1px solid black; word-break:normal}
+td.ext-anal-table-td-left-right-border {color:black; border-left:1px solid black; border-right:1px solid black; word-break:normal}
+td.ext-anal-sub-table-td {color: black;  word-break:normal}
+
+
+div.ext-anal-div {width:100%; margin-top:5px;}
+div.ext-anal-div-head1 {border-top:1px solid black; text-align:center;
+    border-bottom:1px solid gray; border-left:1px solid black; border-right:1px solid black}
+div.ext-anal-div-head2 { text-align:center;
+    border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black;font-size:11pt;}
+table.ext-anal-tbl-1 {table-layout: fixed; width:100%; border-collapse: collapse;
+    margin-top:1px; margin-bottom:1px}
+table.ext-anal-tbl-1 tr td {word-break:normal; border:1px solid black; padding-left:3px; padding-right:3px;font-size:11pt;}
+td.center {text-align: center}
+td.italic {font-style:italic}
+
+div.kdl-print-footer {
+    position: fixed;
+    bottom: 0;
+}
+a[href]:after {
+    display: none;
+    visibility: hidden;
+}
+
+
+
+

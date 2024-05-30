@@ -1,0 +1,72 @@
+<div id="deseases-details-window-container"
+     style="max-height:600px;max-width:600px;padding-left: 15px;padding-right:15px;padding-bottom:10px;">
+    <div id="deseases-details38-content">
+        <div>
+            <span data-bind="text:selectedPatient.pin"></span>
+            &nbsp;
+            <span data-bind="text:selectedPatient.fio"></span>
+        </div>
+        <div>
+            <span>Код диспансерного учета:</span> <span  class="pk-bold" data-bind="text:selectedDesease.codedis"></span>
+        </div>
+        <div>
+            <span>МКБ:</span> <span  class="pk-bold" data-bind="text:selectedDesease.mkb"></span>
+        </div>
+        <div data-bind="visible:selectedDesease.date_title">
+            <span data-bind="text:selectedDesease.date_title"></span>: <span  class="pk-bold" data-bind="date:selectedDesease.dop_date" data-dateformat="dd.MM.yyyy"></span>
+        </div>
+        <div>
+            <span>Врач:</span> <span  class="pk-bold" data-bind="text:selectedDesease.nvrach"></span>
+        </div>
+        <div>
+            <span>Дата постановки на учет:</span> <span  class="pk-bold" data-bind="date:selectedDesease.date_nach" data-dateformat="dd.MM.yyyy"></span>
+        </div>
+        <div>
+            <span>Дата снятия с учета:</span> <span  class="pk-bold" data-bind="date:selectedDesease.date_kon" data-dateformat="dd.MM.yyyy"></span>
+        </div>
+        <!-- <hr> -->
+        <div style="margin-top:10px;">
+            <span>Информация о коде ДУ</span>&nbsp;&nbsp;<span  class="pk-bold" data-bind="text:selectedDesease.codedis" style="font-weight:bold"></span>
+        </div>
+        <div>
+            <span>Наименование:</span> <span  class="pk-bold" data-bind="text:selectedDesease.ndis"></span>
+        </div>
+        <div>
+            <span>Длительность наблюдения:</span> <span  class="pk-bold" data-bind="text:selectedDesease.dlit_txt"></span>
+        </div>
+        <div>
+            <span>Периодичность осмотра:</span> <span  class="pk-bold" data-bind="text:selectedDesease.per_txt"></span>
+        </div>
+        <div>
+            <span>Допустимый диапазон МКБ:</span> <span  class="pk-bold" data-bind="text:selectedDesease.mkb_diap"></span>
+        </div>
+        <div>
+            <span>Мероприятия:</span> <span  class="pk-bold" data-bind="text:selectedDesease.prim_txt"></span>
+        </div>
+
+        <div style="margin-top: 10px;height:200px">
+            <div id="deseases-disp-details-grid" class="pk-grid" style="width:100%;height:100%"
+                 data-role="grid"
+                 data-selectable="row"
+                 data-bind="source:detailsDs"
+                 data-groupable="false"
+                 data-filterable="false"
+                 data-pageable="false"
+                 data-navigatable="true"
+                 data-sortable="true"
+                 data-columns='[
+                 {field: "evn", title: "id",hidden: true },
+                 { field: "date_nach", title: "Дата",  format: "{0:dd.MM.yy}"},
+                 { field: "mkb", title: "МКБ"},
+                 { field: "nvrach", title: "Врач"}
+                 ]'
+            >
+            </div>
+        </div>
+
+    </div>
+
+    <div style="text-align: center;margin-top: 10px" id="deseases-details38-command-bar">
+        <button class="k-button"  data-bind="events{click:closeWindow}">Закрыть</button>
+    </div>
+</div>

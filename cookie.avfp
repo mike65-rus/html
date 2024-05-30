@@ -1,0 +1,100 @@
+
+<head>
+<style type="text/css">
+		body { font-size: 62.5%; }
+		</style>
+</head>
+
+<%= include("header.avfp") %>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="20%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          	<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<a href="http://affiliate.godaddy.com/redirect/C536501AFDED7217700477046BECCF905134E0194DAC0E300443444C140BE50D7B401880AAC3CA99E8FE89874EE4A708" title="GoDaddy.com Hosting Plans">Cloud Web Hosting</a><img src="http://affiliate.godaddy.com/content/spacer.png?q=C536501AFDED7217700477046BECCF905134E0194DAC0E300443444C140BE50D7B401880AAC3CA99E8FE89874EE4A708" width="0" height="0" alt=""/><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/D637B91824E8AB208DC5C3E9A6BCF12201CEBDB2337B4868D946B171E5E0293C6C53D6B9E76954936DA60A9103F1EEEB" title="Go Daddy $12.99 SSL Sale!">SSL Certificates</a><br>
+<img src="http://affiliate.godaddy.com/content/spacer.png?q=D637B91824E8AB208DC5C3E9A6BCF12201CEBDB2337B4868D946B171E5E0293C6C53D6B9E76954936DA60A9103F1EEEB" width="0" height="0" alt=""/>
+<a href="http://affiliate.godaddy.com/redirect/FBF30519EF2549A6C7FD931E0110F4A3A6AD0C0B4185ED53B4B4A35A82155280BD1BE7FFBC72914B5D13DD5286A24C63" title="Domain Sale! $7.49 .com at GoDaddy">Domains</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/5D4E84FDB824DA1BF2EBEAA8AEC031477920D18EEF3CE5E303D9A14761A0E673CFD6EFAA251C2F64D3FB278DB2D84E29" title="Group Email from GoDaddy.com">Email Plans</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/5346D2E3C84B6485D98715FC579DA88FEFD87AB00CA25E07F1404C0CF93CB820DB40455B834BBF241E7A77AD17F788FE" title="GoDaddy.com Virtual Dedicated Servers">Virtual Dedicated Servers</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/E724A54E4B99D26CE0DED191029B609A5F8405C2B213A4317114CC5CA04116DF5BEC8D942CB954A47E9D1AEEF5C3F97D" title="Dedicated Servers at GoDaddy.com">Dedicated Servers</a></TD>
+          <TD vAlign=top width=100% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="7" width="100%" cellspacing="7">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath%>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    Cookies&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></font></b></font></td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+                    <p align="center">Enter a value to store in the cookie:</p>
+<%
+DO CASE
+CASE oRequest.querystring("cookie")=='write'
+  *write cookie
+  IF .NOT. EMPTY(oRequest.FORM("T1"))  && value from HTML form
+	 oCookie.WRITE("ActiveVFP",oRequest.FORM("T1"))
+	 oResponse.Redirect(oProp.ScriptPath+[?action=cookie])
+  ENDIF
+CASE oRequest.querystring("cookie")=='delete'
+  *delete cookie
+  oCookie.Delete("ActiveVFP")
+  oResponse.Redirect(oProp.ScriptPath+[?action=cookie])
+CASE oRequest.querystring("cookie")=='dcounter'
+  *delete counter cookie
+  oCookie.DELETE("counter")
+  oResponse.Redirect(oProp.ScriptPath+[?action=cookie])
+ENDCASE	
+
+*read cookie
+IF EMPTY(oRequest.cookies("ActiveVFP"))
+		oSession.VALUE("hasCookie",.F.)
+ELSE
+		oSession.VALUE("hasCookie",.T.)
+ENDIF
+
+* increment a counter in a cookie
+oCookie.WRITE("counter",VAL(oRequest.cookies("counter"))+1,"January 1, 2035")
+%>
+                    <form name="theForm" method="POST" action="<%= oProp.ScriptPath+[?action=cookie&cookie=write]%>">
+                      <p align="center"><input type="text" name="T1" size="20" value="<%=oRequest.cookies("ActiveVFP")%>">&nbsp;
+                      <input type="submit" value="Submit" name="B1"></p>
+                    </form>
+<script language="JavaScript">
+<!--
+document.theForm.T1.focus();
+//-->
+                    </script>
+                    <p align="center"><font face="arial,helvetica">&lt;%=IIF(oSession.VALUE(&quot;hasCookie&quot;),[Cookie Value is: </font><font color="#FF0000">]+oRequest.cookies(&quot;ActiveVFP&quot;)+[</font>],[])%&gt;</p>
+                    <p align="center"><font face="arial,helvetica"><input type="button" value="Go Back" onClick="history.back()">
+                    &lt;%=IIF(oSession.VALUE(&quot;hasCookie&quot;),[</font><input type="button" value="Delete Cookie" onClick="window.location = ']+ oProp.ScriptPath +[?action=cookie&cookie=delete';">],[])%&gt;</p>
+                    <p>&nbsp;
+                    <p>&nbsp;</p>
+                    <p>You've hit this page <font color="#FF0000">&lt;%=oRequest.cookies(&quot;counter&quot;)%&gt;</font>
+                    times.&nbsp; (<font size="1" color="#FF0000"><a href="<%= oProp.ScriptPath+[?action=cookie&cookie=dcounter]%>">Delete
+                    this cookie.</a></font>)
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%= include("footer.avfp") %>

@@ -1,0 +1,47 @@
+form.visitForm {
+    margin-left:10px;
+    margin-right:10px;
+    margin-top:0px;
+}
+.visitForm input {
+    min-height:30px;
+}
+form.visitForm dd {
+    margin: 0px 0px 5px 0px;
+}
+form.visitForm dt {
+    font-weight:normal !important;
+    display:flex;
+}
+.label-required:after {
+    content: "*";
+    display:inline-block;
+    vertical-align: middle;
+    margin-left:3px;
+    font-weight: bold;
+    color: darkred;
+}
+
+/*
+form.visitForm label {
+    display: inline-block;
+    line-height: 1.8;
+    vertical-align: center;
+}
+form.visitForm label {
+    width: 250px;
+}
+form.visitForm fieldset ol {
+    margin: 0;
+    padding: 0;
+}
+form.visitForm fieldset li {
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+}
+form.visitForm fieldset fieldset {
+    border: none;
+    margin: 3px 0 0;
+}
+*/

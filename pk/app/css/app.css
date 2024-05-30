@@ -1,0 +1,197 @@
+#pk_docs_grid .k-grid-content {
+    font-size: 0.9em;
+}
+span.required-mark {
+    font-size:smaller;
+    color:red;
+}
+
+ul.field-list {
+    margin:0;
+    padding:0
+}
+ul.field-list li {
+    list-style: none;
+}
+ul.field-list li label {
+    line-height: 30px;
+}
+ul.field-list li label .k-textbox {
+    width: 98%;
+}
+ul.field-list li label .k-input {
+    min-height: 30px;
+}
+
+table.ot-58-form-table {
+    width:100%;
+    table-layout: fixed;
+}
+.ot-58-col1 {
+    width:25%;
+}
+.ot-58-col2 {
+    width:75%;
+}
+table.ot-58-form-table td {
+    padding:5px;
+}
+
+.kendo-date {
+    min-height:30px;
+}
+.pk-grid {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+.pk-bold {font-weight:bold}
+div.pk-grid-dblclick tr[role="row"]:hover{cursor:pointer}
+.i-edit {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+    background:AliceBlue !important; border:1px solid black !important;
+    padding: 2px 4px !important;
+    display:inline-block;
+    min-width: 75px;
+}
+.my-sel::before {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+    background:AntiqueWhite; border:1px solid black;
+    padding: 2px 4px;
+    display:inline-block;
+    min-width:150px;
+    min-height: 20px;
+}
+.my-sel.sel1::before {
+    content:attr(data-sel)
+}
+div[contenteditable="true"] {background-color: Bisque  ; border-width: 3px; border-style:inset; min-height:1em;}
+span[contenteditable="true"] {background-color: Bisque  ; border-width: 3px; border-style:inset; min-height:1em;}
+
+.i-edit {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+    background:AliceBlue !important; border:1px solid black !important;
+    padding: 2px 4px !important;
+    display:inline-block;
+    min-width: 75px;
+}
+.my-sel::before {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+    background:AntiqueWhite; border:1px solid black;
+    padding: 2px 4px;
+    display:inline-block;
+    min-width:150px;
+}
+.my-sel.sel1::before {
+    content:attr(data-sel)
+}
+.doc-head-1 {
+    font-weight:bolder;
+}
+.doc-head-2 {
+    font-weight:bold;
+}
+.doc-invisible {
+    display:none;
+}
+.doc-razdel {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.forma {
+    margin-top:5px;
+}
+.no-forma {
+    margin-top:5px;
+}
+.new-line {
+    display:block;
+    margin-top:3px;
+}
+hr.doc-hr {
+    margin-top:3px;
+    margin-bottom:3px;
+}
+
+table.width-100 {
+    width:98%;
+}
+td {
+    vertical-align: top;
+    word-break:break-all;
+}
+td.td-ol {
+    width:5%;
+}
+td.align-center {
+    text-align: center;
+}
+td.bottom-border {
+    border-bottom: 1px solid black;
+}
+div.width-100 {
+    width:97%;
+}
+div.official-blank {
+    text-align: right;
+    font-size: 7pt;
+}
+p.jad-header-p1 {
+    text-align: center;
+    font-size: 12pt;
+    font-weight: bold;
+}
+.bold {font-weight: bold }
+.survey-header {text-align: center; font-size: 14pt;}
+.survey-border {border-bottom: 1px solid black}
+.survey-table td {word-break: normal}
+.survey-page-break {page-break-after: always}
+div.survey-manual-write {min-height:1em;border-bottom: 1px solid black}
+div.survey-manual-write-last  {min-height:1em;}
+
+/* k-editor */
+div.k-editor-widget:not(.no-my-classes) {
+    width: 500px !important;
+    /*    height: 250px !important; */
+    opacity: 0.7 !important;
+    top: 0px !important;
+    left: 500px !important;
+}
+span.mkb-label {
+    display:inline-block;
+    min-width:200px;
+}
+span.pat-label {
+    display:inline-block;
+    min-width:200px;
+}
+.no-display {
+    display:none;
+}
+input.pat-span {
+    float:left;
+}
+.required:after {content:" *";color:palevioletred}
+
+.monitor-tfoms-popup-form label {
+    margin-left:5px;
+}
+.monitor-tfoms-popup-form label>span {
+    min-width:140px;
+    display:inline-block
+}
+.monitor-tfoms-popup-form input {
+    min-height:25px;
+}

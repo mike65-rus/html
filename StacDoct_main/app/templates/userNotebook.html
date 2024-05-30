@@ -1,0 +1,80 @@
+<div id="ib_doc_notebook" class="k-content">
+    <div id="notebook-tabsrip" data-role="tabstrip"
+            data-animation="false"
+            data-bind="{events:{select:onTabSelect}"
+    >
+        <ul>
+            <li class="k-state-active">Редактор</li>
+            <li>Блокнот</li>
+        </ul>
+        <div  id="inotebook1">
+                <div style="margin-bottom: 5px">
+                    <button class="k-button" data-bind="click:addToNotebook">Добавить в блокнот</button>
+                    <button class="k-button" data-bind="click:saveToNotebook,enabled:isReplaceNoteEnabled">Заменить в блокноте</button>
+                    <button class="k-button" data-bind="click:addToDocument">Добавить в документ</button>
+                    <button class="k-button" data-bind="click:saveToDocument,enabled:isReplaceDocEnabled">Заменить в документе</button>
+                </div>
+                <textarea contenteditable id="note" style="height:500px;overflow:scroll" tabindex="0"
+                        data-role="editor"
+                        data-bind="value:note,events:{execute:onExecuteEditorCommand,paste:onPaste}"
+                        data-tools='[
+                        "bold",
+                        "italic",
+                        "underline",
+                        "insertUnorderedList",
+                        "insertOrderedList",
+                        "indent",
+                        "outdent",
+                        "subscript",
+                        "superscript",
+                        {name:"unda",tooltip:"Отменить действие"},
+                        {name:"reda",tooltip:"Вернуть действие"},
+                        {name:"speaker",tooltip:"Диктофон"},
+                        "viewHtml",
+                        ]'
+                        data-stylesheets="['html/css/userNotebookKendoEditor.css']"
+                        data-resizable="{content:true,toolbar:true}"
+                        >
+
+                </textarea>
+        </div>
+        <div id="inotebook2">
+            <form style="margin-bottom:4px" class="form-inline">
+                <input id="s-input" type="text" class="k-input" data-bind="events:{input:onSearchInput}"
+                       style="width:400px;"
+                       placeholder="Введите значение для поиска..."/>
+                <div class="pull-right">
+                    <label class="k-label">Тип фильтра:</label>
+                    <input type="radio" class="k-radio" checked="checked" name="dva" id="dva1" tabindex="-1"
+                            data-bind="events:{click:onChangeFilterType}"/>
+                    <label class="k-radio-label" for="dva1">начинается с</label>
+                    <input type="radio" class="k-radio" name="dva" id="dva2" tabindex="-1"
+                           data-bind="events{click:onChangeFilterType}"/>
+                    <label class="k-radio-label" for="dva2">содержит</label>
+                </div>
+            </form>
+            <div id="notebook-listView" style="max-height:500px;min-height:500px;overflow:scroll" data-role="listview"
+                 data-bind="source:ds,events:{edit:onEdit,remove:onRemove}"
+                 data-template="templates-userNotebookTemplate"
+                 data-selectable="true"
+                 data-navigatable="false"
+                    >
+            </div>
+            <!-- with pager
+            <div id="notebook-listView" style="max-height:600px;overflow:scroll" data-role="listview"
+                 data-source='{ "pageSize": 10 }'
+                 data-bind="source:ds"
+                 data-template="templates-userNotebookTemplate"
+                 data-selectable="true"
+                 >
+            </div>
+            <div id="notebook-listViewPager" data-role="pager"
+                 data-source='{ "pageSize": 10 }'
+                 data-bind="source:ds,events:{change:onListViewPagerChange}"
+            >
+
+            </div>
+            -->
+        </div>
+    </div>
+</div>

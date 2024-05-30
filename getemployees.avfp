@@ -1,0 +1,22 @@
+<% *getemployees.avfp
+
+
+oJSON=NEWOBJECT('json','json.prg')
+
+select e.emp_id as id, e.first_Name as firstName, e.last_Name as lastName, e.title as title, [images/Emps/]+e.picture as picture,count(r.emp_id) as reportCount ;
+from employee e left join employee r on VAL(r.reports_to) = VAL(e.emp_id) ;
+INTO Cursor SearchResults;
+group by e.last_Name,e.emp_id, e.first_Name,e.title, e.picture ;
+order by e.last_Name,e.first_Name
+
+    
+
+oJSON.keyforcursors="items"
+
+
+* send JSON data and properties back
+oResponse.ContentType = "application/json;charset=utf-8"  
+oResponse.Write(oJSON.stringify('SearchResults'))
+oResponse.Flush
+lcHTMLout=[]
+%>             

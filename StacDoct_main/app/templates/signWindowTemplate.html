@@ -1,0 +1,54 @@
+<div id="cades_sign_window" class="k-content">
+    <div data-bind="visible:test">
+        <label for="sign_type">Тип подписи:</label>
+        <div class='input-div'>
+            <input class='form-input' type='text' id="sign_type"
+                   data-role="dropdownlist"
+                   data-auto-bind="true"
+                   data-text-field="name"
+                   data-value-field="code"
+                   data-value-primitive="true"
+                   data-bind="{value:signType,source:signTypesDs,enabled:isSignTypeEnabled}"
+            style="width:100%"/>
+        </div>
+        <label for="tls_server">Адрес сервера штампов времени (TLS):</label>
+        <div class='input-div'>
+            <input class='k-input' type='text' id="tls_server" style="width:98%"
+                data-bind="enabled:isTlsServerEnabled,value:tlsServer"
+            />
+        </div>
+        <label for="sign_data">Данные для подписи:</label>
+        <div class='input-div'>
+            <input class='k-input' type='text' id="sign_data" style="width:98%"
+                   data-bind="value:dataToSign,visible:test"
+            />
+        </div>
+    </div>
+    <div data-bind="visible:mode" style="height:150px;overflow-y:auto">
+        <label for="signers_info"><h6>Информация о подписавших документ:</h6></label>
+        <ul id="signers_info" style="font-size:smaller">
+
+        </ul>
+    </div>
+    <div id="cert_info" style="line-height:10px;font-size:small">
+        <h6>Информация о Вашем сертификате:</h6>
+        <p class="info_field" id="subject"></p>
+        <p class="info_field" id="issuer"></p>
+        <p class="info_field" id="from"></p>
+        <p class="info_field" id="till"></p>
+        <p class="info_field" id="provname"></p>
+        <p class="info_field" id="algorithm"></p>
+        <p class="info_field" id="status"></p>
+        <p class="info_field" id="location"></p>
+    </div>
+    <p>&nbsp;</p>
+    <div style="text-align:center">
+        <button class="k-button" data-bind="text:buttonTitle,events:{click:execSignOrCoSign}">Подписать</button>
+        &nbsp;
+        &nbsp;
+        <button class="k-button" data-bind="events:{click:execCloseSignWindow}">Отказ</button>
+    </div>
+    <p>&nbsp;</p>
+    <div style="color:red" data-bind="html:error"></div>
+    <!-- <div style="font-size:small;max-height: 200px; overflow-y: scroll" data-bind="html:signature"></div> -->
+</div>

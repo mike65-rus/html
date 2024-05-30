@@ -1,0 +1,33 @@
+<div id="sokr-chooser-window">
+    <div id="sokr-chooser-grid" style="width:600px;"
+         data-role="grid",
+         data-bind="source:dataSource"
+         data-height="550"
+         data-scrollable="true"
+         data-selectable="row"
+         data-navigatable="true"
+         data-filterable="{mode:'row'}"
+         data-columns='[
+            {field: "name",title: "Заболевание", filterable:
+                {            cell: {
+                operator: "contains",showOperators: false
+                }
+                }
+            },
+            {field: "sokr",title: "Сокр", width:"15%", filterable: false}
+        ]'
+    >
+
+    </div>
+    <div style="margin-top:5px;margin-bottom: 5px;" id="sokr-chooser-buttons">
+        <button class="k-button" id="do-sokr-choose" data-bind="click:doChoose">Выбрать</button>
+        &nbsp;&nbsp;
+        <button class="k-button" id="do-sokr-close" data-bind="click:doClose">Закрыть</button>
+        <span class="pull-right">
+                <button class="k-button" id="do-sokr-print" data-bind="click:doPrint">Печать</button>
+            </span>
+    </div>
+    <div class="div-invisible" id="sokr-chooser-print">
+
+    </div>
+</div>

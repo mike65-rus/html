@@ -1,0 +1,97 @@
+<% * UserProfile
+	DIMENSION aThemes(12)
+	aThemes(1)="Default"
+	aThemes(2)="BlueOpal"
+	aThemes(3)="Bootstrap"
+	aThemes(4)="Silver"
+	aThemes(5)="Uniform"
+	aThemes(6)="Metro"
+	aThemes(7)="Black"
+	aThemes(8)="MetroBlack"
+	aThemes(9)="HighContrast"
+	aThemes(10)="Moonlight"
+	aThemes(11)="Flat"
+	aThemes(12)="Material"
+%>
+
+          <div class="accordion-group">	 
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#user">Профиль пользователя</a>
+            </div>
+            <div id="user" class="accordion-body collapse">
+              <div class="accordion-inner">
+					<h5><%=oSession.Value("uname")%></h5>
+				    <div class="tabbable">
+						<ul class="nav nav-tabs" id="mytabs">
+							<li  class="active"><a href="#s2" data-toggle="tab" id="tab2">Роли</a></li>
+							<% IF EMPTY(oSession.Value("IsGroup")) %>
+							<li><a href="#s0" data-toggle="tab" id="tab0">Профиль</a></li>
+							<li><a href="#s1" data-toggle="tab" id="tab1">Пароль</a></li>
+							<% ENDIF %>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane" id="s0">
+									<form id="form0" class="span6 offset1" method="post" action="<%=oProp.ScriptPath%>?action=ChangeProfile">
+										<label for="email">e-mail</label>
+										<input id="email" name="email" type="email"  placeholder="e-mail" class="autofocus span5 input-xlarge" value="<%=oSession.Value("email")%>" />		
+										<label for="theme">Тема</label>
+										<select class="span5" id="theme" name="theme">
+											<% FOR i=1 TO ALEN(aThemes,1) 
+												lcSelected=""
+												IF NVL(oSession.Value("theme"),"default")==LOWER(aThemes[i])
+													lcSelected=" selected"
+												ENDIF
+											%>
+											<option value="<%=LOWER(aThemes[i])%>" <%=lcSelected%>><%=aThemes[i]%></option>
+											<% ENDFOR %>
+										</select>
+										<p></p>
+										<p>
+										<button class="btn btn-info span5" id="submit0" name="submit0">Сохранить</button>
+										</p>
+									</form>
+							</div>   
+							<div class="tab-pane " id="s1">
+									<form id="form1" class="span6 offset1" method="post" action="<%=oProp.ScriptPath%>?action=ChangePassword">
+										<label for="pass1">Введите новый пароль</label>
+										<input id="pass1" autocomplete="new-password" name="pass1" type="password"  placeholder="Пароль" class="span5 input-xlarge" value="" required />
+										<label for="pass2">Подтвердите новый пароль</label>
+										<input id="pass2" autocomplete="new-password" type="password" name="pass2" placeholder="Пароль" class="span5 input-xlarge" value=""  />
+										<p></p>
+										<p>
+										<button class="btn btn-info span5" id="submit1" name="submit1">Сменить пароль</button>
+										</p>
+									</form>
+							</div>   
+							<div class="tab-pane active" id="s2">
+								<div class="offset1">
+									<ul>
+									<% =CompileIfNew('User')
+										oUserH=NEWOBJECT('USERHLP','user.prg')
+										oUserH.SetUser(oSession.Value("uid"))
+										oRoles=oUserH.GetUserRoles()
+										FOR i=1 TO oRoles.Count
+									%>
+										<li> <%=oRoles[i].sRoleName%> </li>
+											<ul>
+										<%
+											oUserOtdels=oUserH.GetUserOtdels(ALLTRIM(oRoles[i].sRoleCode))
+											FOR j=1 TO oUserOtdels.Count
+										%>
+												<li> <%=oUserOtdels[j].sOtdName%> &nbsp; <%=oUserOtdels[j].sSpecName%></li>
+											<% ENDFOR %>
+											</ul>
+										</li>
+										<% ENDFOR %>
+									</ul>
+									<%  oUserH=NULL
+										CLEAR CLASS USER
+									%>
+								</div>
+							</div>
+
+						</div>
+					</div>
+          </div>
+	  </div>
+     </div>

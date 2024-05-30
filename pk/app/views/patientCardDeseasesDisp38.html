@@ -1,0 +1,65 @@
+<div class="pk_exams_div" id="deseases-tab-disp38">
+    <div id="exams_deseases_disp38_grid" class="pk-grid  pk-grid-dblclick" style="width:100%;height:100%;font-size:0.9em;"
+         data-role="grid"
+         data-toolbar='[{ template: kendo.template($("#template-exams-deseases-disp38t-toolbar").html()) }]'
+         data-auto-bind="false"
+         data-selectable="row"
+         data-bind="source:gridDs"
+         data-groupable="false"
+         data-filterable="false"
+         data-pageable="false"
+         data-navigatable="true"
+         data-sortable="true"
+         data-columns='[
+            {field: "evn", title: "id",hidden: true },
+            { field: "mkb", title: "МКБ", width: "7%"},
+            { field: "date_nach", title: "ДатаВзятия", format:"{0: dd.MM.yyyy}"},
+            { field: "date_kon", title: "ДатаСнятия", format:"{0: dd.MM.yyyy}"},
+            { field: "nvrach", title: "Врач"},
+            { field: "codedis", title: "КодДУ", width: "7%"},
+            { field: "ndis", title: "Наименование ДУ", width:"60%"}
+         ]'
+    >
+    </div>
+    <!-- { field: "mkb_name2", title: "Наименование", width:"30%"}, -->
+    <!-- grid toolbar template -->
+    <script type="text/x-kendo-template" id="template-exams-deseases-disp38t-toolbar">
+        <div class="form-inline toolbar" id="exams-deseases-disp38-toolbar">
+            &nbsp;
+            &nbsp;
+            <span>
+                &nbsp;
+                <button id="visit-delete" rel="tooltip" title="Печать таблицы"  class="k-button" type="button"
+                        data-bind="events:{click: onPrintButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-printer k-icon-24"></span>
+                            </span>
+                </button>
+
+            </span>
+            <span class="pull-right">
+                <button id="visit-refresh" rel="tooltip" title="Обновить спискок заболеваний"  class="k-button" type="button"
+                        data-bind="events:{click: onRefreshButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-refresh k-icon-24"></span>
+                            </span>
+                </button>
+            </span>
+        </div>
+    </script>
+
+</div>
+
+<script type="text/x-kendo-template" id="template-deseases-disp-date-first">
+    <span style="font-weight:bold;"> #= kendo.toString(data.date_first,"yyyy.MMM") # </span> - <span style="font-size: inherit"> #=data.vrach_first # </span>
+    <br><span style="font-style: italic"> #=data.kdisp_first_n #</span></br>
+</script>
+<script type="text/x-kendo-template" id="template-deseases-disp-date-last">
+    #if(kendo.toString(data.date_last,"yyyy.MMM")===kendo.toString(data.date_first,"yyyy.MMM")){#
+    &nbsp;
+    #}else{#
+    <span style="font-weight:bold;"> #= kendo.toString(data.date_last,"yyyy.MMM") # </span> - <span style="font-size: inherit"> #=data.vrach_last # </span>
+    <br><span style="font-style: italic"> #=data.kdisp_last_n #</span></br>
+    #}#
+</script>
+</div>

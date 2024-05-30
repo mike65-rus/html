@@ -1,0 +1,34 @@
+<% *AjaxZip - Return Zipcodes based  on search in JSON
+
+#DEFINE MAX_RESULTS 100		&& Maximum number of zip codes that this script will return
+LOCAL AjaxResponse, SearchZip
+	
+oJSON=NEWOBJECT('json','json.prg')
+SearchZip = oRequest.QueryString("zip") && Read the search string from the query string
+AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response 
+ADDPROPERTY(AjaxResponse,"Zip", SearchZip)  &&Add a property that will indicate whether the script returned search results
+AddProperty(AjaxResponse,"HasResults", .F.)  &&Add a property that will indicate whether the script returned search results
+AddProperty(AjaxResponse,"ResultsCount", 0)&&Add a property that will indicate the number of matching zip codes
+
+IF NOT EMPTY(SearchZip)
+	SELECT * FROM ZipCodes ;
+		WHERE zip LIKE SearchZip + "%" ;
+		ORDER BY zip ;
+		INTO CURSOR SearchResults
+	AjaxResponse.ResultsCount = RECCOUNT()
+ELSE
+	AjaxResponse.ResultsCount = 0
+ENDIF
+
+IF BETWEEN(AjaxResponse.ResultsCount, 1, MAX_RESULTS)
+	AjaxResponse.HasResults = .T.
+	oJSON.keyforcursors="zipcodes"
+ENDIF
+
+* send JSON data and properties back
+oResponse.ContentType = "text/plain"
+oResponse.Write(oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('SearchResults')))
+oResponse.Flush
+lcHTMLout=[]
+
+%>

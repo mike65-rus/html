@@ -1,0 +1,48 @@
+<div id="case-data">
+    <form>
+        <div style="height:300px;overflow-y:scroll">
+            <ul class="field-list">
+                <li>
+                    <label for="case_date">Дата обращения <span class="required-mark">*</span>
+                        <input id="case_date" name="Дата обращения" required="required"
+                               data-role="datepicker" data-bind="value:model.case_date"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата обращения"></span>
+                    </label>
+                </li>
+                <li>
+                    <label for="case_time">Время обращения
+                        <input id="case_time" name="Время обращения"
+                               data-role="timepicker" data-bind="value:model.case_time"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата обращения"></span>
+                    </label>
+                </li>
+				<li>
+                    <label for="case_end_date">Дата окончания случая
+                        <input id="case_end_date" name="Дата окончания случая"
+                               data-role="datepicker" data-bind="value:model.case_end_date"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата окончания случая"></span>
+                    </label>
+                </li>
+				<li>
+                    <label for="result">Исход случая
+                        <input id="result" name="Исход случая"
+                               data-bind="value:model.result"
+                        >
+                        <span class="k-invalid-msg" data-for="Исход случая"></span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <div style="margin-top:15px;text-align:center">
+            <button type="button" class="k-button" data-bind="events:{click:save}">Сохранить</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" class="k-button" data-bind="events:{click:close}">Отказ</button>
+
+        </div>
+    </form>
+</div>
+
+

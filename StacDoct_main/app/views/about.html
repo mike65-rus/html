@@ -1,0 +1,50 @@
+<div id="about">
+<table width="100%">
+    <tr>
+        <td rowspan="6" width="50%">
+            <image data-bind="attr:{src:appImage}"></image>
+        </td>
+        <td><span  data-bind="text:appName" style="font-weight: bolder"></span></td>
+    </tr>
+    <tr>
+        <td>версия:&nbsp; <span  data-bind="text:appVersion" style="font-weight: bold"></span>
+            &nbsp;
+            &nbsp;
+            сборка: <span data-bind="text:appBuild" style="font-weight: bold"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>постановка:&nbsp; <span  data-bind="text:appDirectors" style="font-weight: bold"></span></td>
+    </tr>
+    <tr>
+        <td>разработка:&nbsp; <span  data-bind="text:appProgrammers" style="font-weight: bold"></span></td>
+    </tr>
+    <tr>
+        <td>поддержка:&nbsp; <span  data-bind="text:appService" style="font-weight: bold"></span></td>
+    </tr>
+    <tr>
+        <td>платформа:&nbsp; <span  data-bind="text:appPlatform" style="font-weight: bold"></span></td>
+    </tr>
+
+    <!--
+    <tr>
+        <td><button class="k-button" data-bind="click:testDictofon">Диктофон</button></td>
+    </tr>
+    <tr>
+        <td><button class="k-button" data-bind="click:testAuto">Auto</button></td>
+    </tr>
+    -->
+</table>
+<p style="text-align: center">&nbsp;</p>
+<div style="max-height: 400px; overflow:auto" data-bind="html:linksHtml"></div>
+<!--
+<table>
+    <tr>
+        <td>
+            <button class="k-button" data-bind="events:{click:getArmDocumentation}" title="Ссылки на документацию">
+                Документация</button>
+        </td>
+    </tr>
+</table>
+-->
+</div>

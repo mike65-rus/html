@@ -1,0 +1,168 @@
+<%= include("header.avfp") %>
+ <% sVer=SYS(2015)
+        sVer="?ver="+sVer
+ %>
+
+
+<link rel="stylesheet" type="text/css" href="html/css/common.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/forms.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/stac.css<%=sVer%>" media="screen">
+
+<link rel="stylesheet" type="text/css" href="html/css/lab-screen.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/lab-print.css<%=sVer%>" media="print">
+
+<link rel="stylesheet" type="text/css" href="html/css/ldo-screen.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/ldo-print.css<%=sVer%>" media="print">
+
+<link rel="stylesheet" type="text/css" href="html/css/vyp-screen.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/vyp-print.css<%=sVer%>" media="print">
+
+<link rel="stylesheet" type="text/css" href="html/css/label-box.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/label-box.css<%=sVer%>" media="print">
+<!--
+<link rel="stylesheet" type="text/css" href="html/css/jad-screen.css" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/jad-screen.css" media="print">
+-->
+<link rel="stylesheet" type="text/css" href="html/StacDoct_main/app/css/app.css<%=sVer%>">
+<link rel="stylesheet" type="text/css" href="html/StacDoct_main/app/css/app-print.css<%=sVer%>"  media="print">
+<link rel="stylesheet" type="text/css" href="html/StacDoct_main/app/css/print-not-signed.css<%=sVer%>" media="print">
+</HEAD>
+<BODY > <!--data-spy="scroll" data-target=".subnav" data-offset="50" -->
+<%= include("headerInfo.avfp") %>
+<div class="container-fluid">
+ <!--- автоматическое перенаправление на Login.avfp, если нет логина или таймаут --->
+<%= include("loginInclude.avfp") %>
+<%= include("StacDoct_Include.avfp") %>
+
+<!-- <div class="row-fluid" span2>
+</div> -->
+
+<%
+*    oMsg=NewObject("msg","msg.prg")
+*    nNewMsg=oMsg.getNewMsgNumber(oSession.Value("uid"))
+*    oMsg=NULL
+*    CLEAR CLASS Msg
+%>
+
+ <div class="row-fluid">
+    <div class="well well-small span2" style="padding-top:10px">
+        <ul class="nav nav-tabs nav-stacked main-menu" id="main-menu">
+            <li title="Текущие пациенты"><a href="#/my-pacients" rel="my-pac">Мои пациенты</a></li>
+            <li title="Вновь поступившие пациенты"><a href="#/new-pacients" class="menu-link" rel="new-pac">Поступившие</a></li>
+            <li title="Выбывшие пациенты"><a href="#/outer-pacients" class="menu-link" rel="outed-pac">Выписавшиеся</a></li>
+			<li title="Пациенты переведенные в другое отделение"><a href="#/transfer-from" class="menu-link" rel="perevod2-pac">Переведенные от меня</a></li>
+			<li title="Перевод пациентов между отделениями"><a href="#/transfer-to" class="menu-link" rel="perevod-pac">Перевести ко мне</a></li>
+			<li title="Пациенты оставленные под наблюдение"><a href="#/observation" class="menu-link" data-bind="visible:isObservationVisible" rel="observation">Под наблюдением</a></li>
+            <!--
+    		<li id="all-recomendations" class="menu-link no-display" data-bind="visible:isAllRecomendationsVisible">
+    		<a href="#/all-recomendations"  rel="all-recomendations"
+                            title="Рекомендации программы по всем Вашим пациентам"
+                        >Рекомендации
+                            <span class="badge badge-info" data-bind="text:allRecomendationsCount"></span>
+                        </a>
+		    </li>
+		    -->
+            <li title="Поиск пациента в архиве"><a href="#/arx-pacients" class="menu-link" rel="arx-pac">Архив</a></li>
+            <li title="Сервисные функции"><a href="#/services" class="menu-link">Сервис</a></li>
+            <li><a href="#/about" class="menu-link">О программе</a></li>
+         </ul>
+         <div id="menu-ib-left">
+            <ul class="nav nav-tabs nav-stacked main-menu"  id="ib-menu" data-bind="visible:isIbSelected">
+
+                <li data-bind="visible:isIbSelected"><a  class="menu-link" data-bind="{attr: {href:getIbLink},text:getIbMenuHeader}">История болезни</a></li>
+                    <ul class="nav nav-tabs nav-stacked main-menu" id="ib-menu-details" data-bind="visible:isIbHeaderOnScreen">
+                        <li title="Новые исследования" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbNewsLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Новое</em></a></li>
+                        <li title="Лабораторная диагностика" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbKdlLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;КДЛ</em></a></li>
+                        <li title="Исследования ЛДО" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbLdoLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;ЛДО</em></a></li>
+                        <li title="Медицинские документы" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbDocsLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Документы</em></a></li>
+						<li title="Дневниковые записи" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbDnevLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Дневники</em></a></li>
+                        <li title="Диагнозы" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbDiagsLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Диагнозы</em></a></li>
+                        <li title="Рекомендации программы" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbRecomLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Рекомендации</em></a></li>
+                        <li title="Прошлые обращения пациента" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbCasesLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Обращения</em></a></li>
+                    </ul>
+            </ul>
+            </div>
+    </div>
+    <div class="span10 "  id="app">
+        <div id="error" style="display:none"></div>
+        <div id="ib-news-result" style="display:none">
+            <div id="ib-news-bindable">
+                <div id="ib-news-actions">
+                    <button class="k-button" rel="tooltip" title="Печать" data-bind="events:{click:printWindow}">
+                        <i class="fa fa-print"></i>
+                    </button>
+                    &nbsp;
+                    <button class="k-button" rel="tooltip" title="Закрыть" data-bind="events:{click:closeWindow}">
+                        <i class="fa fa-times"></i>
+                    </button>
+
+                </div>
+                <div id="ib-news-result-content" data-bind="html:windowHtml"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<%=include("footer.avfp")%>
+<% * scripts %>
+<% lcBuild=""
+    IF FILE(oProp.AppStartPath+"html\StacDoct_main\app\production.txt")
+        lcBuild="-build"
+    ENDIF
+%>
+<script src="html/StacDoct_main/app/libs/require-min.js" data-main="html/StacDoct_main/app/main<%=lcBuild%>"></script>
+
+<script>
+// this script disables F5 and Alt+R for window refresh
+document.onkeydown = function(e){
+  switch (e.keyCode){
+        case 116 : //F5 button
+            e.returnValue = false;
+            e.keyCode = 0;
+            return false;
+        case 82 : //R button
+            if (e.ctrlKey){
+                e.returnValue = false;
+                e.keyCode = 0;
+                return false;
+            }
+    }
+};
+/*
+function openIb(ask_id) {
+        amplify.publish("openIb",{ask_id:ask_id});
+}
+*/
+/*
+window.onerror = function(msg, url, line, col, error) {
+   // Note that col & error are new to the HTML 5 spec and may not be
+   // supported in every browser.  It worked for me in Chrome.
+   var extra = !col ? '' : '\ncolumn: ' + col;
+   extra += !error ? '' : '\nerror: ' + error;
+
+   // You can view the information in an alert to see things working like this:
+   try {
+    alertify.error("ОШИБКА ПРОГРАММЫ: Обновите окно браузера или обратитесь к разработчику!\n"+ msg + "\nurl: " + url + "\nline: " + line + extra,0);
+   }
+   catch (e) {
+
+   }
+
+   // TODO: Report this error via ajax so you can keep track
+   //       of what pages have JS issues
+
+   var suppressErrorAlert = true;
+   // If you return true, then error alerts (like in older versions of
+   // Internet Explorer) will be suppressed.
+   return suppressErrorAlert;
+};
+*/
+//
+//$(document).ready(startApp());
+
+</script>
+
+    </body>
+</html>

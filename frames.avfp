@@ -1,0 +1,16 @@
+<html>
+
+<%= include("header.avfp") %>
+<frameset rows="111,45%,*">
+  <frame name="top" scrolling="no" noresize target="middle" src="<%=oProp.ScriptPath%>?action=simplelist">
+  <frame name="middle" target="bottom" src="<%=oProp.ScriptPath%>?action=sessionlist" scrolling="auto">
+  <frame name="bottom" src="<%=oProp.ScriptPath%>?action=upload1" scrolling="auto">
+  <noframes>
+  <body>
+
+  <p>This page uses frames, but your browser doesn't support them.</p>
+
+  </body>
+  </noframes>
+</frameset>
+<%= include("footer.avfp") %>

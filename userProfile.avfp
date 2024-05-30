@@ -1,0 +1,47 @@
+<%
+	DIMENSION aThemes(9)
+	aThemes(1)="Default"
+	aThemes(2)="BlueOpal"
+	aThemes(3)="Silver"
+	aThemes(4)="Metro"
+	aThemes(5)="MetroBlack"
+	aThemes(6)="Bootstrap"
+	aThemes(7)="Moonlight"
+	aThemes(8)="Black"
+	aThemes(9)="Uniform"
+%>
+<style type="text/css">
+.signup .k-textbox, 
+.signup .k-widget {
+  width: 100%;
+}</style>
+<div id="userProfile" class="signup">
+	<form>
+		<p> <%=oSession.Value("uname")%> </p>
+		<hr>
+		<label for="email">e-mail</label>
+		<input id="email" type="text" class="k-textbox" value="<%=oSession.Value("email")%>" />		
+		<label for="theme">Тема</label>
+		<select data-role="dropdownlist" > <-- data-bind="events: { change: changeTheme }"-->
+			<% FOR i=1 TO ALEN(aThemes,1) 
+			    lcSelected=""
+				IF NVL(oSession.Value("theme"),"default")==LOWER(aThemes[i])
+					lcSelected=" selected"
+				ENDIF
+			%>
+			<option value="<%=LOWER(aThemes[i])%>" <%=lcSelected%>><%=aThemes[i]%></option>
+			<% ENDFOR %>
+		</select>
+	</form>
+</div>
+
+<script>
+	$("#userProfile").kendoWindow({
+		modal: true,
+		visible: false
+	});	
+	function userProfile() {
+		$("#userProfile").data("kendoWindow").title("Профиль пользователя").open().center();		
+//		setTimeout( $( 'input:text:visible:first' ).focus(), 500 );
+	}
+</script>

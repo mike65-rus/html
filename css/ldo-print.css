@@ -1,0 +1,41 @@
+/*
+@page:left
+{
+    margin-left: 2cm;
+    margin-right: 0.5cm;
+    margin-top: 0.5cm;
+    margin-bottonm: 0.5cm
+}
+*/
+body {
+    color : #000000;
+    background : #ffffff;
+    font-family : "Times New Roman", Times, serif;
+    font-size : 8pt;
+    /* this affects the margin on the content before sending to printer */
+    margin: 0px;
+}
+table.ldo-table {
+    width: 100%; page-break-inside:avoid;  word-break:normal;  border-collapse:collapse}
+tr { page-break-inside:avoid; page-break-after:auto }
+.ldo-table-column-0, .ldo-table-column-1, .ldo-table-column-2, .ldo-table-column-3 {border: solid 1pt}
+.ldo-table-column-0 {padding: 0.1cm;}
+p.ldo-p {font-size: 10pt; word-wrap:normal}
+p.p-divider {  margin-top: 0.2cm; margin-bottom: 0cm; line-height: 0.1cm}
+.no-print {display:none;}
+p.ldo-old-p {font-size: 12pt; word-wrap:normal; font-family: "Tahoma",Arial, Helvetica, sans-serif; text-indent:2em; }
+p.ldo-old-p-zakl {font-size: 12pt; word-wrap:normal; font-family: "Tahoma",Arial, Helvetica, sans-serif;text-indent:2em;
+    page-break-inside:avoid;}
+p.ldo-old-p-zakl {font-weight: normal}
+td.old-ldo-head-td > span {font-family: "Tahoma",Arial, Helvetica, sans-serif;font-size:10pt}
+table.ldo-old-table {border-top: solid 1pt; border-bottom: solid 1pt;width:100%;}
+p.old-ldo-title {font-size:14pt;font-family: "Tahoma",Arial, Helvetica, sans-serif;text-indent:2em;text-align:center;
+    margin-top:1em;margin-bottom: 1em;font-weight: bold;
+}
+div.ldo-old-div-zakl {page-break-inside: avoid;font-family: "Tahoma",Arial, Helvetica, sans-serif;font-size:12pt}
+
+/* p.ldo-p {} */
+
+
+
+

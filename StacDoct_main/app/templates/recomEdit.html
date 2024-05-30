@@ -1,0 +1,90 @@
+    <div id="ib_recom_window"  class="k-content">
+        <div id="recom_id" style="display:none"></div>
+        <div id="recom_type" style="display:none"></div>
+        <table width="100%">
+            <tr>
+                <td id="recom_user" colspan="2">Рекомендация для пользователя:</td>
+                <td data-bind="attr:{style:myStyle},text:curRec.uname"></td>
+            </tr>
+            <tr>
+                <td id="recom_pac" colspan="2">Рекомендация для пациента:</td>
+                <td data-bind="attr:{style:myStyle},text:props.fio"></td>
+            </tr>
+            <tr>
+                <td id="recom_type_name" colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2">Рекомендация создана:</td>
+                <td data-bind="attr:{style:myStyle},date:curRec.recom_ts" data-dateformat="g">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Рекомендация обновлена:</td>
+                <td data-bind="attr:{style:myStyle},date:curRec.update_ts" data-dateformat="g">
+            </tr>
+            <tr data-bind="visible:isCancelledVisible">
+                <td colspan="2">Рекомендация прекращена:</td>
+                <td data-bind="attr:{style:myStyle},date:curRec.ucancel_ts" data-dateformat="g">
+            </tr>
+
+            <tr><td colspan="3">&nbsp;</td></tr>
+
+            <tr>
+                <td id="recom_recom" colspan="3" data-bind="attr:{style:myStyle,class:myClass},text:curRec.recomendat"></td>
+            </tr>
+            <tr>
+                <td id="recom_reason" colspan="3"  data-bind="attr:{class:myClass},text:curRec.reason"></td>
+            </tr>
+        </table>
+        <p>&nbsp;</p>
+        <div class="recom-type-form-div" id="recom_type_1" data-bind="visible:isType1">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <label id="recom_label01" for="recom_monthpicker01">
+                            <span>Дата последнего R-исследования легких</span>&nbsp;&nbsp;
+                            <input type="text"  id="recom_monthpicker01"
+                                   data-role="mydatepicker" data-no-keyboard="true"
+                                   data-start="year" data-depth="year" data-format="MMMM yyyy"
+                                   data-bind="value:props.type1.dtExt1,max:props.type1.dtExt1Max,min:props.type1.dtExt1Min"
+                             />
+                            <button rel="tooltip" title="Очистить значение" class="k-button" type="button" tabindex="-1"
+                                    data-bind="events:{click: clearRecomType1Date}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>&nbsp;</p>
+        <div>
+            <table width="100%">
+                <tr data-bind="visible:isNoShowMoreVisible">
+                    <td>
+                        <p>&nbsp;</p>
+                            <label><input type="checkbox" id="recom_chk01" class="big-checkbox" data-bind="checked:props.isDisabled"/>
+                                Больше не предупреждать об этом
+                            </label>
+                        <!--
+                            <input type="checkbox" id="recom_chk01" class="k-checkbox" data-bind="checked:props.noShowThisInFuture">
+                            <label class="k-checkbox-label" for="recom_chk01" >Больше не предупреждать об этом для этого пациента</label>
+                        -->
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <div style="text-align:center">
+            <button rel="tooltip" title="Сохранить" class="k-button" type="button" id="recom_okButton"
+                    data-bind="visible:isSaveVisible,events:{click: saveRecom}">
+                <i class="fa fa-gear"></i> Сохранить</button>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <button rel="tooltip" title="Закрыть" class="k-button" type="button" id="recom_cancelButton"
+                    data-bind="events:{click: closeRecom}">
+                <i class="fa fa-ban"></i> Закрыть</button>
+        </div>
+
+    </div>

@@ -1,0 +1,117 @@
+<div id="ksg_covid_arm_window"  class="k-content">
+    <table width="100%">
+        <tr>
+            <td>
+                <div class='input-div'>
+                    <label for="ksg-stepen">Степень тяжести:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-input" type='input' id="ksg-stepen"
+                           data-role="dropdownlist"
+                           data-value-field="id"
+                           data-text-field="name"
+                           data-bind="{source:aDataStepen,value:stepen_code}"
+                           data-auto-bind="true"
+                           data-option-label="{id:0,name:'Выберите Степень тяжести...'}"
+                           data-value-primitive="true"
+                            />
+                    </label>
+                </div>
+            </td>
+        </tr>
+		<tr>
+            <td>
+                <div class='input-div'>
+                    <label for="ksg-vir">Противовирусный препарат:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-input" type='input' id="ksg-vir"
+                               data-role="dropdownlist"
+                               data-value-field="name"
+                               data-text-field="name"
+                               data-bind="{source:aDataVir,value:vir,visible:stepen_code}"
+							   data-option-label="{name:'Выберите Противовирусный препарат...'}"
+                               data-auto-bind="true"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class='input-div'>
+                    <label for="ksg-gormon">Гормон:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-input" type='input' id="ksg-gormon"
+                               data-role="dropdownlist"
+                               data-value-field="name"
+                               data-text-field="name"
+                               data-bind="{source:aDataGormon,value:gormon,visible:vir}"
+							   data-option-label="{name:'Выберите Гормональный препарат...'}"
+                               data-auto-bind="true"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class='input-div'>
+                    <label for="ksg-gen">Генная инженерия:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-input" type='input' id="ksg-gen"
+                               data-role="dropdownlist"
+                               data-value-field="name"
+                               data-text-field="name"
+                               data-bind="{source:aDataGen,value:gen,visible:gormon}"
+							   data-option-label="{name:'Выберите Генный препарат...'}"
+                               data-auto-bind="true"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <!-- <tr>
+            <td>
+                <div class='input-div'>
+                    <label for="ksg-doza">Доза:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-input" type='input' id="ksg-doza"
+                               data-role="dropdownlist"
+                               data-value-field="name"
+                               data-text-field="name"
+                               data-bind="{source:aDataDoza,value:doza,visible:gen}"
+                               data-auto-bind="true"
+                               data-option-label="{name:'Выберите Дозу препарата...'}"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+        </tr> -->
+		
+            <td><div>КСГ:&nbsp;<span style="font-weight: bold" data-bind="text:ksg"></span></div></td>
+        </tr>
+        <tr>
+            <td><div><span style="font-weight: bold" data-bind="text:ksg_name"></span></div></td>
+        </tr>
+
+		<tr>
+			<td>
+				<div id="windowForAssign"></div>
+            </td>
+		</tr>
+
+    </table>
+    <p>
+    <div class="pull-right">
+        <button id="fiscal_save" rel="tooltip" title="Сохранить и продолжить"
+                class="k-button" type="button" data-bind="click:save,enabled:ksg">Далее</button>
+        <span>&nbsp;</span>
+        <!--
+        <button id="fiscal_print" rel="tooltip" title="Печать"
+                class="k-button" type="button">Печать</button>
+        <span>&nbsp;</span>
+        -->
+        <button id="fiscal_close" rel="tooltip" title="Закрыть без сохранения" class="k-button" type="button"
+                data-bind="click:close">
+            Закрыть</button>
+    </div>
+    </p>
+</div>

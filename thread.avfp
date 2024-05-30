@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>ActiveVFP :: <%=IIF(ISNULL(oProp.Action),[Default],oProp.Action)%></TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<STYLE TYPE="text/css">
+	<!--
+	:link	 {
+			color=blue     ;
+			Text-Decoration : None
+		}
+	:active	 {
+			Text-Decoration : Underline
+		}
+	:visited	 {
+			color=blue     ;
+			Text-Decoration : None
+		}
+	A:hover	 {
+			Text-Decoration : Underline
+		}
+	-->
+</STYLE>
+<%
+local myformvar
+oAsync=CREATEOBJECT("ThreadManager")       &&put your own code to run as a background thread in whatever.prg  
+    
+DO CASE
+CASE oRequest.QueryString("step") =='AsyncCancel'
+	cEventID=oRequest.QueryString("asyncID")
+        oAsync.Cancel(cEventID)	
+	cMeta=[]
+	cCancel=[]
+	cMess=[Action canceled by the user!  ]+;
+		[<input type="button" value="Go Back" ;
+			onClick="window.location = ']+JustPath(oProp.ScriptPath)+[';">] 
+
+CASE oRequest.QueryString("step") =='AsyncCheck' 
+        cEventID=oRequest.QueryString("asyncID")
+	IF oAsync.Check(cEventID)  && it finished or there is an error
+	                IF !EMPTY(oAsync.oEvent.returnval) && a file name is there, redirect to it
+	                                        lcNewPath=STRTRAN(SUBSTR(oProp.ScriptPath,1,ATC('default.',oProp.ScriptPath)-2),oProp.AppName,oProp.AppName+'r/pdffiles/',OCCURS(oProp.AppName,oProp.ScriptPath))
+	                                        lcNewPath=lcNewPath+ALLTRIM(oAsync.oEvent.returnval) && new URL
+                                                oResponse.Redirect(lcNewPath)
+			ELSE   && else just return 'finished' or error text
+					        count=0
+					        cMess=[]
+						cMeta=[]
+						cCancel=[]
+						IF oAsync.oEvent.Err   &&error 
+                                                        STORE MEMLINES(oAsync.oEvent.err_txt) TO gnNumLines   && Number of lines in memo field
+			                                FOR count = 1 TO gnNumLines      && Loop for # of lines in memo field
+							cMess=cMess+TRANSFORM(ALLTRIM(MLINE(oAsync.oEvent.err_txt,count)))+[<BR>]      && list each line
+							NEXT
+							cMess=[ERROR! ]+[<BR>]+cMess+;
+							[<input type="button" value="Go Back" ;
+							onClick="window.location = ']+JustPath(oProp.ScriptPath)+[';">]          &&
+						ELSE      &&finished
+							STORE MEMLINES(oAsync.oEvent.action) TO gnNumLines   && Number of lines in memo field
+			                                FOR count = 1 TO gnNumLines      && Loop for # of lines in memo field
+								cMess=cMess+TRANSFORM(ALLTRIM(MLINE(oAsync.oEvent.action,count)))+[<BR>]      && list each line
+							NEXT
+							cMess=cMess+;
+							[<input type="button" value="Go Back" ;
+							onClick="window.location = ']+JustPath(oProp.ScriptPath)+[';">]         &&
+						ENDIF
+			ENDIF
+	ELSE && not finished, keep checking
+	         count=0
+     		 cMess=[]
+     		 cMeta=[<META HTTP-EQUIV="Refresh"	CONTENT="5;URL=]+JustPath(oProp.ScriptPath)+[/default.aspx?action=thread]+[&step=AsyncCheck&asyncID=]+cEventID+[">]
+			 cCancel=[<br> <a href="]+JustPath(oProp.ScriptPath)+[/default.aspx?action=thread]+[&step=AsyncCancel&asyncID=]+cEventID+["> CANCEL the Request</a>]
+			 cMess=[<img border="0" src="]+JUSTPATH(oProp.ScriptPath)+[/images/processing.gif]+[" width="70" height="70">Running:...]+REPLICATE(".",oAsync.oEvent.count)+ALLTRIM(STR(oAsync.oEvent.count))+[<BR>]     
+	         STORE MEMLINES(oAsync.oEvent.action) TO gnNumLines   && Number of lines in memo field
+			            FOR count = 1 TO gnNumLines      && Loop for # of lines in memo field
+							cMess=cMess+TRANSFORM(ALLTRIM(MLINE(oAsync.oEvent.action,count)))+[<BR>]       && list each line
+						NEXT
+	ENDIF
+	   
+OTHERWISE    && create the thread
+    myformvar=oRequest.Form("formvar")  && get the form variable passed
+    IF EMPTY(myformvar) .OR. ISNULL(myformvar) .OR. TYPE("myformvar")<>"C"
+      myformvar="No Form Value"
+    ENDIF
+    **docount.prg is the prg that contains the code for the background task
+    cEventID=oAsync.CreateThread("docount","----- Hello! I am running VFP code,----- on a background thread,----- while sending you status updates,...Your form value is: "+myformvar) 
+    *
+ENDCASE
+%>
+<%=cMeta%>
+</HEAD>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="20%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=100% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font size="4" face="Arial"><b>
+					<a href="<%=JustPath(oProp.ScriptPath)%>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font>&nbsp;<br>
+                    <br>
+                    Async Processing&nbsp; </b>- Use real threads for background 
+					tasks from the web</font></td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+                    &lt;%=cCancel%&gt;<p>
+                    &lt;%=cMess%&gt;<p>
+                                       
+                   </td>
+                  </tr>
+                  
+                </table>
+              </center>
+            </div>
+            <P>&nbsp;</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

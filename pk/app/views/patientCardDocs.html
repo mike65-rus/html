@@ -1,0 +1,145 @@
+<div >
+    <div id="pk_docs_grid" class="pk-grid pk-grid-dblclick" style="width:100%;height:100%"
+         data-role="grid"
+         data-auto-bind="false"
+         data-toolbar='[{ template: kendo.template($("#template-docs-grid-toolbar").html()) }]'
+         data-selectable="row"
+         data-bind="source:gridDs"
+         data-groupable="false"
+         data-filterable="false"
+         data-pageable="false"
+         data-no-records="{template:'Нет доступных записей.'}"
+         data-columns='[
+            {field: "record_id", title: "record_id",hidden: true },
+            {field: "doc_id", title: "DOC_ID",hidden: true },
+            {field: "pat_id", title: "PAT_ID",hidden: true },
+            {field: "doc_name", title: "ВидДок", width:"25%", template:$("#doc_name-template").html()},
+            {field: "doc_indo", title: "Информация", width:"30%", template:$("#doc_info-template").html()},
+            {field: "doc_date", title: "Дата - Время", template:$("#doc_date-template").html()},
+            {field: "created", title: "Создан", format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "user_fio", title: "Автор",template: "#=user_name.fio()#"},
+            {field: "modified", title: "Изменен",  format: "{0:dd.MM.yy - HH:mm}"},
+
+         ]'
+    >
+    </div>
+</div>
+    <!-- grid toolbar template -->
+    <script type="text/x-kendo-template" id="template-docs-grid-toolbar">
+        <div class="form-inline toolbar" id="pk_docs_grid_toolbar">
+            <label for='docs-period'>Период:</label>
+            <input id='docs-period' style='width: 150px;'
+                   data-role="dropdownlist"
+                   data-text-field="text"
+                   data-value-field="value"
+                   data-bind="value: selectedPeriod,
+                    source:periodDs"
+            />
+            &nbsp;
+            &nbsp;
+            <span>
+                <button id="doc-add" rel="tooltip" title="Создать новый документ"  class="k-button" type="button"
+                        data-bind="events:{click: onAddButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-plus-outline k-icon-24"></span>
+                            </span>
+                </button>
+                &nbsp;
+                <button id="doc-edit" rel="tooltip" title="Открыть/изменить документ "  class="k-button" type="button"
+                        data-bind="events:{click: onEditButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-check-outline k-icon-24"></span>
+                            </span>
+                </button>
+                &nbsp;
+                <button id="doc-delete" rel="tooltip" title="Удалить документ"  class="k-button" type="button"
+                        data-bind="events:{click: onDeleteButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-minus-outline k-icon-24"></span>
+                            </span>
+                </button>
+                &nbsp;
+                <button id="doc-copy" rel="tooltip" title="Создать новый документ на основании выделенного"
+                        class="k-button" type="button"
+                        data-bind="events:{click: onCopyButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-copy k-icon-24"></span>
+                            </span>
+                </button>
+
+            </span>
+            &nbsp;
+            &nbsp;
+            <span class="pull-right">
+                <button id="docs-refresh" rel="tooltip" title="Обновить спискок документов"  class="k-button" type="button"
+                                        data-bind="events:{click: onRefreshButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-refresh k-icon-24"></span>
+                            </span>
+                </button>
+
+            </span>
+        </div>
+    </script>
+
+<script id="doc_name-template" type="text/x-kendo-template">
+    #=data.doc_name#
+</script>
+
+<script id="doc_date-template" type="text/x-kendo-template">
+    # var dateTimeFnc=function(docDate,docTime) {
+    var sRet="";
+    sRet=kendo.toString(docDate,"dd.MM.yy") || "";
+    if (sRet) {
+    if(kendo.toString(docTime,"HH:mm")) {
+    sRet=sRet+" - "+kendo.toString(docTime,"HH:mm");
+    }
+    }
+    return sRet;
+    } #
+    #= dateTimeFnc(doc_date,doc_time) #
+</script>
+<script id="doc_info-template" type="text/x-kendo-template">
+    # var infoDoc=function(docType,subtype,ext1,ext2,ext3) {
+    var sRet=ext1 || "";
+    if (ext1=="undefined") {
+    sRet="";
+    }
+    if (docType==59) {
+    if (subtype==1) {
+    sRet="Выписка";
+    }
+    if (subtype==2) {
+    sRet="Извещение";
+    }
+    if (subtype==3) {
+    sRet="Протокол";
+    }
+    if (sRet) {
+    sRet="Тип документа:<strong>"+sRet+"</strong>";
+    if (ext3) {
+    sRet=sRet+"<div>Адресат:"+ext3+"</div>";
+    }
+    }
+    }
+    if (docType==58) {
+    //sRet="<div>О чем:<strong>"+ext1+"</strong></div><div>Вид:<strong>"+ext2+"</strong></div><div>Адресат:"+ext3+"</div>";
+    sRet="<div>Вид:<strong>"+ext2+"</strong></div><div>Адресат:"+ext3+"</div>";
+    }
+    if (docType==57) {
+    sRet="<div>Адресат:"+ext3+"</div>";
+    }
+    if (docType==1) {
+    if (ext1 && !(ext1=="undefined")) {
+    sRet="<div>Отделение:"+ext1+"</div>";
+    }
+    if (ext2  && !(ext2=="undefined")) {
+    sRet=sRet+"<div>"+ext2+"</div>";
+    }
+    }
+    return sRet;
+    } #
+    #= infoDoc(doc_id,subtype,ext1,ext2,ext3) #
+</script>
+
+</div>

@@ -1,0 +1,40 @@
+<div id="doc-58-ses-phone-window" class="k-content">
+    <p>Необходимо сообщить в СЭС об этом случае в течение 2-х часов с момента его регистрации</p>
+    <p style="text-align:center"><strong>Позвоните в СЭС</strong> по номеру +7(879-3)<strong>39-39-45</strong></p>
+    <p style="font-style:italic">Факт регистрации звонка на АТС позволит выполнить требования приказов МЗ</p>
+    <p style="font-style:italic;margin-top:10px">Если абонент примет сообщение, то уточните ФИО принявшего</p>
+    <p style="font-style:italic" data-bind="visible:isPhoneCallVisible">
+        После звонка (даже если абонент не ответил) нажмите кнопку 'Я позвонил(а)'</p>
+
+    <div style="margin-top:10px;text-align:center">
+        <button class="k-button" type="button" data-bind="visible:isPhoneCallVisible,events:{click:doPhoneCall}">
+            Я позвонил(а)</button>
+        <div style="text-align: center">
+            <button class="k-button" type="button" data-bind="visible:isCallResultVisible,events:{click:callAborted}">
+                Абонент не ответил</button>
+            &nbsp;&nbsp;&nbsp;
+            <button class="k-button" type="button" data-bind="visible:isCallResultVisible2,events:{click:callResponsed}">
+                Сообщение принято</button>
+            &nbsp;&nbsp;&nbsp;
+            <button class="k-button" type="button" data-bind="visible:isCallResultVisible,events:{click:redoCall}">
+                Позвоню еще раз</button>
+        </div>
+        <div style="text-align: center" data-bind="visible:isFioVisible">
+            <input  data-bind="value:fio"
+                    id="fio-person-ses" class="k-input"
+                    placeholder="Укажите ФИО принявшего сообщение"
+                    style="min-width:350px;padding-right:5px;padding-left:5px"/>
+        </div>
+    </div>
+
+    <div class="pull-right" style="margin-top:5px">
+        <button rel="tooltip" title="Выполнить" class="k-button" type="button" id="okButton"
+                data-bind="{events:{click:doCommand}},enabled:isDoEnabled">
+            <i class="fa fa-gear"></i> Зарегистрировать звонок</button>
+        <span>&nbsp;</span>
+        <button rel="tooltip" title="Отказ" class="k-button" type="button" id="cancelButton"
+                data-bind="{events:{click:cancelCommand}}">
+            <i class="fa fa-ban"></i> Отказ</button>
+    </div>
+
+</div>

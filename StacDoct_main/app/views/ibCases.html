@@ -1,0 +1,83 @@
+<div class="demo-section">
+    <div class="k-content" style="width: 100%">
+        <div id="grid" class="ibgrid-cases"
+             data-role="grid"
+             data-sortable="false"
+             data-pageable="true"
+             data-filterable="false"
+             data-selectable="true"
+             data-auto-bind="false"
+             data-height=500
+             data-toolbar='[ { template: kendo.template($("#toolbar-cases").html()) } ]'
+             data-columns='[
+                { field: "ask_id", title: "ID", hidden: true },
+                { field: "niib", title: "ИБ", width: "8%" , template:$("#niib-template").html()},
+                { field: "fio", title: "ФИО/Возраст", width: "15%" , template:$("#fio-template").html()},
+                { field: "date_ask", title: "Отд/Даты", width: "10%", template:$("#dates-template").html()},
+                {field: "diag", title: "Диагноз",template:$("#diagnoze-template-cases").html()},
+                {field: "doctor",title:"Врач", width:"15%", template:$("#user-template").html()}
+              ]'
+             data-bind="source: dataSource, events: { change: onChange, dataBound: onDataBound }">
+        </div>
+        <style scoped>
+            #grid .k-toolbar { padding: 15px; }
+
+/*            .toolbar { float: right; } */
+        </style>
+    </div>
+</div>
+<script type="text/x-kendo-template" id="toolbar-cases">
+    <div>
+        <div class="toolbar">
+            <span class="pull-left">
+              <p><strong>Предыдущие обращения</strong></p>
+              </span>
+            <div class="form-inline toolbar pull-right" id="GridCasesToolbar">
+                <button rel="tooltip" title="Обновить" id="btnRefresh1" class="k-button" type="button" data-bind="events:{click: onRefresh}"><i class="icon-refresh"></i></button>
+            </div>
+
+        </div>
+    </div>
+</script>
+
+<script id="user-template" type="text/x-kendo-template">
+    # var sRet=data.doctor.fio(); #
+    #= sRet #
+</script>
+<script id="fio-template" type="text/x-kendo-template">
+    # var sRet=data.fio.fio()+ '<br/>'+data.age.pluralAge(); #
+    # if (data.alink) { #
+    <a href="#:data.alink#" target="_blank" rel="opener" title="Открыть ИБ">#=sRet#</a>
+    # } #
+    # if (!data.alink) { #
+    #=sRet#
+    # } #
+
+</script>
+<script id="niib-template" type="text/x-kendo-template">
+    # var sRet=data.yea.toString()+ ' год <br/>№ '+data.niib.toString(); #
+    # if (data.alink) { #
+    <a href="#:data.alink#" target="_blank"  rel="opener" title="Открыть ИБ">#=sRet#</a>
+    # } #
+    # if (!data.alink) { #
+    #=sRet#
+    # } #
+
+</script>
+<script id="dates-template" type="text/x-kendo-template">
+    # var sRet=data.otd1+'<br/>'+kendo.toString(data.date_ask,'dd.MM.yy')+ '<br/>'+kendo.toString(data.date_out,'dd.MM.yy'); #
+    # if (data.alink) { #
+    <a href="#:data.alink#" target="_blank" rel="opener" title="Открыть ИБ">#=sRet#</a>
+    # } #
+    # if (!data.alink) { #
+    #=sRet#
+    # } #
+
+</script>
+
+<script id="diagnoze-template-cases" type="text/x-kendo-template">
+    <div>
+        <div class="diag-in-grid" title="Показать все диагнозы по ИБ">#=(data.diag || '...')#</div>
+    </div>
+</script>
+

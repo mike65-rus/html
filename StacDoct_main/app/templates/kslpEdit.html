@@ -1,0 +1,143 @@
+<div id="ib_kslp_window"  class="k-content">
+    <table width="100%">
+        <tr>
+            <td width="90%">
+                <div class='input-div'>
+                    <label for="kslp1">КСЛП-1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-input" type='input' id="kslp1"
+                           data-role="dropdownlist"
+                           data-value-field="id"
+                           data-text-field="name"
+                           data-bind="{source:aData1,value:fiscal.kslp1}"
+                           data-auto-bind="true"
+                           data-option-label="{id:0,name:'Выберите КСЛП-1...'}"
+                           data-value-primitive="true"
+                            />
+                    </label>
+                </div>
+            </td>
+            <td>
+                <div style="margin-top: 20px;text-align:center" data-bind="visible:fiscal.kslp1">
+                    <button type="button"
+                        class="k-button" tabindex="-1" id="button-del-kslp1" data-bind="events:{click:clearKslp}">Удалить</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class='input-div'>
+                    <label for="kslp1-comment">Обоснование КСЛП-1: &nbsp; <span data-bind="text:kslp11Text"></span>
+                        <input class="form-input" type='input' id="kslp1-comment"
+                               data-role="dropdownlist"
+                               data-value-field="id"
+                               data-text-field="name"
+                               data-bind="{source:aData11,value:fiscal.kslp1_detail}"
+                               data-auto-bind="true"
+                               data-option-label="{id:0,name:'Выберите обоснование КСЛП-1...'}"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="90%">
+                <div class='input-div' data-bind="visible:isKslp2Visible">
+                    <label for="kslp2">КСЛП-2:
+                        <input class="form-input" type='input' id="kslp2"
+                               data-role="dropdownlist"
+                               data-value-field="id"
+                               data-text-field="name"
+                               data-bind="{source:aData2,value:fiscal.kslp2}"
+                               data-auto-bind="true"
+                               data-option-label="{id:0,name:'Выберите КСЛП-2...'}"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+            <td>
+                <div style="margin-top: 20px;text-align:center" data-bind="visible:fiscal.kslp2">
+                    <button type="button"
+                            class="k-button" tabindex="-1" id="button-del-kslp2" data-bind="events:{click:clearKslp}">Удалить</button>
+                </div>
+            </td>
+
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class='input-div'  data-bind="visible:isKslp2Visible">
+                    <label for="kslp2-comment">Обоснование КСЛП-2:&nbsp;&nbsp;&nbsp;<span data-bind="text:kslp21Text"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-input" type='input' id="kslp2-comment"
+                               data-role="dropdownlist"
+                               data-value-field="id"
+                               data-text-field="name"
+                               data-bind="{source:aData21,value:fiscal.kslp2_detail}"
+                               data-auto-bind="true"
+                               data-option-label="{id:0,name:'Выберите обоснование КСЛП-2...'}"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="90%">
+                <div class='input-div' data-bind="visible:isKslp3Visible">
+                    <label for="kslp3">КСЛП-3:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-input" type='input' id="kslp3"
+                               data-role="dropdownlist"
+                               data-value-field="id"
+                               data-text-field="name"
+                               data-bind="{source:aData3,value:fiscal.kslp3}"
+                               data-auto-bind="true"
+                               data-option-label="{id:0,name:'Выберите КСЛП-3...'}"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+            <td>
+                <div style="margin-top: 20px;text-align:center" data-bind="visible:fiscal.kslp3" >
+                    <button type="button"
+                            class="k-button" tabindex="-1" id="button-del-kslp3" data-bind="events:{click:clearKslp}">Удалить</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class='input-div' data-bind="visible:isKslp3Visible">
+                    <label for="kslp3-comment">Обоснование КСЛП-3:&nbsp;<span data-bind="text:kslp31Text"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-input" type='input' id="kslp3-comment"
+                               data-role="dropdownlist"
+                               data-value-field="id"
+                               data-text-field="name"
+                               data-bind="{source:aData31,value:fiscal.kslp3_detail}"
+                               data-auto-bind="true"
+                               data-option-label="{id:0,name:'Выберите обоснование КСЛП-3...'}"
+                               data-value-primitive="true"
+                        />
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+    <p>
+    <div class="pull-right">
+        <button id="fiscal_save" rel="tooltip" title="Сохранить и закрыть"
+                class="k-button" type="button" data-bind="click:save">Сохранить</button>
+        <span>&nbsp;</span>
+        <!--
+        <button id="fiscal_print" rel="tooltip" title="Печать"
+                class="k-button" type="button">Печать</button>
+        <span>&nbsp;</span>
+        -->
+        <button id="fiscal_close" rel="tooltip" title="Закрыть без сохранения" class="k-button" type="button"
+                data-bind="click:close">
+            Закрыть</button>
+    </div>
+    </p>
+</div>

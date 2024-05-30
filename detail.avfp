@@ -1,0 +1,150 @@
+<%= include("header.avfp") %>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="16%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=104% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath%>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    Customer Detail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: 400"> <font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></b></font></td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+<%
+lcCustID=oRequest.querystring("cust_id")
+IF .NOT. USED('customer')
+	USE ('customer') IN 0 SHARED
+ENDIF
+SELECT Customer
+SET ORDER TO cust_id
+SEEK PADR(lcCustID,LEN(Customer.cust_id),' ')
+IF .NOT. EOF()
+* Session values will populate HTML template
+	oSession.VALUE("cust_id",ALLTRIM(Customer.cust_id))
+	oSession.VALUE("company",ALLTRIM(Customer.company))
+	oSession.VALUE("contact",ALLTRIM(Customer.contact))
+	oSession.VALUE("title",ALLTRIM(Customer.TITLE))
+	oSession.VALUE("address",ALLTRIM(Customer.address))
+	oSession.VALUE("city",ALLTRIM(Customer.city))
+	oSession.VALUE("region",Customer.REGION)
+	oSession.VALUE("country",Customer.country)
+	oSession.VALUE("postalcode",ALLTRIM(Customer.postalcode))
+	oSession.VALUE("phone",ALLTRIM(Customer.phone))
+	oSession.VALUE("fax",ALLTRIM(Customer.fax))
+	oSession.VALUE("email",ALLTRIM(Customer.email))
+* states dropdown list
+	SELE * FROM states ORDER BY statename INTO CURSOR tCursor
+	cStates=oHTML.HTMLdropDown('tCursor.stateid',;
+		'tCursor.statename','region','Select State/Region',oSession.VALUE("region"),.F.)
+* countries dropdown list
+	SELE * FROM countries ORDER BY cntryid INTO CURSOR tCursor
+	cCountries=oHTML.HTMLdropDown('tCursor.cntryid',;
+		'tCursor.cntryid','country','Select Country',oSession.VALUE("country"),.F.)
+ENDIF
+%>
+                    <table bgColor="#ffffff" border="0" cellPadding="9" cellSpacing="0" width="100%" marginheight="0" marginwidth="0" topmargin="0" leftmargin="0">
+  <tr>
+    <td><font face="Arial"><font face><small>
+      <form action="<%=oProp.ScriptPath+[?action=verify]%>" method="post" name="theForm" onsubmit="return Form1_Validator(this)">
+        <font face="Arial">
+        <p><b>Enter customer information <font color="#ff0000">(items in red are
+        required)</font>:</b>
+        <p>&nbsp;
+        <table border="0" cellPadding="0" cellSpacing="0" width="500">
+          <input name="CustomerID" type="hidden" value="0"><input name="CustType" type="hidden" value="PC">
+          <tbody>
+            <tr>
+              <td width="40%"><font face="Arial"><small>Company Name:</small></font></td>
+              <td width="60%"><font face="Arial"><small>
+              <input name="Company" size="35" value="<%=osession.VALUE("company")%>"></small></font></td>
+            </tr>
+            <tr>
+              <td><small><font color="#ff0000" face="Arial">Contact Name:</font></small></td>
+              <td><small>
+              <input name="Contact" size="35" value="<%=osession.VALUE("contact")%>"></small></td>
+            </tr>
+            <tr>
+              <td><small><font color="#ff0000" face="Arial">Mailing Address 1:</font></small></td>
+              <td><font face="Arial"><small>
+              <input name="Address" size="35" value="<%=osession.VALUE("address")%>"></small></font></td>
+            </tr>
+            <tr>
+              <td><font face="Arial"><small>Title:</small></font></td>
+              <td><font face="Arial"><small>
+              <input name="Title" size="35" value="<%=osession.VALUE("title")%>"></small></font></td>
+            </tr>
+            <tr>
+              <td><small><font color="#ff0000" face="Arial">City:</font></small></td>
+              <td><font face="Arial"><small>
+              <input name="City" size="35" value="<%=osession.VALUE("city")%>">&nbsp;&nbsp;</small></font></td>
+            </tr>
+            <tr>
+              <td><font face="Arial"><small><font color="#ff0000" face="Arial">State
+                (US/Can), Zip/Postal</font></small></font></td>
+              <td><font face="Arial"><small><small><select name="region">
+                  <%=cStates%>
+                </select><input name="postalcode" size="10" value="<%=osession.VALUE("postalcode")%>"></small></small></font></td>
+            </tr>
+            <tr>
+              <td><font face="Arial" color="#FF0000"><small>Country:</small></font></td>
+              <td><font face="Arial"><small><select NAME="Country" SIZE="1">
+                  <%=cCountries%>
+                </select></small></font></font></small></font></td>
+        </tr>
+        <small>
+        <tr>
+          <td><small><font color="#000000" face="Arial">Voice Phone:</font></small></td>
+          <td><small>
+          <input name="Voice" size="15" value="<%=osession.VALUE("phone")%>"></small></td>
+        </tr>
+        <tr>
+          <td><font face="Arial"><small>FAX:</small></font></td>
+          <td><small>
+          <input name="FAX" size="15" value="<%=osession.VALUE("fax")%>"></small></td>
+        </tr>
+        <tr>
+          <td><font color="#ff0000" face="Arial"><small>E-Mail Address:</small></font></td>
+          <td><font face="Arial"><small>
+          <input name="EMail" size="35" value="<%=osession.VALUE("EMail")%>"></small></font></td>
+        </tr>
+        </tbody>
+      </table>
+      <p align="center"><input name="B1" type="submit" value="Submit"> </small></font><small><font face><input type="reset" value="Reset" name="B2"></font></small><font face><small>
+      <font face="arial,helvetica"><input type="button" value="Go Back" onClick="history.back()"></font></small></font></p>
+      </form>
+      <small><font face="Arial"><script language="JavaScript">
+<!--
+document.theForm.Company.focus();
+//-->
+    </script>
+      </font></small></td>
+  </tr>
+</table>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

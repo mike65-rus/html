@@ -1,0 +1,21 @@
+<div id="copy-doc-dlg">
+    <form>
+        <div id="object-list" style="width:350px;height:400px;overflow:auto"
+             data-role="listview"
+             data-bind="{source:ds}"
+             data-template="templates-copyToDocTemplate"
+                >
+
+         </div>
+    </form>
+    <p>
+    <div class="pull-right">
+        <button rel="tooltip" title="Выполнить действие" data-bind="events:{click:ok},enabled:isOkEnabled"
+                class="k-button" type="button"><i class="fa fa-gear"></i> Выполнить</button>
+        <span>&nbsp;</span>
+        <button rel="tooltip" title="Отказ" class="k-button" type="button"
+                data-bind="click:cancel">
+            <i class="fa fa-ban"></i> Отказ</button>
+    </div>
+    </p>
+</div>

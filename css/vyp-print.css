@@ -1,0 +1,224 @@
+p.blank-napr {font-size: 12pt; font-weight:normal}
+p.indent {font-size: 12pt; font-weight:normal; text-indent:2em;}
+/* css declaration for Выписка из ИБ */
+/* css declaration for Выписка из ИБ */
+/* content-editable */
+div[contenteditable="true"]:not(.vyp-edt-big .vyp-edt-big2) {font-size: 9pt; color: Black}
+div[contenteditable="true"]:not(.vyp-edt-big .vyp-edt-big2) p {font-size: 9pt; color: Black; margin-top: 0.1cm; margin-bottom: 0cm; line-height: 9pt;}
+.no-print {display:none}
+/* Логотип */
+div.gb2-logo-div {margin-top:-50px}
+table.gb2-logo {width:100%;}
+td.gb2-logo-image-td {width:20%}
+img.gb2-logo-image {height:1.5cm;width:1.5cm }
+img.gb2-logo-image-2015 {height:2cm;width:3cm }
+p.gb2-logo-1 {font-family: "Times New Roman", Times, serif; font-size: 14pt}
+/* p.gb2-logo-1 {font-family: "MS Sans Serif",serif; font-size: 16pt} */
+p.gb2-logo-1 {  margin-top:0.1cm ; margin-bottom: 0cm; line-height: 6pt}
+p.gb2-logo-2 {  margin-top: 0.4cm ; margin-bottom: 0cm; line-height: 6pt}
+p.gb2-logo-2 {font-family: "Times New Roman", Times, serif; font-size: 12pt}
+/* .gb2-logo-2 {font-family: "MS Sans Serif", Times, serif; font-size: 12pt} */
+p.gb2-logo-3 {  margin-top: 0.3cm ; margin-bottom: 0cm; line-height: 6pt}
+p.gb2-logo-3 {font-family: "Times New Roman", Times, serif; font-size: 12pt}
+/* p.gb2-logo-3 {font-family: "MS Sans Serif", Times, serif; font-size: 12pt} */
+hr.gb2-logo-hr {color: black;background-color: black; height: 0.5pt; display:none}
+table.gb2-logo {border-top: solid 1pt; border-bottom: solid 1pt}
+/* header */
+p.vyp-header-p {margin-top:0cm; margin-bottom: 0cm}
+p.vyp-header-p-1 {font-weight: bold; text-align: center; margin-top:0.2cm; font-size:12pt;}
+p.vyp-header-p-2 {font-size:10pt}
+p.vyp-header-p-4 {font-size:10pt}
+/* p.vyp-zag {font-weight:bold; margin-top:0.4em; margin-bottom:0em; font-size:1.2em} */
+span.vyp-niib {font-size: 1.5em; font-weight: bold; text-decoration: underline }
+span.vyp-pac-fio {font-size:1.5em; font-weight:bold; text-decoration: underline}
+span.vyp-pac-birt {font-size:1.2em; font-weight:bold; text-decoration: underline}
+span.vyp-pac-age {font-size:1.2em; font-weight:bold; text-decoration: underline}
+span.vyp-pac-dateask {font-size:1.2em; font-weight:bold; text-decoration: underline}
+span.vyp-pac-dateout {font-size:1.2em; font-weight:bold; text-decoration: underline}
+
+p.vyp-zag:not(.vyp-obsl-p) {font-weight:bold; margin-top:0.1cm; margin-bottom:0cm; font-size: 11pt}
+p.vyp-obsl-p {font-weight:bold; margin-top:0.2cm; margin-bottom:0cm; font-size: 11pt}
+
+span.vyp-niib {font-size: 14pt; font-weight: bold; text-decoration: underline }
+span.vyp-pac-fio {font-size:12pt; font-weight:bold}
+/* div.no-page-break {page-break-inside: avoid} */
+div.diag-type {page-break-inside: avoid; margin-top:0.1cm; margin-bottom:0.1cm; font-size:9pt; }
+/* Лаборатория */
+table.vyp-lab-table {width: 100%;  border-collapse: collapse; table-layout:fixed}
+td.vyp-lab-table-cell-pokaz-normal, td.vyp-lab-table-cell-pokaz-abnormal {width: 23%}
+td.vyp-lab-table-cell-value, td.vyp-lab-table-cell-value-normal, td.vyp-lab-table-cell-value2-normal, td.vyp-lab-table-cell-value-abnormal
+    {width: 10%; text-align: center }
+td.vyp-lab-table-cell-value-abnormal { background-color: LightGrey}
+td.vyp-lab-table-cell-divider {width: 0.5%}
+td.vyp-table-header-cell { border: 1pt solid black; width: 100% ; font-size: 9pt; font-weight: bold; background-color: LightGrey}
+/* table.vyp-lab-table tr {width:100%;display:table-row; page-break-inside: avoid !important; break-inside:avoid !important;} */
+table.vyp-lab-table tr td {padding-bottom: 0cm; padding-top: 0cm; page-break-inside: avoid !important; break-inside:avoid !important;}
+table.vyp-lab-table td:not(.vyp-lab-table-cell-divider):not(.vyp-table-header-cell):not(.vyp-lab-table-cell-pokaz2-abnormal):not(.vyp-lab-table-cell-value2-abnormal):not(.vyp-lab-table-cell-pokaz2-normal):not(.vyp-lab-table-cell-value2-normal)
+    {overflow: hidden;
+    color: black; border: 1pt solid black; font-size: 7pt; white-space: nowrap;  }
+.no-pb {page-break-inside: avoid;}
+/*
+table.vyp-lab-table td:not(.vyp-lab-table-cell-divider):not(.vyp-table-header-cell)
+      {white-space:nowrap; overflow: hidden}
+*/
+/* table.vyp-lab-table td[rowspan="2"] {white-space:nowrap; overflow: hidden; } */
+td.vyp-lab-table-cell-date {width: 4%; text-align:center;font-style:italic;  }
+/* table.vyp-lab-table td[rowspan="2"] {white-space:normal;} */
+td.vyp-lab-table-cell-divider {width: 0.5%; border-bottom: 0; border-top: 0 }
+/* td.vyp-lab-table-cell-pokaz-abnormal {background-color: LightGray; } */
+/* td.vyp-lab-table-cell-pokaz2-abnormal {background-color: LightGray } */
+td.vyp-lab-table-cell-value-abnormal {background-color: LightGray }
+td.vyp-lab-table-cell-value2-abnormal {background-color: LightGray }
+td.vyp-lab-table-cell-pokaz2-abnormal, td.vyp-lab-table-cell-pokaz2-normal, td.vyp-lab-table-cell-value2-normal, td.vyp-lab-table-cell-value2-abnormal
+{overflow: hidden;
+    color: black; border: 1pt solid black; font-size: 7pt;}
+td.vyp-lab-table-cell-pokaz2-abnormal div, td.vyp-lab-table-cell-pokaz2-normal div,
+td.vyp-lab-table-cell-pokaz-normal div
+    {display:block; overflow: hidden;  white-space:normal;  max-height: 0.7cm;
+    word-break: break-all; page-break-inside: avoid !important }
+/* max-height: 0.7cm; */
+/* max-height: 20pt; */
+p.vyp-lab-p-divider { margin-top: 0cm; margin-bottom: 0cm; line-height: 0.3cm}
+span.vyp-lab-italic {font-size:8pt; font-style:italic; font-weight:normal}
+
+/* table.vyp-lab-table  {page-break-inside: auto}
+table.vyp-lab-table tr {page-break-inside: avoid !important;}  */
+/* table.vyp-lab-table td div { border: 2px solid white; page-break-inside: avoid; } */
+/* ЛДО */
+/* div.vyp-ldo-title, p.vyp-ldo-title {  page-break-after: avoid; break-after: avoid; -webkit-column-break-after : avoid; -webkit-region-break-after:avoid; } */
+/*
+div.vyp-ldo-title {page-break-after:avoid}
+div.vyp-ldo-title {webkit-column-break-after:avoid}
+*/
+/* div.vyp-ldo-title { -webkit-column-break-after : avoid !important; } */
+/*
+p.vyp-ldo-title {  display: block !important; float:none !important; margin-top: 0.2cm; margin-bottom: 0cm;  font-size: 11pt; font-weight: bold; page-break-after:avoid !important; break-after:avoid-page !important}
+*/
+/*" page-break-after: avoid !important; } */
+p.vyp-ldo-title-divider {  margin-top: 0.1cm; margin-bottom: 0cm; line-height: 0.1cm }
+/* table.vyp-ldo-table, table.vyp-ldo-ekg-table {width: 100%; border-collapse: collapse; font-size:8pt} */
+div.vyp-ldo-table, div.vyp-ldo-ekg-table {width: 100%; font-size:12pt; margin-top:0.1cm}
+div.vyp-ldo-td-1 {font-weight: bold; font-size: 12pt}
+div.vyp-ldo-ekg-td-1 {font-weight: bold; font-size: 12pt}
+/*div.vyp-ldo-ekg-td-2 {margin-left:0.5cm}
+ div.vyp-ldo-td-2 {margin-left:0.5cm} */
+.vyp-ldo-td-2 {font-size:12pt;}
+ul.vyp-ldo-ekg-table {margin-left:0; padding-left:0; margin-top:0; margin-bottom:0;}
+ul.vyp-ldo-ekg-table li {font-size:11pt;margin-bottom: 0.05cm;}
+ul.vyp-ldo-table {margin-left:0; padding-left:0; margin-top:0;  margin-bottom:0; }
+ul.vyp-ldo-table li {font-size:12pt;margin-bottom:  0.05cm;}
+span.bold {font-weight:bold; }
+p.vyp-ldo-zakl-p {margin-top: 0.05cm;;margin-bottom: 0.05cm; font-size:11pt !important; }
+
+td.vyp-ldo-ekg-td-1 {width: 10%}
+td.vyp-ldo-td-1 {width: 10%; word-break: break-all}
+td.vyp-ldo-td-2 {width: 15%; word-break: break-all}
+table.vyp-ldo-table td, table.vyp-ldo-ekg-table td {border:1pt solid black}
+div.vyp-ldo-div tr td {page-break-inside: avoid}
+/* таблица вместо формы */
+table.vyp-form-table {width: 100%}
+td.vyp-form-td {font-size: 12pt}
+td.vyp-form-td-e {font-size: 12pt}
+td.underline {border-bottom: 1pt solid black; font-size:10pt}
+/* for manual write */
+hr.for-manual-write {margin-top:0.5cm !important;line-height: 0.1cm !important;margin-bottom: 0cm !important;}
+/* for k-editor */
+
+.vyp-diag-edt:not(.vyp-edt-big .vyp-edt-big2) p { font-size:12pt;}
+.vyp-diag-edt:not(.vyp-edt-big .vyp-edt-big2) ul {  font-size:large;}
+.vyp-diag-edt:not(.vyp-edt-big .vyp-edt-big2) ol {  font-size:large;}
+
+.vyp-edt-big {font-size: 12pt !important; font-weight:bold; color: Black; line-height:14pt !important;
+    margin-top: 0.1cm; margin-bottom: 0.1cm;}
+.vyp-edt-big p {font-size: 12pt  !important;; font-weight:bold; color: Black; line-height:14pt !important;
+    margin-top: 0.1cm; margin-bottom: 0.1cm;}
+.vyp-edt-big ul {font-size: 12pt !important;  font-weight:bold; color: Black;  line-height:14pt !important;
+    margin-top: 0.1cm; margin-bottom: 0.1cm; }
+.vyp-edt-big ol {font-size: 12pt !important;  font-weight:bold; color: Black;  line-height:14pt !important;
+    margin-top: 0.1cm; margin-bottom: 0.1cm; }
+
+.vyp-edt-big2 {font-size: 12pt; font-weight:normal; color: Black;
+    margin-top: 0.1cm; margin-bottom: 0.1cm;}
+.vyp-edt-big2 p {font-size: 12pt; font-weight:normal; color: Black;
+    margin-top: 0.1cm; margin-bottom: 0.1cm;}
+.vyp-edt-big2 strong {font-size: 12pt; font-weight:normal; color: Black;
+    margin-top: 0.1cm; margin-bottom: 0.1cm;}
+.vyp-edt-big2 ul {font-size: 12pt;  font-weight:normal; color: Black;
+    margin-top: 0.1cm; margin-bottom: 0.1cm; }
+.vyp-edt-big2 ol {font-size: 12pt;  font-weight:normal; color: Black;
+    margin-top: 0.1cm; margin-bottom: 0.1cm; }
+.vyp-edt-big2 span {font-size: 12pt !important;  font-weight:normal !important; color: Black !important;
+    margin-top: 0.1cm !important; margin-bottom: 0.1cm !important; }
+
+.vyp-diag-edt[rel="vyp_059"] {font-size:12pt !important; line-height:14pt !important;} /* результат - сборка из формы */
+.vyp-diag-edt[rel="vyp_059"] p {font-size:12pt !important; line-height:14pt !important; margin-top:0 !important; margin-bottom:0 !important} /* результат - сборка из формы */
+.vyp-diag-edt[rel="vyp_059"] ul {font-size:12pt !important; line-height:14pt !important;} /* результат - сборка из формы */
+.vyp-diag-edt[rel="vyp_059"] ol {font-size:12pt !important; line-height:14pt !important;} /* результат - сборка из формы */
+
+.vyp-diag-edt[rel="vyp_060"] {font-size:12pt !important; line-height:14pt !important;} /* рекомендации */
+.vyp-diag-edt[rel="vyp_060"] p {font-size:12pt !important; line-height:14pt !important; margin-top:0 !important; margin-bottom:0 !important} /* рекомендации */
+.vyp-diag-edt[rel="vyp_060"] ul {font-size:12pt !important; line-height:14pt !important;} /* рекомендации */
+.vyp-diag-edt[rel="vyp_060"] ol {font-size:12pt !important; line-height:14pt !important;} /* рекомендации */
+
+div[rel="vyp_095"] {font-size:12pt !important; line-height:14pt !important;} /*Зав отд */
+div[rel="vyp_095"] p {font-size:12pt !important; line-height:14pt !important; margin-top:0 !important; margin-bottom:0 !important} /* результат - сборка из формы */
+div[rel="vyp_095"] ul {font-size:12pt !important; line-height:14pt !important;} /* результат - сборка из формы */
+div[rel="vyp_095"] ol {font-size:12pt !important; line-height:14pt !important;} /* результат - сборка из формы */
+
+div[rel="vyp_096"] {font-size:12pt !important; line-height:14pt !important;} /* Леч. врач */
+div[rel="vyp_096"] p {font-size:12pt !important; line-height:14pt !important; margin-top:0 !important; margin-bottom:0 !important} /* рекомендации */
+div[rel="vyp_096"] ul {font-size:12pt !important; line-height:14pt !important;} /* рекомендации */
+div[rel="vyp_096"] ol {font-size:12pt !important; line-height:14pt !important;} /* рекомендации */
+
+.vyp-diag-edt[rel="vyp_010"] {font-size:12pt !important; line-height:14pt !important;} /* анамнез */
+.vyp-diag-edt[rel="vyp_010"] p {font-size:12pt !important;  line-height: 14pt !important;margin-top:0 !important; margin-bottom:0 !important}
+    /*margin-top:0 !important; margin-bottom:0 !important} /* анамнез */
+.vyp-diag-edt[rel="vyp_010"] ul {font-size:large !important} /* анамнез */
+.vyp-diag-edt[rel="vyp_010"] ol {font-size:large !important} /* анамнез */
+
+.vyp-diag-edt[rel="vyp_012"] {font-size:12pt !important; line-height:14pt !important;} /* объективный статус */
+.vyp-diag-edt[rel="vyp_012"] p {font-size:12pt !important; line-height:14pt !important; margin-top:0 !important; margin-bottom:0 !important}
+.vyp-diag-edt[rel="vyp_012"] ul {font-size:12pt !important; line-height:14pt !important;}
+.vyp-diag-edt[rel="vyp_012"] ol {font-size:12pt !important; line-height:14pt !important;}
+
+.vyp-diag-edt[rel="vyp_020"] {font-size:12pt !important; line-height:14pt !important;} /* другие исследования */
+.vyp-diag-edt[rel="vyp_020"] p {font-size:12pt !important; line-height:14pt !important; margin-top:0 !important; margin-bottom:0 !important} /* другие исследования */
+.vyp-diag-edt[rel="vyp_020"] ul {font-size:12pt !important; line-height:14pt !important;} /* другие исследования */
+.vyp-diag-edt[rel="vyp_020"] ol {font-size:12pt !important; line-height:14pt !important;} /* другие исследования */
+
+.vyp-diag-edt[rel="vyp_030"] {font-size:12pt !important; line-height:14pt !important;} /* консультации */
+.vyp-diag-edt[rel="vyp_030"] p {font-size:12pt !important; line-height:14pt !important; margin-top:0 !important; margin-bottom:0 !important} /* консультации */
+.vyp-diag-edt[rel="vyp_030"] ul {font-size:12pt !important; line-height:14pt !important;} /* консультации */
+.vyp-diag-edt[rel="vyp_030"] ol {font-size:12pt !important; line-height:14pt !important;} /* консультации */
+
+.vyp-diag-edt[rel="vyp_040"] {font-size:12pt !important; line-height:14pt !important;} /* лечение и результаты */
+.vyp-diag-edt[rel="vyp_040"] p {font-size:12pt !important; line-height:14pt !important; margin-top:0 !important; margin-bottom:0 !important} /* лечение и результаты */
+.vyp-diag-edt[rel="vyp_040"] ul {font-size:12pt !important; line-height:14pt !important;} /* лечение и результаты */
+.vyp-diag-edt[rel="vyp_040"] ol {font-size:12pt !important; line-height:14pt !important;} /* лечение и результаты */
+
+.vyp-ldo-title-0 {display:none;}
+p.vyp-ldo-title-divider {display:none;}
+/* инструментальные иссл-я,лаборат */
+/*p.vyp-ldo-title {  display: block !important; float:none !important; margin-top: 0.2cm; margin-bottom: 0.1cm;  font-size: 11pt; font-weight: bold; page-break-after:avoid !important; break-after:avoid-page !important} */
+/*
+p.vyp-ldo-title:before {clear:both;}
+*/
+p.vyp-ldo-title {  margin-top: 0.2cm; margin-bottom: 0.1cm;  font-size: 12pt; font-weight: bold; page-break-inside:avoid !important}
+.vyp-rez-form p.vyp-zag {display:none;}
+table.e-2 {margin-top: 0.2cm;}
+table.e-2 td {font-size: 12pt;}
+table.e-2 td div{font-size: 12pt;}
+li {orphans: 2; widows:2}
+/* fiscal-report on whole page */
+.fiscal-title {font-size:12pt !important; text-align: center !important}
+.fiscal {font-size:11pt !important}
+.fiscal-small {font-size:9pt !important}
+p.vyp-diag-small {margin-top:-50px !important}
+
+/* анализы из базы GEtAnalyze.fdb */
+div.ext-anal2 {margin-top:3px;}
+table.ext-anal-table2 {word-break:normal; border-collapse:collapse; width: 100% ;  }
+table.ext-anal-sub2 {width: 100% ;   cellpadding: 0; border-collapse:collapse}
+td.ext-anal-table-td2 {color: black; border: 1px solid black; word-break:normal}
+td.ext-anal-table-td-left-right-border {color:black; border-left:1px solid black; border-right:1px solid black; word-break:normal}
+td.ext-anal-sub-table-td {color: black;  word-break:normal}

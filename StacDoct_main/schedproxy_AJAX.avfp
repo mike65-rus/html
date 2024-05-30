@@ -1,0 +1,20 @@
+<%
+LOCAL AjaxResponse,lcAction
+lcAction=oRequest.QueryString("action2")
+DO CASE
+	CASE lcAction=="call_service"
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.appendBlank=.F.
+        oParam=oJSON.parse(oRequest.Form("parameter"))	
+		oJSON=NULL
+        CLEAR CLASS json2		
+		oSchedProxy=NEWOBJECT("SchedProxy","SchedProxy.prg")
+		lcStr=oSchedProxy.CallService(oParam)
+		oSchedProxy=NULL
+		CLEAR CLASS SchedProxy        
+		oResponse.ContentType = "text/xml"		
+		oResponse.Write(lcStr)
+        oResponse.Flush
+        lcHTMLout=[]		
+ENDCASE
+%>

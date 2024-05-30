@@ -1,0 +1,230 @@
+<%= include("header.avfp") %>
+
+
+<link rel="stylesheet" type="text/css" href="html/css/lab-screen.css" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/lab-print.css" media="print">
+<link rel="stylesheet" type="text/css" href="html/css_pk/ldo-pk-print.css" media="print">
+<link rel="stylesheet" type="text/css" href="html/css_pk/schedule-pk.css" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css_pk/visits.css" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/pk.css" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/vyp-screen.css" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/vyp-print.css" media="print">
+<link rel="stylesheet" type="text/css" href="html/pk/app/css/app.css" media="screen">
+
+<!--
+<link href="javascript/jquery.ytLoad-master/ytLoad.jquery.css" rel="stylesheet" type="text/css">
+-->
+<!--
+<link href="javascript/pace/pace-radar.css" rel="stylesheet" type="text/css">
+-->
+</HEAD>
+<BODY > <!--data-spy="scroll" data-target=".subnav" data-offset="50" -->
+<%= include("headerInfo.avfp") %>
+<%= include("loginInclude.avfp") %>
+<%
+  IF !IsDoctor()
+     oResponse.Redirect(oProp.ScriptPath)
+  ENDIF
+%>
+
+<div class="container-fluid">
+ <!--- автоматическое перенаправление на Login.avfp, если нет логина или таймаут --->
+
+<!--
+    <div class="well well-small span2" style="padding-top:10px">
+            <ul class="nav nav-tabs nav-stacked main-menu" id="main-menu">
+                <li><a href="#/my-pacients" rel="my-pac">Мои пациенты</a></li>
+            </ul>
+    </div>
+-->
+    <div class="row-fluid">
+        <div class="span12">
+            <div id="app" >
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<%=include("footer.avfp")%>
+<STYLE TYPE="text/css" media="screen">
+   body { font-size: 1em;}
+   .div-invisible {display:none}
+   	.pk-case-div {
+           width: 100%;
+           height: 550px;
+/*           border: solid 1px black; */
+           overflow: scroll;
+   	}
+    .k-icon-24 {
+        font-size: 24px; /* Sets icon size to 24px */
+    }
+    .k-icon-32 {
+        font-size: 32px; /* Sets icon size to 32px */
+    }
+    .k-icon-48 {
+        font-size: 48px; /* Sets icon size to 48px */
+    }
+    .k-icon-64 {
+        font-size: 64px; /* Sets icon size to 64px */
+    }
+.k-link {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.pk_exams_div {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.visit-label {
+    float: left;
+    width: 20%;
+    text-align: right;
+    margin-right: 0.5em;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+.form-field-no-caption {
+    margin-left: 20%;
+    padding-left: 0.5em;
+}
+.clear {
+    clear: both;
+    margin-top: 5px;
+}
+.input-large-font {
+    font-weight: bold;
+    font-size: 1.3em;
+    padding: 0.5em;
+}
+pre {
+ white-space: pre-wrap !important;       /* css-3 */
+ white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap !important;      /* Opera 4-6 */
+ white-space: -o-pre-wrap !important;    /* Opera 7 */
+ word-wrap: break-word !important;       /* Internet Explorer 5.5+ */
+ word-break: normal !important;
+}
+.pre-large-font {
+    font-size: 1.1em;
+}
+/* input[type=checkbox] */
+.check_row
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(1.7); /* IE */
+  -moz-transform: scale(1.7); /* FF */
+  -webkit-transform: scale(1.7); /* Safari and Chrome */
+  -o-transform: scale(1.7); /* Opera */
+  padding: 10px;
+}
+.tree-plus-minus {
+  -ms-transform: scale(1.7); /* IE */
+  -moz-transform: scale(1.7); /* FF */
+  -webkit-transform: scale(1.7); /* Safari and Chrome */
+  -o-transform: scale(1.7); /* Opera */
+}
+.margin-right-10px {
+    margin-right: 10px !important;
+}
+</style>
+
+<% sVer=SYS(2015)
+        sVer="?ver="+sVer
+        sVer=""
+ %>
+
+<!--
+<script src="javascript/jquery.ytLoad-master/jquery.transit.js"></script>
+<script src="javascript/jquery.ytLoad-master/ytLoad.jquery.js"></script>
+-->
+<!--
+<script src="html/js/kendoProgressOff.js"></script>
+
+<script src="javascript/pace/pace.min.js"></script>
+-->
+
+<!--
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/pkCommon.js]+sVer %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/dataModels.js]+sVer %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/newCaseModel.js]+sVer %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/casesModel.js]+sVer %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/caseModel.js]+sVer %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/activeCases.js]+sVer %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/ticketsModel.js] %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/schedulerModel.js] %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/visitsModel.js] %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/visitModel.js] %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/examsModel.js]+sVer %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/appRouter.js]+sVer %>" ></script>
+<script src="<%=[html/]+NVL(oProp.action,[pk])+[/startApp.js]+sVer %>" ></script>
+-->
+<% * scripts %>
+<% lcBuild=""
+    IF FILE(oProp.AppStartPath+"html\pk\app\production.txt")
+        lcBuild="-build"
+    ENDIF
+%>
+<script src="html/pk/app/libs/require-min.js" data-main="html/pk/app/main<%=lcBuild%>"></script>
+
+
+
+<script>
+// this script disables F5 and Alt+R for window refresh
+document.onkeydown = function(e){
+  switch (e.keyCode){
+        case 116 : //F5 button
+            if (!e.ctrlKey) {
+                e.returnValue = false;
+                e.keyCode = 0;
+                return false;
+            }
+        case 82 : //R button
+            if (e.ctrlKey){
+                e.returnValue = false;
+                e.keyCode = 0;
+                return false;
+            }
+    }
+}
+
+/*
+window.onerror = function(msg, url, line, col, error) {
+   // Note that col & error are new to the HTML 5 spec and may not be
+   // supported in every browser.  It worked for me in Chrome.
+   var extra = !col ? '' : '\ncolumn: ' + col;
+   extra += !error ? '' : '\nerror: ' + error;
+
+   // You can view the information in an alert to see things working like this:
+   try {
+    alertify.error("ОШИБКА ПРОГРАММЫ: Обновите окно браузера или обратитесь к разработчику!\n"+ msg + "\nurl: " + url + "\nline: " + line + extra,0);
+   }
+   catch (e) {
+
+   }
+
+   // TODO: Report this error via ajax so you can keep track
+   //       of what pages have JS issues
+
+   var suppressErrorAlert = true;
+   // If you return true, then error alerts (like in older versions of
+   // Internet Explorer) will be suppressed.
+   return suppressErrorAlert;
+};
+*/
+//
+
+</script>
+</body>
+</html>

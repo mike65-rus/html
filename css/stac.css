@@ -1,0 +1,204 @@
+#ib_doc_autoComplete_option_selected {
+    border-width: 5px;
+    border-color: indianred;
+}
+#doc_tree .k-sprite {
+    background-image: url("../images/coloricons-sprite.png");
+}
+.rootfolder { background-position: 0 0; }
+.folder { background-position: 0 -16px; }
+.pdf { background-position: 0 -32px; }
+.html { background-position: 0 -48px; }
+.image { background-position: 0 -64px; }
+
+div.k-grid-content {
+    min-height:150px;
+}
+.f-table {
+    width: 100%;
+}
+.input-div {
+    width: 100%;
+}
+.form-input {
+    width: 100%;
+    /* padding: 10px; border: 2px #000 solid; */
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.divlab, .divldo, .ib-doc-div {
+    width: 100%;
+    height: 550px;
+    border: solid 1px black;
+    overflow: scroll;
+}
+.div-invisible {
+    display: none;
+}
+.k-blockNote
+{
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-image: url(../images/notebook_edit.png);
+}
+.k-autoCompleteText
+{
+    background: 50% 50% no-repeat url(../images/Search_16x16.png);
+}
+.k-speaker
+{
+    background: 50% 50% no-repeat url(../images/microphone.png);
+}
+.k-unda
+{
+    background: 50% 50% no-repeat url(../images/Undo_16x16.png);
+}
+.k-reda
+{
+    background: 50% 50% no-repeat url(../images/Redo_16x16.png);
+}
+
+.k-i-block-note
+{
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-image: url(../images/notebook_edit.png);
+}
+.k-i-auto-complete-text
+{
+    background: 50% 50% no-repeat url(../images/Search_16x16.png);
+}
+.k-i-speaker
+{
+    background: 50% 50% no-repeat url(../images/microphone.png);
+}
+.k-i-unda
+{
+    background: 50% 50% no-repeat url(../images/Undo_16x16.png);
+}
+.k-i-reda
+{
+    background: 50% 50% no-repeat url(../images/Redo_16x16.png);
+}
+
+td[role="gridcell"] p {
+    margin-bottom: 3px;
+    margin-top: 2px;
+    line-height: 0.9em;
+}
+td[role="gridcell"]  {
+    font-size: 0.9em;
+}
+th[role="columnheader"]  {
+    font-size: 0.9em;
+}
+/*
+.nav-tabs > li .close {
+    margin: -2px 0 0 10px;
+    font-size: 18px;
+}
+*/
+.grid1 {
+    padding-bottom: 10px;
+    height: 100%;
+}
+
+.top-minus-15 {
+    margin-top: -18px;
+}
+.top-minus-10 {
+    margin-top: -13px;
+}
+/*.well-ib-header {padding-top: 5px; padding-bottom:35px} */
+/*   td, th {font-size: 0.9em;} */
+
+/* for autoComplete list of users-notebooks */
+div.border-bottom {
+    border-bottom: solid 1px;
+}
+div.user-note p
+{
+    margin-top: 0.2em;
+    margin-bottom: 0px;
+    font-size: 1em;
+    font-weight: normal;
+}
+div.user-note blockquote {
+    /*                  font: 10px/18px normal helvetica, sans-serif; */
+    font-size: 1em;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    padding-left: 15px;
+    border-left: 3px solid #ccc;
+}
+#speaker_div_start {
+    float: right;
+}
+#speaker_start_button {
+    border: 0;
+    background-color:transparent;
+    padding: 0;
+}
+#speaker_results {
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    min-height: 150px;
+}
+.interim {
+    color: gray;
+}
+.final {
+    color: black;
+    padding-right: 3px;
+}
+#speaker-editor {
+    font-size: 14px !important;
+    font-weight: bold !important;
+    padding: 15px !important;
+    text-align: left !important;
+    min-height: 150px !important;
+}
+#speaker-field-title {
+    font-size: 14px !important;
+    font-weight: bold !important;
+    margin-top: 10px !important;
+}
+.speaker-toolbar-button {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    width: 40px;
+}
+.print-margin {
+    width: 100px;
+}
+table#print-options-table
+{
+    border-collapse:separate;
+    border-spacing:0 5px;
+}
+table#print-options-table td
+{
+    vertical-align: middle;
+}
+td[role='gridcell'] a {
+    /*        font-weight: bold; */
+    color: inherit !important;
+}
+.k-link {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+#notebook-grid {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

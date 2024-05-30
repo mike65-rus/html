@@ -1,0 +1,113 @@
+<%= include("header.avfp") %>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="6%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=114% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+<%  
+ *Settings
+ lnTotPerPage  =10        && total records displayed per page
+ lnpagenumbers =10        && how many page numbers to show
+ lnStart=VAL(oRequest.querystring("page"))  && what page number are we on
+ lcButton=oRequest.querystring("nav")       && which way are we going: next, previous, first, last
+ 
+*MySQL
+    oSQL = CREATEOBJECT("AVFPsql")
+	lcLast=NVL(oRequest.Form("lastname"),"")
+	oSQL.LogIn(['Driver={MySQL ODBC 3.51 Driver}; Server=thetechconsult.db.6054633.hostedresource.com; Database=thetechconsult; Uid=YourUserID; Pwd=YourPassWord;'])
+	oSQL.cSQLCursor = "tCursor"
+	oSQL.Execute([SELECT option_id as First,option_name as Last,option_value as City  ]+;
+              [ FROM wp_options ]+;
+              [ WHERE option_name like '] +lcLast +[%' order by option_id] )
+              
+*create page numbers
+ START=0
+ lnPageMax = 0
+ lnPageBegin = 0
+ lnRowCount = RECCOUNT()
+ SET PROC to oProp.AppStartPath+'prg\pages' ADDITIVE   && Make sure you use ADDITIVE or bad things happen!
+ lcPages= pages(lnTotPerPage,lnpagenumbers,lnStart,lcButton,lnRowCount)
+%>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><font size="4"><b><a href="<%=oProp.ScriptPath %>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    MySQL wp_options from WordPress Database </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b> <font face><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></b></font></font><FORM action="<%= oProp.ScriptPath+[?action=]+oProp.Action %>" method='POST'>
+        <div align="left">
+          <table cellpadding="2" cellspacing="0" width="411">
+        <tr>
+          <td width="420"><font face="ms sans serif,helvetica" size="1">Option Name:</font>
+            <input TYPE="text" NAME="lastname" SIZE="17" MAXLENGTH="100"> <input NAME="submit" value="Search" type="submit">
+            <input type="button" value="Reset" name="B1" onclick="window.location='&lt;%= oProp.ScriptPath+[?action=]+oProp.Action %&gt;';">
+            <font face><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="window.location = '<%=oProp.ScriptPath%>';"></font></small></font></td>
+      </table>
+        </div></FORM>
+                  </td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+                      
+                      <div align="center">
+                        <table border="0" cellpadding="2" width="95%">
+                          <tr>
+                            <th width="23%" bgcolor="#C0C0C0">
+                              <p align="left">Option ID</p>
+                            </th>
+                            <th width="37%" bgcolor="#C0C0C0">
+                              <p align="left">Option Name</p>
+                            </th>
+                            <th width="28%" bgcolor="#C0C0C0">
+                              <p align="left">Option Value</p>
+                            </th>
+                          </tr>
+<% FOR lnX = lnPageBegin TO lnPageMax 
+        IF lnX <= lnRowCount
+			          GOTO lnX && MOD() is for alternating color for rows%>                          
+                          <tr>
+                            <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="23%"><font face="helvetica, arial" size="2">&lt;%=tCursor.first%&gt;</font></td>
+                            <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="37%"><font face="helvetica, arial" size="2">&lt;%=tCursor.Last%&gt;</font></td>
+                            <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="28%"><font face="helvetica, arial" size="2" color="#000000">
+                            &lt;%=tCursor.City %&gt;</font></td>
+                          </tr>
+<%		ENDIF
+   	ENDFOR %>  
+                        </table>
+                      </div>
+                     
+                      <div align="center">
+                        <table border="0" cellpadding="2" width="67%">
+                          <tr>
+                            <td width="100%">
+                              <p align="center"><font color="#0000FF">
+<%= lcPages %>
+                              </font></td>
+                          </tr>
+                        </table>
+                      </div>
+                      <p align="left"><font size="2">Total Options=&lt;%=reccount()%&gt;</font>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+            <P>&nbsp;</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%= include("footer.avfp") %>

@@ -1,0 +1,1195 @@
+<%
+LOCAL AjaxResponse,lcAction
+*IF !(oSession.VALUE("authenticated"))
+IF .F.
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+
+	DO CASE
+	    CASE lcAction=='getArmDocumentation'
+    		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+	    	ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+    		oIB=NEWOBJECT("IB","IB.prg")
+            nRet=oIb.GetArmDocumentation(oProp.AppStartPath)
+            CLEAR CLASS IB
+    		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.AppendBlank=.F.
+            AjaxResponse.records=nRet
+            oJSON.keyforcursors='links'
+            lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('links'))
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+	    CASE lcAction=='openIbForEdit'
+        	sAskId=ALLTRIM(oRequest.QueryString("ask_id"))
+            iUserId=oSession.Value('uid')
+    		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+	    	ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+    		oIB=NEWOBJECT("IB","IB.prg")
+            sRet=oIb.OpenIbForEdit(sAskId,iUserId)
+            oIB=NULL
+            CLEAR CLASS IB
+    		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.AppendBlank=.F.
+            IF !EMPTY(sRet)
+                AjaxResponse.error=sRet
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=RECCOUNT('ib_changes')
+                oJSON.keyforcursors='ib_changes'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ib_changes'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+
+	  CASE lcAction=='update_ib_recomendation'
+	    nRecomId=VAL(ALLTRIM(oRequest.QueryString("recomid")))
+	    nCancel=VAL(ALLTRIM(oRequest.QueryString("cancel")))
+	    sExt1=ALLTRIM(oRequest.QueryString("ext1"))
+	    sExt2=ALLTRIM(oRequest.QueryString("ext2"))
+	    sExt3=ALLTRIM(oRequest.QueryString("ext3"))
+
+
+
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+        sRet=oIb.UpdateRecomendation(nRecomId,nCancel,sExt1,sExt2,sExt3,"myRecoms")
+        oIB=NULL
+        CLEAR CLASS IB
+        IF !EMPTY(sRet)
+		    AjaxResponse.error=sRet+"<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+        ELSE
+	        oJSON.AppendBlank=.F.
+    		AjaxResponse.records=RECCOUNT('myrecoms')
+            oJSON.keyforcursors='myrecoms'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('myrecoms'))
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+        ENDIF
+	  CASE lcAction=='get_ib_recomendation'
+	    nRecomId=VAL(ALLTRIM(oRequest.QueryString("recomid")))
+    	sAskId=ALLTRIM(oRequest.QueryString("ask_id"))
+    	sGlobalVN=ALLTRIM(oRequest.QueryString("global_vn"))
+    	nDnSt=VAL(ALLTRIM(oRequest.QueryString("dnst")))
+        sDateAsk=ALLTRIM(oRequest.QueryString("dateask"))
+        sDateOut=ALLTRIM(oRequest.QueryString("dateout"))
+    	nUserId=VAL(ALLTRIM(oRequest.QueryString("user_id")))
+    	iMode=VAL(ALLTRIM(oRequest.QueryString("mode")))
+
+
+
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+        sRet=oIb.GetRecomendations(nRecomId,sAskId,sGlobalVN,nDnSt,sDateAsk,sDateout,nUserId,iMode,"myRecoms")
+        oIB=NULL
+        CLEAR CLASS IB
+        IF !EMPTY(sRet)
+		    AjaxResponse.error=sRet+"<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+        ELSE
+	        oJSON.AppendBlank=.F.
+    		AjaxResponse.records=RECCOUNT('myrecoms')
+            oJSON.keyforcursors='myrecoms'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('myrecoms'))
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+        ENDIF
+	  CASE lcAction=='get_all_recomendations'
+        iUserId=oSession.Value('uid')
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+        sRet=oIb.GetAllRecomendations(iUserId,"all_recoms")
+        oIB=NULL
+        CLEAR CLASS IB
+        IF !EMPTY(sRet)
+		    AjaxResponse.error=sRet+"<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+        ELSE
+	        oJSON.AppendBlank=.F.
+    		AjaxResponse.records=RECCOUNT('all_recoms')
+            oJSON.keyforcursors='all_recoms'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('all_recoms'))
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+        ENDIF
+	  CASE lcAction=='newib'
+*		=STRTOFILE('newib '+TIME(),'e:\gb2\newib.txt')
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+		lcPath=UPPER(oProp.AppStartPath)
+		IF [C:\SITES] $ lcPath
+		    nRet=oIB.GetNewIB(DATE(2019,01,01),"NewIb",oSession.Value('uid'))
+		ELSE
+		    nRet=oIB.GetNewIB(DATE()-31,"NewIb",oSession.Value('uid'))
+		ENDIF
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        oJSON.AppendBlank=.F.
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='newib'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('newib'))
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+	  CASE lcAction=='zakrib'
+    	lcAskId=ALLTRIM(oRequest.QueryString("ask_id"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIB.GetIbByAskId(lcAskId,"curib",oSession.Value('uid'))
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='curib'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('curib'))
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="get_cancer_data"
+    	lcRegNum=ALLTRIM(oRequest.QueryString("reg_num"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+		oJSON.AppendBlank=.F.
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+		AddProperty(AjaxResponse,"records", 1)  &&Add a property that will indicate the number of matching zip codes
+        oCancer=NewObject("CANCER","CANCER.prg")
+        oCanc=oCancer.GetByRegNum(lcRegNum)
+        oCancer=NULL
+        CLEAR CLASS CANCER
+*        CREATE CURSOR CANCER_DATA (REG_NUM C(50),FIO C(100),BIRTHDAY D)
+ *       SELECT CANCER_DATA
+ *       APPEND BLANK
+  *      GATHER NAME oCanc MEMO
+       		AjaxResponse.records=RECCOUNT('cancer_data')
+            oJSON.keyforcursors='cancer_data'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('cancer_data'))
+       		oJSON=NULL
+       		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+
+	CASE lcAction=="do_zakrib_me"
+    	lcAskId=ALLTRIM(oRequest.QueryString("ask_id"))
+    	lnUser=VAL(ALLTRIM(NVL(oRequest.QueryString("uid"),"")))
+    	lnLastDoct=VAL(ALLTRIM(NVL(oRequest.QueryString("last_doct"),"")))
+    	IF EMPTY(lnUser)
+    	    lnUser=oSession.Value('uid')
+    	ENDIF
+    	bUid2=.F.
+    	IF IsUserInRole("VRACH_ORIT")
+    	    bUid2=.T.
+    	ENDIF
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+		sRet=oIB.SaveZakr(lcAskId,lnUser,lnLastDoct,bUid2)
+		oIB=NULL
+		CLEAR CLASS IB
+		IF !EMPTY(sRet)
+		    IF !("CANCER" $ sRet)
+		        AjaxResponse.error="Ошибка операции на сервере!<br>"+sRet
+		    ELSE
+		        AjaxResponse.error=sRet
+		    ENDIF
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+   	    	lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="getOtdUsers"
+    	lcOtd1=ALLTRIM(oRequest.QueryString("otd1"))
+    	lcOtd2=ALLTRIM(oRequest.QueryString("otd2"))
+    	lnMode=VAL(oRequest.QueryString("mode"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("USER")
+		oUserH=NEWOBJECT("UserHlp","USER.prg")
+		nRet=oUserH.GetUsersByShef(lcOtd1,lcOtd2,"otd1",lnMode,oSession.Value('uid'))
+		oUserH=NULL
+		CLEAR CLASS UserHlp
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        SELECT OTD1
+	        COUNT FOR !DELETED() TO t
+       		AjaxResponse.records=t
+            oJSON.keyforcursors='otd1'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('otd1'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="createPerevod"
+        lcAskId=ALLTRIM(oRequest.QueryString("ask_id"))
+        lcDate=ALLTRIM(oRequest.QueryString("date"))
+        lcTime=ALLTRIM(NVL(oRequest.QueryString("time"),""))
+    	lcOtd1=ALLTRIM(oRequest.QueryString("otd1"))
+    	lcOtd2=ALLTRIM(oRequest.QueryString("otd2"))
+*    	lnUserID=VAL(oRequest.QueryString("user_id"))
+        lnCreator=oSession.Value('uid')  && creator
+    	lnNewUserID=VAL(oRequest.QueryString("new_user_id"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("USER")
+		oIB=NEWOBJECT("IB","IB.prg")
+		sRet=oIb.CreatePerevod(lcAskId,lnCreator,lcDate,NULL,lcOtd1,lcOtd2,lnNewUserID,lcTime)
+		oIB=NULL
+		CLEAR CLASS IB
+		IF !EMPTY(sRet)
+		    AjaxResponse.error="Ошибка операции на сервере!<br>"+sRet
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        SELECT PERE
+	        COUNT FOR !DELETED() TO t
+       		AjaxResponse.records=t
+            oJSON.keyforcursors='pere'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('pere'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="getPerevodOtdels"
+    	lcOtd1=ALLTRIM(oRequest.QueryString("otd1"))
+    	lcOtd2=ALLTRIM(oRequest.QueryString("otd2"))
+    	lcNewOtd1=ALLTRIM(NVL(oRequest.QueryString("new_otd1"),""))
+    	lnMode=VAL(oRequest.QueryString("mode"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("USER")
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIb.GetPerevodOtdels(lcOtd1,lcOtd2,"otd1",lnMode,oSession.Value('uid'),lcNewOtd1)
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        SELECT OTD1
+	        COUNT FOR !DELETED() TO t
+       		AjaxResponse.records=t
+            oJSON.keyforcursors='otd1'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('otd1'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="getUsersByOtdel"
+    	lcOtd1=ALLTRIM(oRequest.QueryString("otd1"))
+    	lnMode=VAL(oRequest.QueryString("mode"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("USER")
+		oUserH=NEWOBJECT("UserHlp","USER.prg")
+		nRet=oUserH.GetUsersByOtdel(lcOtd1,"otd1",lnMode,.T.)
+		oUserH=NULL
+		CLEAR CLASS UserHlp
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        SELECT OTD1
+	        COUNT FOR !DELETED() TO t
+       		AjaxResponse.records=t
+            oJSON.keyforcursors='otd1'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('otd1'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="getAllUsers"
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("USER")
+		oUserH=NEWOBJECT("UserHlp","USER.prg")
+		nRet=oUserH.GetAllUsers("USERS")
+		oUserH=NULL
+		CLEAR CLASS UserHlp
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        SELECT USERS
+	        COUNT FOR !DELETED() TO t
+       		AjaxResponse.records=t
+            oJSON.keyforcursors='users'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('users'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="getAllShefs"
+		lcDepartment=oRequest.QueryString("department")
+		oJSON=NEWOBJECT('json2','json2.prg')
+		oJSON.AppendBlank=.F.
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("USER")
+		oUserH=NEWOBJECT("UserHlp","USER.prg")
+		nRet=oUserH.GetAllShefs(VAL(lcDepartment),"SHEFS")
+		oUserH=NULL
+		CLEAR CLASS UserHlp
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        SELECT SHEFS
+	        COUNT FOR !DELETED() TO t
+       		AjaxResponse.records=t
+            oJSON.keyforcursors='shefs'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('shefs'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="getAllOtdels"
+		lcDepartment=oRequest.QueryString("department")
+		oJSON=NEWOBJECT('json2','json2.prg')
+		oJSON.AppendBlank=.F.
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("USER")
+		oUserH=NEWOBJECT("UserHlp","USER.prg")
+		nRet=oUserH.GetAllOtdels(VAL(lcDepartment),"OTD")
+		oUserH=NULL
+		CLEAR CLASS UserHlp
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        SELECT OTD
+	        COUNT FOR !DELETED() TO t
+       		AjaxResponse.records=t
+            oJSON.keyforcursors='otd'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('otd'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="get_users_by_otdel"
+		lcDepartment=oRequest.QueryString("department")
+		lcOtdel=oRequest.QueryString("otd_name")
+		oJSON=NEWOBJECT('json2','json2.prg')
+		oJSON.AppendBlank=.F.
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("USER")
+		oUserH=NEWOBJECT("UserHlp","USER.prg")
+		nRet=oUserH.GetUsersByOtdel(lcOtdel,"otd_users",1,.T.)
+		oUserH=NULL
+		CLEAR CLASS UserHlp
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+	        SELECT OTD_USERS
+	        COUNT FOR !DELETED() TO t
+       		AjaxResponse.records=t
+            oJSON.keyforcursors='otd_users'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('otd_users'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	CASE lcAction=="getIbDiags"
+		lcAskId=oRequest.QueryString("ask_id")
+		oJSON=NEWOBJECT('json2','json2.prg')
+		oJSON.AppendBlank=.F.
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIb.getIbDiags(lcAskId,"ibd",0,.T.)
+
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>"+sRet
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+       		AjaxResponse.records=nRet
+            oJSON.keyforcursors='ibd'
+   	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ibd'))
+       		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		    oResponse.Write(lcStr)
+   		    oResponse.Flush
+   		    lcHTMLout=[]
+		ENDIF
+	  CASE lcAction=='myib'
+	    lnCurUser=oSession.Value("uid")
+	    bIsOutedInQuery=NVL(oRequest.QueryString("outed"),"")
+		oJSON=NEWOBJECT('json2','json2.prg')
+		oJSON.AppendBlank=.F.
+		lnUser=VAL(NVL(oRequest.QueryString("uid"),"0"))
+		lcOtd=NVL(oRequest.QueryString("otd"),"")
+		lcFio=NVL(oRequest.QueryString("fio"),"")
+		lcFio=TRIM(lcFio)
+		lcMaxId=NVL(oRequest.QueryString("max_id"),"-1")
+
+        AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+        ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+        AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		IF (ISNULL(lnUser) and ISNULL(lcOtd)) OR (EMPTY(bIsOutedInQuery))
+		    && return Empty cursor
+            oIB=NEWOBJECT("IB","IB.prg")
+            nRet=oIB.GetMyIB("myib",lnCurUser,.F.,lcOtd,.F.)   && return Empty cursor
+
+            AjaxResponse.records=nRet
+            oJSON.keyforcursors='myib'
+
+            lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('myib'))
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+		ELSE
+
+            *lnUser=VAL(ALLTRIM(NVL(lnUser,"")))
+            lcOtd=ALLTRIM(NVL(lcOtd,""))
+            lbOuted=ALLTRIM(NVL(oRequest.QueryString("outed"),"false"))
+            IF lbOuted=="true"
+                lbOuted=.T.
+            ELSE
+                lbOuted=.F.
+            ENDIF
+    		bOmoCheck=oRequest.QueryString("omoCheck")
+	    	bOmoCheck=IIF(bOmoCheck=="true",.T.,.F.)
+
+*            =CompileIfNew("IB")
+            oIB=NEWOBJECT("IB","IB.prg")
+            nRet=oIB.GetMyIB("myib",lnUser,lbOuted,lcOtd,.F.,bOmoCheck,lcFio,lcMaxId)
+            IF nRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                IF nRet==-10
+                    AjaxResponse.error="Нет новых пациентов!<br>Повторите попытку позже!"
+                ENDIF
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                IF .F.
+                    * Evaluate News field
+                    oLab=NEWOBJECT("LAB","Lab.prg")
+                    oLdo=NEWOBJECT("LDO","Ldo.prg")
+                    IF !lbOuted and !bOmoCheck   && заглушка на новости в списке ИБ
+                        SELECT myib
+                        SCAN
+                            IF myib.USER_ID!=lnCurUser
+                                LOOP
+                            ENDIF
+                            lnRet=oLab.GetAnalList(myib.ASK_ID,TTOD(myib.DATE_ASK),DATE())
+                            IF lnRet!=0
+                                SELECT myIb
+                                LOOP
+                            ENDIF
+                            lnRet=RECCOUNT('labdata')
+                            lnRet2=oIb.GetAnalList(myib.ASK_ID,"ib_anal",1)
+                            IF lnRet2<0
+                                SELECT myIb
+                                LOOP
+                            ENDIF
+                            IF lnRet>lnRet2
+                                REPLACE NEWS WITH 1 IN myIb
+                            ENDIF
+        *                    IF .F. && заглушка на тест без ЛДО
+                                lnRet=oLdo.GetIsslList(myib.ASK_ID,"Ldo_data")
+                                IF lnRet<0
+                                    SELECT myIb
+                                    LOOP
+                                ENDIF
+                                lnRet2=oIb.GetLdoList(myib.ASK_ID,"ib_ldo",1)
+                                IF lnRet>lnRet2
+                                    REPLACE NEWS WITH IIF(!EMPTY(NEWS),3,2) IN myIb
+                                ENDIF
+         *                   ENDIF   && if .F.
+                        ENDSCAN
+                        oLab=NULL
+                        CLEAR CLASS LAB
+                        oLdo=NULL
+                        CLEAR CLASS Ldo
+                  ENDIF
+                  ENDIF
+                  IF .F.
+                        * Notes
+                        SELECT myIb
+                        SCAN
+                            sNotes=""
+                            IF myib.USER_ID!=lnCurUser
+                                LOOP
+                            ENDIF
+                            * Новости по новому
+                            lnRet2=oIb.GetNews(myIb.ASK_ID,"iNews")
+                            IF lnRet2>=0
+                                SELECT iNews
+                                iNews=0
+                                SCAN
+                                    IF SYS_ID==1    && LAB
+                                        iNews=IIF(!EMPTY(iNEWS),3,1)
+                                    ENDIF
+                                    IF SYS_ID==2    &&LDO
+                                        iNews=IIF(!EMPTY(iNEWS),3,2)
+                                    ENDIF
+                                ENDSCAN
+                                REPLACE NEWS WITH iNews IN myIb
+                            ENDIF
+                            *
+                            SELECT myIb
+                            nNotes=oIb.GetIbNotesQuick(myib.ASK_ID,"ib_notes")
+                            IF nNotes>0
+                                SELECT ib_notes
+                                SCAN
+                                    sNotes=sNotes+ALLTRIM(ib_notes.NOTE_CODE)+","
+                                ENDSCAN
+                                IF LEN(sNotes)>0
+                                    sNotes=LEFT(sNotes,LEN(sNotes)-1)
+                                ENDIF
+                            ENDIF
+                            REPLACE NOTES WITH sNotes IN myIb
+                            SELECT myIb
+                        ENDSCAN
+                  ENDIF
+                    * End of news field
+                    oIB=NULL
+                    CLEAR CLASS IB
+                IF nRet=0
+    *	            SELECT myIb
+    *	            APPEND BLANK
+                ENDIF
+                IF (NVL(oSession.value("DeviceType"),"desktop")=="mobile")
+                    REPLACE ALL BIRT WITH {} IN myIB
+                ENDIF
+                AjaxResponse.records=nRet
+                oJSON.keyforcursors='myib'
+
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('myib'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+		ENDIF
+	  CASE lcAction=='myib_act'
+      	lcOMO=ALLTRIM(NVL(oRequest.QueryString("omo"),""))
+      	lcUserRole=ALLTRIM(NVL(oRequest.QueryString("role"),"VRACH_OTD"))
+      	lcMode=ALLT(NVL(oSession.value("StacMode"),"st"))
+      	bOmo=.F.
+      	IF !EMPTY(lcOmo)
+      	    bOmo=.T.
+      	ENDIF
+
+		oJSON=NEWOBJECT('json2','json2.prg')
+       	lnUser=NVL(oSession.Value("uid"),0)
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIB.GetMyIBActions(lnUser,"actions",bOmo,lcUserRole,lcMode)
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='actions'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('actions'))
+    		oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+	  CASE lcAction='get_notes_list'
+		oJSON=NEWOBJECT('json2','json2.prg')
+*       	lnUser=NVL(oSession.Value("uid"),0)
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIB.GetPacNotes("notes")
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='notes'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('notes'))
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+	  CASE lcAction='get_ib_notes'
+    	lcAskId=ALLTRIM(oRequest.QueryString("ask_id"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+*       	lnUser=NVL(oSession.Value("uid"),0)
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIB.GetIbNotes(lcAskId,"ib_notes")
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='ib_notes'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ib_notes'))
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+	  CASE lcAction='update_ib_notes'
+    	lcAskId=ALLTRIM(oRequest.QueryString("ask_id"))
+    	lcCodes=ALLTRIM(oRequest.QueryString("codes"))
+      	lnUser=NVL(oSession.Value("uid"),0)
+
+		oJSON=NEWOBJECT('json2','json2.prg')
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+*		=CompileIfNew("IB")
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIB.UpdateIbNotes(lcAskId,lcCodes,lnUser)
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='ib_notes'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ib_notes'))
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+    CASE lcAction=='get_ib_recoms_by_ids'
+    	lcIds=ALLTRIM(oRequest.QueryString("ids"))
+
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIB.GetRecomsByIds(lcIds,"myrecoms")
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='myrecoms'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('myrecoms'))
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+    CASE lcAction=='bio_data'
+	    crudAction=ALLTRIM(oRequest.QueryString("crud_action"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+        oParam=oJSON.parse(oRequest.Form("data"))
+
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		oIB=NEWOBJECT("IB","IB.prg")
+		IF crudAction=="read"
+		    lcAskId=oParam.ask_id
+		    nRet=oIB.GetBioData(lcAskId)
+		ELSE
+		    nRet=oIB.SetBioData(oParam)
+		ENDIF
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='bio'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('bio'))
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+    CASE lcAction=='sys_events'
+	    crudAction=ALLTRIM(oRequest.QueryString("crud_action"))
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+        oParam=oJSON.parse(oRequest.Form("data"))
+
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		oSys=NEWOBJECT("SysEvents","SysEvents.prg")
+		nRet=-1
+		DO CASE
+		    CASE crudAction=="create"
+		        nRet=oSys.CreateEvent(oParam)
+		ENDCASE
+		oSys=NULL
+		CLEAR CLASS SysEvents
+		IF nRet<=0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='sys_events'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('sys_events'))
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+    CASE lcAction=='get_lab_descr'
+	    lcId=oRequest.QueryString("id")
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		oLabDescr=NEWOBJECT("LabDescr","LabDescr.prg")
+		nRet=-1
+        nRet=oLabDescr.getById(VAL(lcId))
+		oSys=NULL
+		CLEAR CLASS SysEvents
+		IF nRet<=0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='lab_descr'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('lab_descr'))
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+    CASE lcAction=='setStacMode'
+	    lcMode=oRequest.QueryString("mode")
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+        oSession.VALUE("StacMode",lcMode)
+	    AjaxResponse.error=oSession.VALUE("StacMode")
+
+        lcStr=oJSON.stringify(AjaxResponse)
+        oJSON=NULL
+        CLEAR CLASS JSON2
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+        oResponse.Write(lcStr)
+        oResponse.Flush
+        lcHTMLout=[]
+
+      CASE lcAction=='getStacMode'
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+	    AjaxResponse.error=oSession.VALUE("StacMode")
+
+        lcStr=oJSON.stringify(AjaxResponse)
+        oJSON=NULL
+        CLEAR CLASS JSON2
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+        oResponse.Write(lcStr)
+        oResponse.Flush
+        lcHTMLout=[]
+      CASE lcAction=='get_mobile_code'
+        iUserId=oSession.Value('uid')
+        AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+        ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+        AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+        oIB=NEWOBJECT("IB","IB.prg")
+        sRet=oIb.GetMobileCode(iUserId)
+        oIB=NULL
+        CLEAR CLASS IB
+        oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+        IF EMPTY(sRet)
+            AjaxResponse.error=sRet
+            lcStr=oJSON.stringify(AjaxResponse)
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+        ELSE
+            AjaxResponse.records=RECCOUNT('mob_code')
+            oJSON.keyforcursors='mob_code'
+            lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('mob_code'))
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+        ENDIF
+    CASE lcAction=='ib_plan_out_change'
+    	lcId=ALLTRIM(oRequest.QueryString("id"))
+    	lcIsVyp=ALLTRIM(oRequest.QueryString("is_vyp"))
+
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+
+		oIB=NEWOBJECT("IB","IB.prg")
+		nRet=oIB.ChangeIbPlanOut(VAL(lcId),VAL(lcIsVyp))
+		oIB=NULL
+		CLEAR CLASS IB
+		IF nRet<0
+		    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+	    ELSE
+    		AjaxResponse.records=nRet
+            oJSON.keyforcursors='plan_out'
+	    	lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('plan_out'))
+    		oJSON=NULL
+    		CLEAR CLASS JSON2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		    oResponse.Write(lcStr)
+		    oResponse.Flush
+		    lcHTMLout=[]
+		ENDIF
+      CASE lcAction=='get_printed_blanks'
+       	sAskId=ALLTRIM(oRequest.QueryString("ask_id"))
+        AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+        ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+        AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+        oIB=NEWOBJECT("IB","IB.prg")
+        nRet=oIb.GetPrintedBlanks(sAskId,"p_blanks")
+        oIB=NULL
+        CLEAR CLASS IB
+        oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+        IF nRet<0
+            AjaxResponse.error=sRet
+            lcStr=oJSON.stringify(AjaxResponse)
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+        ELSE
+            AjaxResponse.records=RECCOUNT('p_blanks')
+            oJSON.keyforcursors='p_blanks'
+            lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('p_blanks'))
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+        ENDIF
+
+	ENDCASE
+ENDIF
+ %>

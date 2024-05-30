@@ -1,0 +1,135 @@
+<div id="ib-perevod-window" class="k-content">
+    <h5>Текущее расположение пациента</h5>
+    <table style="table-layout: fixed; width:650px">
+        <col style="width:30%">
+        <col style="width:70%">
+        <tr>
+            <td>Закреплен за отделением</td>
+            <td>
+                <div style="margin-left: 5px;">
+                    <span id="currentOtdelName1" data-bind="text:currentOtdelName1" style="font-weight: bold"></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Находится в отделении</td>
+            <td>
+                <div style="margin-left: 5px;">
+                    <span id="currentOtdelName2" data-bind="text:currentOtdelName2"  style="font-weight: bold"></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Закреплен за врачом</td>
+            <td>
+                <div style="margin-left: 5px;">
+                    <span id="currentDoctorName" data-bind="text:currentDoctorName" style="font-weight: bold"></span>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <table style="table-layout: fixed; width:650px">
+        <col style="width:30%">
+        <col style="width:70%">
+        <tr style="height:40px">
+            <td>
+            <label for="perevod_date">Дата перевода *
+
+            </label>
+            </td>
+            <td>
+                <input id="perevod_date"
+                       data-role="datepicker"
+                       data-bind="value:selectedDate"
+                       data-date-input="false"
+                       data-format="dd.MM.yyyy"
+                       data-parse-formats="['dd.MM.yy','dd.MM']"
+                />
+
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td>
+                <label for="perevod_time">Время перевода *
+
+                </label>
+            </td>
+            <td>
+                <input id="perevod_time"
+                       data-role="timepicker"
+                       data-bind="value:selectedTime"
+                       data-interval="30"
+                       data-date-input="false"
+                       data-format="HH:mm"
+                       data-parse-formats="['HH:mm']"
+                />
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td colspan="2">
+                <h5>Новое расположение пациента (в результате этого перевода)</h5>
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td>
+                <label for="otdels">Закреплен за отделением *
+                </label>
+                <div data-bind="text:selectedOtdel" style="font-weight:bold"></div>
+            </td>
+            <td>
+                <input id="otdels" style="width: 350px"
+                       data-role="dropdownlist" data-auto-bind="true"
+                       data-text-field="name"
+                       data-value-field="code"
+                       data-option-label="{name:'Выберите отделение...',code:''}"
+                       data-bind="source:otdels,value:selectedOtdel,events:{change:onOtdelChange}" />
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td>
+                <label for="otdels2">Находится в отделении *
+                </label>
+                <div data-bind="text:selectedOtdel2"  style="font-weight:bold"></div>
+            </td>
+            <td>
+                <input id="otdels2" style="width: 350px"
+                       data-role="dropdownlist" data-auto-bind="true"
+                       data-text-field="name"
+                       data-value-field="code"
+                       data-option-label="{name:'Выберите отделение...',code:''}"
+                       data-bind="source:otdels2,enabled:selectedOtdel,value:selectedOtdel2,events:{change:onOtdel2Change}" />
+
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td>
+                <label for="otdels-doctors">Закреплен за врачом *
+                </label>
+
+            </td>
+            <td>
+                <input id="otdels-doctors" style="width: 350px"
+                       data-role="dropdownlist" data-auto-bind="false"
+                       data-text-field="user_name"
+                       data-value-field="user_id"
+                       data-option-label="{user_name:'Выберите врача...',user_id:0}"
+                       data-bind="enabled:isDoctorListEnabled,source:otdelsDoctors,value:selectedOtdelDoctor"
+                />
+            </td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p>
+    <div class="pull-right">
+        <button rel="tooltip" title="Выполнить действие" class="k-button" type="button" id="okButton"
+                data-bind="events:{click:doCommand},enabled:isExecuteEnabled">
+            <i class="fa fa-gear"></i> Выполнить</button>
+        <span>&nbsp;</span>
+        <button rel="tooltip" title="Отказ" class="k-button" type="button" id="cancelButton"
+                data-bind="events:{click:cancelCommand}">
+            <i class="fa fa-ban"></i> Отказ</button>
+    </div>
+    </p>
+
+</div>

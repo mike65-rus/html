@@ -1,0 +1,299 @@
+<%
+LOCAL AjaxResponse,lcAction
+*IF !(oSession.VALUE("authenticated"))
+IF .F.
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+	DO CASE
+	    CASE lcAction=='get_user_roles'
+            oUser=NEWOBJECT("UserHLP","USER.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    oUser.SetUser(oSession.Value("uid"))
+   		    lnRet=oUser.GetUserRoles()
+   		    oUser=NULL
+   		    CLEAR CLASS UserHlp
+            oJSON.appendBlank=.F.
+            AjaxResponse.records=RECCOUNT('user_roles')
+            oJSON.keyforcursors='user_roles'
+            lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('user_roles'))
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+	    CASE lcAction=='sklad_list'
+            oMed=NEWOBJECT("medicam","medicam.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oMed.GetSklads("sklad_list",oSession.Value("uid"))
+   		    oMed=NULL
+   		    CLEAR CLASS Medicam
+   		    IF lnRet<=0
+                AjaxResponse.error=IIF(lnRet<0,"Ошибка операции на сервере!<br>Повторите попытку позже!","У вас недостаточно прав для доступа к этой функции!")
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                SELECT SKLAD_LIST
+                IF .F.
+                    APPEND BLANK
+                    REPLACE NAME WITH "Все склады",;
+                        ID WITH "-"
+                ENDIF
+                oJSON.appendBlank=.F.
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='sklad_list'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('sklad_list'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+   		CASE lcAction=='make_medicam_ostat_report'
+        	lcSkladId=oRequest.QueryString("sklad_id")
+        	lcSkladName=oRequest.QueryString("sklad_name")
+            oMed=NEWOBJECT("medicam","medicam.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oMed.GetOst(lcSkladId)
+   		    oMed=NULL
+   		    CLEAR CLASS Medicam
+            oPdf=CREATEOBJECT("pdfrun.Print2PDF")
+   		    IF lnRet<0 or IsNull(oPdf)
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        IF lnRet==0
+   		            * нет остатков по выбранному складу
+                    AjaxResponse.error="По складу "+lcSkladName +" остатков нет!"
+                    lcStr=oJSON.stringify(AjaxResponse)
+                    oJSON=NULL
+                    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                    oResponse.Write(lcStr)
+                    oResponse.Flush
+                    lcHTMLout=[]
+   		        ELSE
+                    sTmpFile=SYS(2015)
+                    sDbfFile=(oProp.AppStartPath+'temp\'+sTmpFile+".dbf")
+                    SELECT MOST2
+                    COPY TO (sDbfFile)
+                    oPdf.CGSFOLDER="C:\gs\gs9.10\bin\"  && hard Coded
+                    oPDF.cPSColorPrinter ="Xerox Phaser 6120 PS"
+                    oUtil=NEWOBJECT('AVFPutilities')
+                    * files older than 20 Minutes(1200 ms.), erase.  3rd param is path - can be hardcoded
+                    TRY
+                        oUtil.DeleteFiles('pdf',1200,oProp.AppStartPath+[Temp\])
+                    CATCH
+                    ENDTRY
+                    TRY
+                        oUtil.DeleteFiles('dbf',1200,oProp.AppStartPath+[Temp\])
+                    CATCH
+                    ENDTRY
+                    oPDF.cRecordSelect = [SELECT * from '] + sDbfFile+[' INTO CURSOR tcursor]
+                    * the following properties are coded for portability.  They may be hardcoded instead.
+                    oPDF.cReport = oProp.AppStartPath+"reports\most.frx"
+                    oPDF.cPhysicalPath=oProp.AppStartPath+[Temp\]     &&[C:\Program Files\dotComSolution\AVFPdemo2\Temp\]
+                    oPDF.cLogicalPath=[http]+IIF(LOWER(oRequest.ServerVariables("HTTPS"))=="on","s","")+[://]+oRequest.ServerVariables("HTTP_HOST") +JustPath(oRequest.ServerVariables("URL"))+[/Temp/] &&[http://www.ddddd.com/avfpdemo2/Temp/]
+&&			=StrToFile(oRequest.ServerVariables("HTTPS"),"e:\gb2\https.txt")
+                    lcFile=oPDF.GetOutput() && generate output, return temp file name
+                    lcNewPath=oPDF.cLogicalPath+lcFile && new URL
+    &&                oResponse.Redirect(lcNewPath)  && redirect browser to created file
+                    oPDF = .NULL.
+                    release oPDF
+
+                    CREATE CURSOR ALINKS (ALINK C(240))
+                    sLink=lcNewPath
+                    oJSON.keyforcursors='alinks'
+                    SELECT ALINKS
+                    APPEND BLANK
+                    REPLACE ALINK WITH sLink
+                    AjaxResponse.records=1
+                    lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('alinks'))
+                    oJSON=NULL
+                    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                    oResponse.Write(lcStr)
+                    oResponse.Flush
+                    lcHTMLout=[]
+                ENDIF
+   		    ENDIF
+	    CASE lcAction=='links_list'
+            oLinks=NEWOBJECT("links","links.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oLinks.GetLinks("links_list")
+   		    oLinks=NULL
+   		    CLEAR CLASS Links
+   		    IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='links_list'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('links_list'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='mkb_list'
+        	lcSearch=oRequest.QueryString("search")
+            oMkb=NEWOBJECT("mkb","mkb.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oMkb.GetMkbListByText(lcSearch,"mkb_list")
+   		    oMkb=NULL
+   		    CLEAR CLASS Mkb
+   		    IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='mkb_list'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('mkb_list'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='mkb_sokr'
+            oMkb=NEWOBJECT("mkb","mkb.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oMkb.GetMkbSokr("mkb_sokr")
+   		    oMkb=NULL
+   		    CLEAR CLASS Mkb
+   		    IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        oJSON.AppendBlank=.F.
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='mkb_sokr'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('mkb_sokr'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='mkb_list_with_ksg'
+        	lcSearch=oRequest.QueryString("search")
+        	lnDnSt=VAL(oRequest.QueryString("dnst"))
+        	lnOtd=oRequest.QueryString("otd")
+            oMkb=NEWOBJECT("mkb","mkb.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oMkb.GetMkbListByText(lcSearch,"mkb")
+   		    oMkb=NULL
+   		    CLEAR CLASS Mkb
+   		    IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        oKsg=NewObject("KSG","KSG.prg")
+   		        lnRet=oKsg.GetMkbList("mkb",1,"mkb_ksg",lnDnSt,lnOtd)
+   		        oKsg=NULL
+   		        CLEAR CLASS KSG
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='mkb_ksg'
+                oJSON.AppendBlank=.F.
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('mkb_ksg'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='ksg_usl_list'
+        	lcKsg=oRequest.QueryString("ksg")
+        	lnType=VAL(oRequest.QueryString("usl_type"))
+            oKsg=NEWOBJECT("ksg","ksg.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oKsg.GetUslOrMkbList(lcKsg,lnType,"usl_list")
+   		    oKsg=NULL
+   		    CLEAR CLASS KSG
+   		    IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='usl_list'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('usl_list'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+
+	ENDCASE
+ENDIF
+%>

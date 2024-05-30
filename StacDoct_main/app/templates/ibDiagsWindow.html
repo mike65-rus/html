@@ -1,0 +1,51 @@
+<div id="ib_diags_list_window"  class="k-content">
+    <div id="ib-diags-list-view" data-role="listview"
+         data-template="templates-ibDiagsListItemTemplate"
+         data-bind="source:dataSource"
+         style="height: 500px; overflow: auto">
+    </div>
+	<table>
+		<tr>
+				<td>
+					<table width="100%">
+						<tr><td colspan="2">&nbsp;</td></tr>
+						<tr>
+							<td width="20%">
+								<label>КСГ:</label>&nbsp;&nbsp;
+
+							</td>
+							<td>
+								<button class='k-button' type='button' id="fiscal_011_btn"
+										data-bind="events:{click:doFiscalReport}">Выбор КСГ и МКБ</button>
+							</td>
+						</tr>
+
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<table width="100%">
+					<tr>
+						<td width="20%"><span style="font-weight: bold" id="fiscal_mkb_code" data-bind="text:fiscal.mkb"></span></td>
+						<td width="80%"><span id="fiscal_mkb_name" data-bind="text:fiscal.mkb_name" ></span></td>
+					</tr>
+					<tr style="display: none;">
+						<td width="20%"><span id="fiscal_mkb_vers"></span></td>
+						<td width="80%"></td>
+					</tr>
+				</table>
+			</tr>
+			<tr>
+				<table width="100%">
+					<tr>
+						<td width="20%"><span style="font-weight: bold" id="fiscal_ksg_code" data-bind="text:fiscal.ksg"></span></td>
+						<td width="80%"><span id="fiscal_ksg_name" data-bind="text:fiscal.ksg_name"></span></td>
+					</tr>
+					<tr>
+						<td colspan="2"><span id="fiscal_usl_list" data-bind="text:fiscal.usl_list"></span></td>
+					</tr>
+				</table>
+			</tr>
+		</table>
+</div>
+

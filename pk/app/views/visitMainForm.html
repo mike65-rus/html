@@ -1,0 +1,102 @@
+<div id="visit-main">
+    <form class="visitForm" id="visit-main-form">
+        <div data-bind="text:visit.patient_name" style="display:none"></div>
+        <fieldset>
+            <dl>
+                <dt>
+                    <label for="visit_date" class="label-required"><span>Дата посещения</span></label>
+                    <span class="k-invalid-msg" data-for="ДатаПосещения"></span>
+                </dt>
+                <dd>
+                    <input id="visit_date" name="ДатаПосещения"  data-role="datepicker"
+                           data-footer="Сегодня - #: kendo.toString(data, 'dd.MM.yyyy') #"
+                           data-format="dd.MM.yyyy"
+                           data-parse-formats="['dd.MM.yy','dd.MM.']"
+                           data-bind="value:visit.visit_date" required
+                           data-mask="99.99.9999"
+                           onClick="this.select();"
+                           onFocus="this.select();"
+                           field="visitDate"
+                    />
+                </dd>
+                <dt>
+                    <label for="spec_id" class="label-required"><span>Специальность врача</span></label>
+                    <span class="k-invalid-msg" data-for="СпециальностьВрача"></span>
+                </dt>
+                <dd>
+                    <input id="spec_id" name="Специальность врача"  data-role="dropdownlist"
+                           data-bind="value:visit.spec_id,
+                            source:userSpecDs"
+                           data-text-field="sspecname"
+                           data-value-field="nspecid"
+                           data-height="400"
+                           style="width:350px"
+                           required
+                    />
+                </dd>
+
+                <dt>
+                    <label id="labelVisitType" for="visit_type" class="label-required"><span>Вид посещения:</span></label>
+                    <span class="k-invalid-msg" data-for="ВидПосещения"></span>
+                </dt>
+                <dd>
+                    <input id="visit_type" name="ВидПосещения" data-role="dropdownlist"
+                           data-bind="value:visit.visit_type,
+                            source:visitTypesDs"
+                           data-text-field="code_name"
+                           data-value-field="code"
+                           data-option-label="Выберите вид посещения..."
+                           data-height="400"
+                           style="width:350px"
+                           required
+                    />
+                </dd>
+
+                <dt>
+                    <label for="pay_type" class="label-required"><span>Тип оплаты:</span></label>
+                    <span class="k-invalid-msg" data-for="ТипОплаты"></span>
+                </dt>
+                <dd>
+                    <input id="pay_type" name="ТипОплаты"  data-role="dropdownlist"
+                           data-bind="value:visit.pay_type,
+                            source:payTypesDs"
+                           data-text-field="code_name"
+                           data-value-field="code"
+                           data-height="400"
+                           style="width:350px"
+                           required
+                    />
+                </dd>
+                <dt>
+                    <label id="labelMkb" for="mkb"><span>Код МКБ-10:</span></label>
+                    <span class="k-invalid-msg" data-for="КодМКБ"></span>
+                </dt>
+                <dd>
+                    <input id="mkb" name="КодМКБ"  class="k-input"
+                           data-role="autocomplete"
+                           data-placeholder="Type a product e.g. 'Chai'"
+                           data-value-primitive="true"
+                           data-text-field="id"
+                           data-bind="value:visit.mkb,source:matchedMkbDs"
+                           data-filter="startsWith"
+                           data-min-length=3
+                           data-enforce-min-length="true"
+                           data-template="template-auto-mkb"
+                           data-height=600
+                           style="width:350px"
+                    />
+                </dd>
+
+            </dl>
+        </fieldset>
+    </form>
+    <div>
+        <button class="k-button" data-bind="events:{click:onSaveButtonClicked}">Сохранить</button>
+        <button class="k-button" data-bind="events:{click:onCancelButtonClicked}">Отказ</button>
+    </div>
+</div>
+
+<script type="text/x-kendo-template" id="template-auto-mkb">
+    <span style="font-weight:bold;"> #= data.id # </span> - <span style="font-size: inherit"> #=data.name # </span>
+</script>
+

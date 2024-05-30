@@ -1,0 +1,1 @@
+Copy this file to app root folder for activate production environment (e.g. main-build.js)

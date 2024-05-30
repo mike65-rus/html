@@ -1,0 +1,14 @@
+table.ldo-table {width: 90% ; margin-left: 5%; margin-right: 5%; border-collapse:collapse}
+/* blockquote.ldo-blockquote {font-size: 0.8em;} */
+p.ldo-p {font-size: 1em; word-wrap:normal}
+.ldo-table-column-0, .ldo-table-column-1, .ldo-table-column-2, .ldo-table-column-3 {border: 1px solid black}
+.ldo-table-column-0 {padding: 5px;}
+.ldo-table-column-1 {width: 15%; text-align: center}
+.ldo-table-column-2 {width: 50%; text-align: center}
+.ldo-table-column-3 {width: 35%; text-align: center}
+
+/*
+div.lab-pac-header {display:none;}
+*/
+
+

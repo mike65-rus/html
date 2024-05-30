@@ -1,0 +1,413 @@
+                <% * Исследования поликлиника %>
+                <div id="exams_header">
+                    <strong>
+                        Исследования:&nbsp;
+                        <span id="exams_patient_label" data-bind="text:patientLabel">
+                        </span>
+                    </strong>
+
+                </div>
+<div id="exams_div">
+    <div id="exams_toolbar"></div>
+    <div id="exams_tabstrip">
+        <ul>
+            <li>Посещения</li>
+            <li>КДЛ</li>
+            <li>ЛДО</li>
+            <li>PACS</li>
+            <li>Направления</li>
+            <li>Направить</li>
+        </ul>
+
+        <div class="pk_exams_div" data-model-name="visitsModel" >
+            <%= _LoadHtml("pk\visitsModel.avfp") %>
+            <%= _LoadHtml("pk\visitModel.avfp")  %>
+        </div>
+
+        <div class="pk_exams_div">
+            <!-- <strong>КДЛ</strong> -->
+            <div id="exams_kdl_grid" class="pk-grid" style="width:100%;height:100%">
+
+            </div>
+            <!-- grid toolbar template -->
+             <script type="text/x-kendo-template" id="template-exams-kdl-toolbar">
+                <div class="form-inline toolbar pull-left" id="exams-kdl-toolbar">
+                    <label for='exams-kdl-period'>Период:</label>
+                    <input id='exams-kdl-period' style='width: 150px;' />
+                    &nbsp;
+                    &nbsp;
+                    <button rel="tooltip" title="Просмотр выбранных анализов"  class="k-button" type="button"
+                        data-bind="events:{click: onPrintKdlButton}"><i class="fa fa-file-text-o fa-lg"></i></button>
+                    &nbsp;
+                    &nbsp;
+                    <button id="exams-kdl-funnel-button" rel="tooltip" title="Установить фильтр по значению выделенной ячейки"  class="k-button" type="button"
+                        data-bind="events:{click: onFilterKdlButton}">
+                        <span>
+                            <span class="k-icon k-i-funnel"></span>
+                        </span>
+                    </button>
+                    <!--
+                    <button rel="tooltip" title="Отменить фильтр"  class="k-button" type="button"
+                        data-bind="events:{click: onUnFilterKdlButton}, enabled:kdlQuickFilter">
+                        <span class="k-icon k-i-funnel-clear"></span>
+
+                    </button>
+                    -->
+                    <!--
+                    &nbsp;
+
+                    <button rel="tooltip" title="Отметить все"  class="k-button" type="button"
+                        data-bind="events:{click: onCheckAllKdlButton}"><i class="fa fa-check-square-o"></i></button>
+                    <button rel="tooltip" title="Снять все отметки"  class="k-button" type="button"
+                        data-bind="events:{click: onUnCheckAllKdlButton}"><i class="fa fa-square-o"></i></button>
+                    <button rel="tooltip" title="Инвертировать отметки"  class="k-button" type="button"
+                        data-bind="events:{click: onInvertChecksKdlButton}"><i class="fa fa-exchange"></i></button>
+                    &nbsp;
+                    -->
+                </div>
+             </script>
+
+        </div>  <!-- kendo grid -->
+        <div class="pk_exams_div">
+<!--            <strong>ЛДО</strong> -->
+            <div id="exams_ldo_grid" class="pk-grid" style="width:100%;height:100%">
+            </div>
+        </div>  <!-- kendo grid -->
+        <div class="pk_exams_div">
+            <!-- pacs -->
+            <div id="exams-pk-pacs">
+                Запросить данные из госпитальной PACS-системы:&nbsp;
+                <button class="k-button" data-bind="click:pacsQuery2">по всем случаям пациента</button>
+                <hr>
+            </div>
+            <div id="pacs-data" class="divldo"></div>
+
+        </div>
+
+        <div class="pk_exams_div" data-model-name="tickets-pk">
+            <!-- Выданные талоны -->
+            <div id="tickets-list-view" style="width:100%;height:550px;">
+                <div id="tickets-grid" class="pk-grid" style="width:100%">
+                </div>
+                <div id="ticket-details"
+                    style="width:100%">
+                    <div class="ticket-details-list" data-bind="html:currentGridTicketExamsHtml"></div>
+                 </div>
+            </div>
+        </div>
+
+        <div id="schedule-wizard-window">
+            <div id="schedule-wizard-tabstrip" style="height:100%">
+            </div>
+            <div class="schedule-wizard-tab-footer">
+                <input type="button" class="btn-back" value="Back" />
+                <input type="button" class="btn-next" value="Next" />
+            </div>
+        </div>
+
+
+
+        <div class="pk_exams_div" data-model-name="scheduler-pk">
+            <!-- Расписание исследований -->
+            <!--
+            <div id="exams-pk-schedule"  class="form-inline toolbar pull-left" style="width:100%">
+                <div style="margin-bottom: 5px;">
+                    <label for="schedule-big-part">Группа исследований:</label>
+                    <input id="schedule-big-part" style="width:250px;" data-bind="value:bigPartId">
+                    <span data-bind="visible:isBodyPartVisible">
+                        &nbsp;
+                        <label for="schedule-body-part">Биоматериал:</label>
+                        <input id="schedule-body-part" style="width:300px;" data-bind="value:bodyPartId">
+                    </span>
+                    &nbsp;
+                    <button class="k-button" data-bind="click:selectExams">Выбор исследований...</button>
+                </div>
+                <div>
+                    <label for="schedule-building">Здание:</label>
+                    <input id="schedule-building" style="width:150px;" data-bind="value:buildingId">
+                    &nbsp;
+                    <label for="schedule-otdel">Отделение:</label>
+                    <input id="schedule-otdel" style="width:250px;" data-bind="value:otdelId">
+                    &nbsp;
+                    <label for="schedule-service">Расписание:</label>
+                    <input id="schedule-service" style="width:350px;" data-bind="value:serviceId">
+                    &nbsp;
+                    <button class="k-button" data-bind="click:scheduleQuery">Поиск</button>
+                </div>
+                <hr>
+            </div>
+            <!--
+            <!-- <div id="schedule-data" class="divldo" >
+                <div class="schedule-month-div" id="schedule-data-content"  style="width:100%">
+                    <div class="schedule-column schedule-column-1" data-bind="html:scheduleMonthHtml"></div>
+                    <div class="schedule-column schedule-column-2" >Контайнер</div>
+                </div>
+            </div>
+            -->
+            <div>
+                <div id="schedule-main-splitter" style="width:100%;height:550px;">
+                    <div id="schedule-main-pane">
+                        <div id="schedule-main-pane-splitter-top" style="height:550px;">
+                            <div style="margin-bottom: 5px;margin-top:5px; margin-left:5px; margin-right:5px" id="exams-pk-schedule-main" style="font-size:small" class="form-inline toolbar pull-left">
+                            <input data-role="dropdownlist"
+                                               data-auto-bind="false"
+                                               data-text-field="short_name"
+                                               data-value-field="id"
+                                               data-bind="value: scheduleData.selectedGroup,
+                                                          source: scheduleData.groupsDataSource,
+                                                events: {change: scheduleData.onGroupsWidgetChange}"
+                                               style="font-size:0.9em;width:300px;"
+                                        />
+                                &nbsp;
+                                <label for="schedule-big-part" style="font-size:small">Раздел:</label>
+                                <input id="schedule-big-part" style="width:200px;font-size:small"
+                                        data-bind="value:bigPartId,enabled:isChangeBigPartEnabled">
+                                <span data-bind="visible:isBodyPartVisible">
+                                    <label for="schedule-body-part" style="font-size:small">Биоматериал:</label>
+                                    <input id="schedule-body-part" style="width:200px;font-size:small"
+                                    data-bind="value:bodyPartId,enabled: isChangeBigPartEnabled">
+                                </span>
+
+                            </div>
+                            <div id="schedule-main-pane-content">
+                                <div id="schedule-main-pane-splitter-center" style="height:550px;">
+                                       <div>
+                                            <div id="schedule-tree-view-toolbar-1"></div>
+                                           <div class="schedule-big-markers" id="schedule-tree-view" style="height:80%;overflow-y:scroll;margin-left:5px;margin-right:5px;"
+                                               data-role="treeview"
+                                               data-load-on-demand="false"
+                                               data-text-field="text"
+                                               data-spritecssclass-field="spriteCssClass"
+                                               data-checkboxes="{checkChildren: true}"
+                                               data-bind="
+                                                source:scheduleData.treeViewDataSource,
+                                                events: {expand:scheduleData.onExpandNode,
+                                                        collapse:scheduleData.onCollapseNode,
+                                                        check:scheduleData.onCheckNode}
+                                               "
+                                               >
+                                           </div>
+                                       </div>
+                                    <!-- <div data-bind="html:scheduleData.curSelectedExamsHtml"  style="height:100%;overflow:unset;margin-left:5px;margin-right:5px;"></div> -->
+                                    <div data-role="listview"
+                                        data-selectable="single"
+                                        data-template="template-selected_exam"
+                                        data-bind="
+                                            source:scheduleData.curSelectedExamsDataSource,
+                                            events: {change:scheduleData.onSelectedListItemChange}
+                                        "
+                                          style="height:100%;overflow:scroll;margin-left:5px;margin-right:5px;"
+                                          >
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="schedule-right-pane">
+                        <div id="schedule-right-pane-splitter" style="height:550px;">
+                            <div>
+                                <div id="exams-pk-schedule-right" style="margin-left:5px;margin-right:5px;">
+                                    <input id="schedule-building" class="schedule-small-input schedule-170" title="Выбор здания" data-bind="value:buildingId">
+                                    <input id="schedule-otdel"  class="schedule-small-input schedule-170" data-bind="value:otdelId">
+                                    <input id="schedule-service"  class="schedule-small-input schedule-170" data-bind="value:serviceId">
+                                    <button class="k-button schedule-small-input" data-bind="click:scheduleQuery" title="Обновить">
+                                        <i class="fa fa-refresh"></i>
+                                    </button>
+                               </div>
+                            </div>
+                            <div>
+                                <div class="schedule-month-div" id="schedule-data-content"  style="overflow:unset;" data-bind="html:scheduleMonthHtml"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<!--        </div> -->
+            <!-- grid toolbar template -->
+             <script type="text/x-kendo-template" id="template-tickets-toolbar">
+                <div class="form-inline toolbar pull-left" id="tickets-grid-toolbar">
+                    <button class="k-button" data-bind="events:{click:newTicket}"
+                     title="Создать новое направление"
+                    ><i class="fa fa-plus"></i>&nbsp;Новое направление</button>
+                    &nbsp;
+                    <button class="k-button" data-bind="events:{click:editTicket},enabled:isEditEnabled"
+                     title="Изменить направление"
+                    ><i class="fa fa-edit"></i>&nbsp;Изменить</button>
+                    &nbsp;
+                    <button class="k-button" data-bind="events:{click:deleteTicket},enabled:isEditEnabled"
+                     title="Отменить направление"
+                    ><i class="fa fa-minus"></i>&nbsp;Отменить</button>
+                    &nbsp;
+                    <label for='tickets-filter'>Отбор:</label>
+                    <input id='tickets-filter' style='width: 250px;'
+                        data-role="dropdownlist"
+                        data-auto-bind="true"
+                        data-text-field="name"
+                        data-value-field="id"
+                        data-bind="source:dataSources.ticketsFilter, value:ticketFilter"
+                    />
+
+                </div>
+             </script>
+
+             <script type="text/x-kendo-template" id="template-exams-ldo-toolbar">
+                <div class="form-inline toolbar pull-left" id="exams-ldo-toolbar">
+                    <label for='exams-ldo-period'>Период:</label>
+                    <input id='exams-ldo-period' style='width: 150px;' />
+                    &nbsp;
+                    &nbsp;
+                    <button rel="tooltip" title="Просмотр выбранных исследований"  class="k-button" type="button"
+                        data-bind="events:{click: onPrintLdoButton}"><i class="fa fa-file-text-o fa-lg"></i></button>
+                    &nbsp;
+                    &nbsp;
+                    <button id="exams-ldo-funnel-button" rel="tooltip" title="Установить фильтр по значению выделенной ячейки"  class="k-button" type="button"
+                        data-bind="events:{click: onFilterLdoButton}">
+                        <span>
+                            <span class="k-icon k-i-funnel"></span>
+                        </span>
+                    </button>
+                    <!--
+                    <button rel="tooltip" title="Фильтр по значению выделенной ячейки"  class="k-button" type="button"
+                        data-bind="events:{click: onFilterLdoButton}">
+                        <i class="fa fa-filter"></i>
+                     </button>
+                    <button rel="tooltip" title="Отменить фильтр"  class="k-button" type="button"
+                        data-bind="events:{click: onUnFilterLdoButton}, enabled:ldoQuickFilter">
+                          <i class="fa fa-filter fa-rotate-180"></i>
+                    </button>
+                    -->
+                     <!--
+                    <button rel="tooltip" title="Отметить все"  class="k-button" type="button"
+                        data-bind="events:{click: onCheckAllLdoButton}"><i class="fa fa-check-square-o"></i></button>
+                    <button rel="tooltip" title="Снять все отметки"  class="k-button" type="button"
+                        data-bind="events:{click: onUnCheckAllLdoButton}"><i class="fa fa-square-o"></i></button>
+                    <button rel="tooltip" title="Инвертировать отметки"  class="k-button" type="button"
+                        data-bind="events:{click: onInvertChecksLdoButton}"><i class="fa fa-exchange"></i></button>
+                    &nbsp;
+                    -->
+                </div>
+             </script>
+<!--             <script type="text/x-kendo-template" id="template-selected_exam">
+                <input type="checkbox" checked id="checkbox-#:id.toString()#" class="k-checkbox checkbox-invisible">
+                <label data-base-id="#:id.toString()#" class="k-checkbox-label schedule-k-checkbox-label" for="checkbox-#:id.toString()#">#:short_name#</label>
+             </script> -->
+             <script type="text/x-kendo-template" id="template-selected_exam">
+                #if (is_folder) {#
+                   <input type="checkbox" checked id="checkbox-#:id.toString()#" class="k-checkbox checkbox-invisible">
+                   <label data-base-id="#:id.toString()#" class="k-checkbox-label schedule-k-checkbox-label" for="checkbox-#:id.toString()#">#:short_name# #:is_folder#</label>
+                #}
+                else {#
+                   <input type="checkbox" checked id="checkbox-#:id.toString()#" class="k-checkbox checkbox-invisible">
+                   <label data-base-id="#:id.toString()#" class="k-checkbox-label schedule-k-checkbox-label" for="checkbox-#:id.toString()#">#:short_name#</label>
+                #}#
+             </script>
+             <script type="text/x-kendo-template" id="template-schedule-month">
+                    <div class="schedule-day">
+                        <div class="schedule-date">#:getShortDateTitle(w_date)# &nbsp; #:w_dow_sname#  </div>
+                        <div class="schedule-empty">#:getscheduleAvailableAsString(w_empty,w_is_work,w_scheduled)#</div>
+                    </div>
+             </script>
+
+             <!-- window for schedule-in that day -->
+             <div id="schedule-day-window">
+                <table style="width:90%">
+                    <tr>
+                        <td>Дата исследования</td>
+                        <td>
+                        <div>
+                            <span class="schedule-bold" data-bind="text:dateString"></span>&nbsp;
+                            <span class="schedule-bold"  data-bind="text:dateWeekDay"></span>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>№ карты пациента</td>
+                        <td ><div class="schedule-bold"  data-bind="text:patientId"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Пациент</td>
+                        <td ><div class="schedule-bold"  data-bind="text:patientName"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Кабинет</td>
+                        <td ><div class="schedule-bold"  data-bind="text:cabinetNum"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Время</td>
+                        <td ><div class="schedule-bold"  data-bind="text:cabinetTimeString"></div></td>
+                    </tr>
+                    <tr>
+                        <td>ИД талона</td>
+                        <td ><div class="schedule-bold"  data-bind="text:ticketId"></div></td>
+                    </tr>
+
+                </table>
+                <div style="margin-top: 10px">
+                    <button data-bind="text:reserveText, visible:isReserveAvailable, click:reserve" id="schedule-day-reserve" class="k-button">
+                    </button>
+                    <button data-bind="visible:isUndoReserveAvailable, click:doSelectExams" id="schedule-day-select-exams" class="k-button">
+                        Выбор исследований
+                    </button>
+                    <button data-bind="text:undoReserveText, visible:isUndoReserveAvailable, click:undoReserve" id="schedule-day-undo-reserve" class="k-button">
+                    </button>
+                    <button data-bind="click:refresh,visible:isReserveAvailable" id="schedule-day-refresh" class="k-button">
+                    Обновить
+                    </button>
+                <div  style="margin-top: 10px" id="schedule-day-content" data-bind="html:ticketsHtml,visible:isScheduleVisible"></div>
+                <div style="margin-top:10px;overflow:scroll" id="schedule-details-content" data-bind="visible:isDetailsVisible">
+                   <div class="schedule-details-list" data-bind="html:selectedExamsHtml"></div>
+                </div>
+               <div style="margin-top: 10px; text-align:center">
+                    <button class="k-button" data-bind="click:saveTicket,enabled:isSaveTicketAvailable"><i class="fa fa-check"></i> Сохранить талон</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="k-button" data-bind="click:closeTicketWindow"><i class="fa fa-ban"></i> Выйти без сохранения талона</button>
+               </div>
+
+              </div>
+
+    </div>
+                 <!-- window for select examinations -->
+                 <div id="schedule-exams-window">
+                       <div class="schedule-details-groups" style="margin-bottom: 10px">
+                            <input data-role="dropdownlist"
+                                               data-auto-bind="false"
+                                               data-text-field="short_name"
+                                               data-value-field="id"
+                                               data-bind="value: selectedGroup,
+                                                          source: groupsDataSource,
+                                                events: {change: onGroupsWidgetChange}"
+                                               style="width: 50%;"
+                                        />
+                                        <!--  data-option-label="Выбор группы исследований..." -->
+                       </div>
+                       <div>
+                            <input id="schedule-tree-filterText" type="text" placeholder="Поиск с фильтром..." />
+                            <button class="k-button" data-bind="click:clearSearch" title="Очистить фильтр">
+                                <span class="k-icon k-i-funnel-clear"></span>
+                            </button>
+                            <button class="k-button" data-bind="click:expandAll" title="Развернуть все">
+                                <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+                            </button>
+                            <button class="k-button" data-bind="click:collapseAll" title="Свернуть все">
+                                <i class="fa fa-folder-o" aria-hidden="true"></i>
+                            </button>
+                       </div>
+                       <div>
+                           <div id="schedule-tree-view" class="schedule-exams" style="height: 450px;overflow:scroll; width:450px;"></div>
+                           <div id="schedule-selected-exams-view" class="schedule-exams" style="height: 450px;width:400px;overflow:scroll">
+                                <div id="schedule-selected-exams-list" data-bind="html:curSelectedExamsHtml"></div>
+                           </div>
+                       </div>
+                       <div style="margin-top: 10px; text-align:center">
+                            <button class="k-button" data-bind="click:saveToTicket"><i class="fa fa-check"></i> Перенести в талон</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="k-button" data-bind="click:closeExamsWindow"><i class="fa fa-ban"></i> Выйти без переноса в талон</button>
+                       </div>
+                 </div>
+
+</div>
+

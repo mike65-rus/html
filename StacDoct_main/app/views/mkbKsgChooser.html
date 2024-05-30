@@ -1,0 +1,24 @@
+<div id="mkb-chooser-window" class="k-content">
+    <div style="margin-top:5px;margin-bottom:5px;" >
+        <div class="si-wrapper">
+            <input class="si-input" lang="ru" type="text" style="width:400px;padding-left:5px;padding-right:5px;"
+                   placeholder="Введите название заболевания или его часть" id="inpSearch"/>
+            <button class="si-btn">
+                speech input
+                <span class="si-mic"></span>
+                <span class="si-holder"></span>
+            </button>
+        </div>
+        <button class="k-button" type="button" id="btnMkbSearch" data-bind="events:{click:doQuery}">Поиск</button>
+        <!-- &nbsp;-->
+        <button class="k-button" type="button" id="btnSorkSearch" data-bind="events:{click:openSokrWindow"}>Сокращения</button>
+        <span class="pull-right">
+                <input type="checkbox" id="html-mkb-checkbox" class="k-checkbox" checked>
+                <label class="k-checkbox-label" id="html-mkb-checkbox-label" for="html-mkb-checkbox">В виде HTML</label>
+                </span>
+        <div id="divMkbComment" style="margin-top:5px;"></div>
+    </div>
+    <div id="divMkbResult" style="height:500px;width:800px;overflow-y: scroll;border:1px solid">
+
+    </div>
+</div>

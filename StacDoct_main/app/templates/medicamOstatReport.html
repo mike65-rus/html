@@ -1,0 +1,31 @@
+    <div id="medicam_ostat_modal" class="k-content" >
+        <form>
+<!--            <h6>Выберите склад:</h6> -->
+            <h6>Выберите отделение:</h6>
+            <select rel="tooltip" title="Выбор отделения"
+                    data-role="dropdownlist" data-value-field="otd_guid" data-text-field="otd_descr" style="width: 350px"
+                    data-bind="source: dsSkladList, value: selectedSklad"
+                    data-option-label="Выберите отделение..."
+                    data-auto-bind="false">
+            </select>
+            <!--
+            <label class="checkbox">
+                <input type="checkbox" name="rememberSklad"> Запомнить выбранный склад
+            </label>
+            -->
+            <p>
+            <div class="pull-right">
+                <button rel="tooltip" title="Открыть сформированный отчет" data-bind="click: showPdf, visible: isLinkVisible"
+                        class="k-button" type="button" id="medicam_view_pdf_Button"><i class="fa fa-external-link"></i> Открыть</button>
+                <span>&nbsp;</span>
+                <button rel="tooltip" title="Выполнить действие" data-bind="click: makeReport, visible:isLinkInvisible"
+                        class="k-button" type="button" id="medicam_okButton"><i class="fa fa-gear"></i> Выполнить</button>
+                <span>&nbsp;</span>
+                <button rel="tooltip" title="Отказ" class="k-button" type="button" id="medicam_cancelButton"
+                        data-bind="click:close"
+                        >
+                    <i class="fa fa-ban"></i> Отказ</button>
+            </div>
+            </p>
+        </form>
+    </div>

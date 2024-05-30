@@ -1,0 +1,72 @@
+<div class="demo-section">
+    <div class="k-content" style="width: 100%">
+        <div id="grid"  class="observationgrid"
+             data-role="grid"
+             data-sortable="true"
+             data-pageable="true"
+             data-filterable="true"
+             data-selectable="true"
+             data-toolbar='[ { template: kendo.template($("#toolbar-out").html()) } ]'
+             data-columns='[
+                { field: "ask_id", title: "ID", hidden: true },
+                { field: "niib_s", title: "ИБ", width: "6%" },
+                { field: "fio", title: "ФИО", width: "28%",template:$("#fio-template").html() },
+                { field: "otd1", title: "Отд",width: "10%" },
+				{ field: "palata", title: "Палата",width: "8%" },
+                { field: "user_fio",title:"Врач", width:"16%", template:$("#user-template").html() },
+				{ field: "Reason", title: "Цель наблюдения", width: "24%" },
+				{ field: "date_ask", title: "Дата", width: "8%", format: "{0:dd.MM.yy - HH:mm}" }
+              ]'
+             data-bind="source: dataSource, events: { change: onChange, dataBound: onDataBound }">
+        </div>
+        <style scoped>
+            #grid .k-toolbar { padding: 15px; }
+
+/*            .toolbar { float: right; } */
+        </style>
+    </div>
+</div>
+<script type="text/x-kendo-template" id="toolbar-out">
+    <div>
+        <div class="toolbar">
+            <span class="pull-left">
+              <p><strong>Список пациентов</strong></p>
+              </span>
+            <div class="form-inline toolbar pull-right" id="Grid1Toolbar">
+				<button rel="tooltip" title="Печатать список" id="btnPrint1" class="k-button" type="button" data-bind="events:{click: onPrint}"><i>Печать</i></button>
+                <input rel="tooltip" title="Поиск пациента <Alt>+<П>"
+                       id="ib-selector-mypac" placeholder="Поиск по фамилии или № ИБ..." autofocus="true" accesskey="ф" style="width:350px"
+                       data-role="autocomplete"
+                       data-height="600"
+                       data-text-field="fio"
+                       data-template="search-template"
+                       data-bind="value:selIb, source: dataSource, events:{change:onSearchFieldChange,filtering:onBeforeFiltering}"
+                        />
+
+                
+                </select>
+                <button rel="tooltip" title="Обновить" id="btnRefresh1" class="k-button" type="button" data-bind="events:{click: onRefresh}"><i class="icon-refresh"></i></button>
+            </div>
+
+        </div>
+    </div>
+</script>
+
+<script id="user-template" type="text/x-kendo-template">
+    # var sRet=data.user_fio; #
+    # if (sRet && data.user2_fio) { #
+       # sRet=sRet+" / "; #
+    # } #
+    # if (data.user2_fio) { #
+    #    sRet=sRet+data.user2_fio; #
+    # } #
+    #= sRet #
+</script>
+<script id="button-template" type="text/x-kendo-template">
+	# var id1 = data.ask_id.replaceAll(':', '').replaceAll('-', '').replaceAll('.', ''); #
+	# var id2 = id1 + "_select" #
+	<select style="width:100px;" title="#:data.ask_id#" id="#:id2#"></select>
+</script>
+<script id="search-template" type="text/x-kendo-templ">
+    ${ fio } - ${ niib }
+</script>

@@ -1,0 +1,4 @@
+/*
+input[type=radio] {content:url("checkbox_no.png")}
+input[type=radio]:checked {content:url("checkbox_yes.png")}
+*/

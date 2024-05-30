@@ -1,0 +1,285 @@
+<!-- index page -->
+<div data-role="view" id="index-view" data-title="Доктор Мобиле" data-layout="dm-main-layout" class="no-backbutton">
+    <h2 data-bind="text: userFio" class="mobile-align-center"></h2>
+    <hr>
+    <form style="margin-left: 10px; margin-right: 10px">
+        <label for="user-role">Роль</label>
+        <input id="user-role" data-role="dropdownlist" data-text-field="name" data-value-field="code"
+               data-bind="value:currentUserRole,source:dataSources.userRoles"
+        style="width:100%">
+    </form>
+    <div  class="mobile-align-center"  style="margin-top:10px;margin-left: 10px; margin-right: 10px" >
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <a data-role="button" class="km-justified km-widget km-button" href="#mypatients-view"
+                       style="width:100%;">
+                        <span style="margin-right: 1em">
+                            <i class="fa fa-bed fa-lg" aria-hidden="true"></i>
+                        </span>
+                        Мои пациенты
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a data-role="button" class="km-justified km-widget km-button" style="width:100%;">
+                        <span style="margin-right: 1em">
+                            <i class="fa fa-users fa-lg" aria-hidden="true"></i>
+                        </span>
+                        Поступившие пациенты
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a data-role="button" class="km-justified km-widget km-button" style="width:100%;"
+                       data-bind="click:openModalViewDownload">
+                        <span style="margin-right: 1em">
+                            <i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i>
+                        </span>
+                        Загрузка данных
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div data-role="footer"class="mobile-align-center">
+        <div data-role="navbar" >
+            <a data-role="button" data-align="right" data-animate="true" data-rel="external" href="?action=LogOut"
+               style="margin-right:5px;">
+                <span stype="margin-right:1em;">
+                    <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
+                </span>
+                Выход
+            </a>
+        </div>
+    </div>
+
+</div>
+<!-- settings page -->
+<div data-role="view" id="settings-view" data-title="Доктор Мобиле" data-layout="dm-main-layout">
+    <h2 data-bind="text: userFio" class="mobile-align-center"></h2>
+    <hr>
+    <h2>Настройки</h2>
+    <form style="margin-left: 10px; margin-right: 10px">
+        <label for="settings-skin">Skin (тема)</label>
+        <input id="settings-skin" data-role="dropdownlist" data-text-field="name" data-value-field="name"
+               data-value-primitive="true"
+               data-bind="value:currentSkin,source:dataSources.appSkins,events:{change:onSkinChange}"
+               style="width:100%">
+        <div class="mobile-align-center" style="margin-top:10px;">
+            <a data-role="button" data-align="left" class="km-primary km-widget km-button"
+               data-bind="events:{click:settingsViewSaveAction}" style="min-width:100px;">
+                <span class="km-text">Сохранить</span></a>
+            &nbsp;
+            <a data-role="button" data-align="right" class="km-widget km-button"
+               data-bind="events:{click:settingsViewCancelAction}" style="min-width:100px;">
+                <span class="km-text">Отказ</span></a>
+        </div>
+    </form>
+    <!--
+    <div data-role="footer">
+        <div data-role="navbar" class="mobile-align-center">
+            <a data-role="button" style="min-width:100px;" data-bind="events:{click:settingsViewSaveAction}">Сохранить</a>
+            &nbsp;
+            <a data-role="button" style="min-width:100px;" data-bind="events:{click:settingsViewCancelAction}">Отказ</a>
+        </div>
+    </div>
+    -->
+</div>
+
+<!-- myPatients -->
+<div data-role="view" id="mypatients-view"
+     data-title="Мои пациенты" data-layout="dm-main-layout"
+     data-init="myPatients"
+     data-after-show="myPatientsShow"
+>
+    <form>
+        <ul id="my-patient-list"></ul>
+    </form>
+    <div data-role="footer">
+        <div data-role="navbar">
+            <input type="search" id="my-patient-list-search" placeholder="Поиск..." style="min-height:30px;">
+        </div>
+
+    </div>
+</div>
+<script id="my-patient-template" type="text/x-kendo-template">
+    <a href="\#/ib/#:data.ask_id#"  class="ib-link my-ib-link">#=data.fio#</a>
+</script>
+<!-- patient-page -->
+<div data-role="view" id="patient-view"
+     data-title="Карта пациента" data-layout="dm-main-layout"
+     data-before-show="window.patientBeforeShow"
+>
+        <div id="patient-div">
+            <div data-role="collapsible" data-icon-position="left"
+                 data-collapse-icon="arrow-up" data-expand-icon="arrow-down">
+                <h3 class="mobile-align-center" data-bind="text:selectedIb.fio"></h3>
+                <div data-role="collapsible-content">
+                    <div>
+                        Возраст:&nbsp;<span data-bind="text:selectedIb.age"></span>
+                    </div>
+                    <div>
+                        Дата поступления: &nbsp;<span data-bind="date:selectedIb.date_ask,date"
+                                                      data-dateformat="dd.MM.yyyy hh:mm"></span>
+                    </div>
+                    <div>
+                        Отделение: &nbsp;<span data-bind="text:selectedIb.otd1"></span>
+                    </div>
+                    <div>
+                        Врач: &nbsp;<span data-bind="text:selectedIb.user_fio"></span>
+                    </div>
+
+                </div>
+            </div>
+            <div  class="mobile-align-center"  style="margin-top:10px;margin-left: 10px; margin-right: 10px" >
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <a data-role="button" class="km-justified km-widget km-button" href="#kdl-view"
+                               style="width:100%;">
+                                <span style="margin-right:1em;">
+                                    <i class="fa fa-flask fa-lg" aria-hidden="true"></i>
+                                </span>
+                                    КДЛ
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a data-role="button" class="km-justified km-widget km-button" href="#ldo-view"
+                               style="width:100%;">
+                                <span style="margin-right:1em;">
+                                    <i class="fa fa-desktop fa-lg" aria-hidden="true"></i>
+                                </span>
+                                ЛДО
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a data-role="button" class="km-justified km-widget km-button" href="#docs-view"
+                               style="width:100%;">
+                                <span style="margin-right:1em;">
+                                    <i class="fa fa-files-o fa-lg" aria-hidden="true"></i>
+                                </span>
+                                Документация
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+</div>
+<!-- КДЛ page -->
+<div data-role="view" id="kdl-view"
+     data-title="КДЛ" data-layout="dm-main-layout"
+     data-before-show="window.kdlBeforeShow"
+>
+    <div data-role="scroller" data-zoom="false">
+        <div id="kdl-html" data-bind="html:kdlHtml"></div>
+    </div>
+</div>
+<!-- ЛДО page -->
+<div data-role="view" id="ldo-view"
+     data-title="ЛДО" data-layout="dm-main-layout"
+     data-before-show="window.ldoBeforeShow"
+>
+    <div data-role="scroller" data-zoom="false">
+        <div id="ldo-html" data-bind="html:ldoHtml"></div>
+    </div>
+</div>
+<!-- documents-list page -->
+<div data-role="view" id="docs-view"
+     data-title="Документация" data-layout="dm-main-layout"
+     data-before-show="window.docsBeforeShow"
+>
+    <form>
+        <ul id="docs-list"></ul>
+    </form>
+</div>
+<!-- one doc page -->
+<div data-role="view" id="doc-view"
+     data-title="Документ" data-layout="dm-main-layout"
+     data-before-show="window.docBeforeShow"
+>
+    <div data-role="scroller" data-zoom="false">
+        <div id="doc-html" data-bind="html:docHtml"></div>
+    </div>
+</div>
+
+<!-- download-modal-window -->
+<div data-role="modalview" id="modalview-download" style="width: 90%;">
+    <div data-role="header">
+        <div data-role="navbar">
+            <span>Загрузка данных</span>
+            <a data-bind="click:closeModalViewDownload,enabled:isCloseModalViewDownloadEnabled"
+               data-role="button" data-align="right">Х</a>
+        </div>
+    </div>
+
+    <div>
+        <div style="margin-top:1em;" data-bind="html:downloadDate"></div>
+        <div style="margin-top:1em;">
+            <input type="checkbox" class="km-checkbox" id="download-kdl" checked="checked"/>
+            <label class="km-checkbox-label" for="download-kdl">Загрузить данные КДЛ</label>
+        </div>
+        <div style="margin-top:1em;">
+            <input type="checkbox" class="km-checkbox" id="download-ldo" />
+            <label class="km-checkbox-label" for="download-ldo">Загрузить данные ЛДО</label>
+        </div>
+        <div style="margin-top:1em;">
+            <input type="checkbox" class="km-checkbox" id="download-docs" />
+            <label class="km-checkbox-label" for="download-docs">Загрузить документацию</label>
+        </div>
+    </div>
+    <div data-bind="html:downloadState"
+         style="margin-top:1em;margin-bottom:1em;margin-left:1em;margin-right:1em;">
+    </div>
+    <div data-role="footer">
+        <div data-role="navbar">
+            <a data-bind="click:startDownload" id="modalview-download-start-button" type="button"
+               data-role="button" data-align="right">Выполнить</a>
+            <a data-bind="click:closeModalViewDownload,enabled:isCloseModalViewDownloadEnabled"
+               id="modalview-download-exit-button" type="button"
+               data-role="button" data-align="right">Закрыть</a>
+        </div>
+    </div>
+</div>
+
+<!-- main layout -->
+<div data-role="layout" data-id="dm-main-layout" id="mobile-layout"  data-init="layoutInit">
+    <div data-role="header">
+        <div data-role="navbar">
+            <a data-align="left"  data-role="backbutton"></a>
+            <span data-role="view-title"></span>
+            <a data-align="right" id="settings-link" data-icon="settings" data-role="button" href="#settings-view" title="Настройки"></a>
+            <a data-align="right" id="exit-link" data-icon="home" data-role="button"  href="#index-view"></a>
+            <!-- data-rel="external"  -->
+        </div>
+    </div>
+
+</div>
+

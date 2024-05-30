@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/redmond/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/css/ui.jqgrid.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/css/jquery.searchFilter.css" />
+    <!--<link rel="stylesheet" type="text/css" href="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.7.2/css/ui.jqgrid.css" />-->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
+    <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>-->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.js"></script>
+    <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>-->
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/i18n/grid.locale-en.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/grid.base-fixed.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/grid.common.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/grid.formedit.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/grid.inlinedit.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/grid.custom.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/jquery.fmatter.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/grid.grouping.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/grid.jqueryui.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/src/jquery.searchFilter.js"></script>
+    <!--<script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/js/i18n/grid.locale-en.js"></script>
+    <script type="text/javascript" src="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-3.8/js/jquery.jqGrid.min.js"></script>-->
+    <script type="text/javascript">
+    //<![CDATA[
+        jQuery(document).ready(function() {
+            $('#resultDiv').html('');
+            $("#list").jqGrid({
+                datatype: 'json',
+                url: 'default.aspx?action=jsongrid', //'json2.txt',
+                jsonReader: {
+                    root: "customers.rows",
+                    page: "page",
+                    total: "total",
+                    records: "records",
+                    repeatitems: false,
+                    userdata: "UserData",
+                    id: "a_id"
+                },
+                loadui: "block",
+                mtype: 'GET',
+                rowNum: 10,
+                rowList: [10, 20, 30],
+                viewrecords: true,
+                colNames: ['ID', 'Company', 'Country', 'E-Mail',
+                           'MaxOrdAmt', 'Phone'],
+                colModel: [
+                    { name: 'a_id', index: 'a_id' },
+                    { name: 'company', index: 'company' },
+                    { name: 'country', index: 'country', align: 'right' },
+                    { name: 'email', index:'email',align:'right'},
+                    { name: 'maxordamt', index:'maxordamt',align:'right'},
+                    { name: 'phone', index: 'phone', align:'right'},
+                ],
+                pager: '#pager',
+                sortname: 'a_id',
+                sortorder: 'asc',
+                caption: 'Customer Records',
+                loadComplete: function () {
+                    // if the page index is not set (e.g. page index = 0),
+                    // force the page index to first page
+                    var pageIndex = $('#list').jqGrid('getGridParam', 'page');
+                    if (pageIndex == 0) pageIndex = 1;
+
+                    $.ajax({
+                        url: 'default.aspx?action=jsongrid', //'json2.txt',
+                        type: "GET",
+                        data: ({ page: pageIndex, rows: 10,
+                                 sidx: 'a_id', sord: 'asc' }),
+                        dataType: "json",
+                        success: function (response) {
+                            $('#resultDiv').html(response);
+                        },
+                        error: function (xmlHttpRequest, textStatus, errorThrown) {
+                            $('#resultDiv').html('textStatus: ' + textStatus +
+                                                 ', errorThrown: ' + errorThrown);
+                        }
+                    });
+                }
+            });
+        });
+    //]]>
+    </script>
+    
+<style type="text/css">
+.style1 {
+	text-align: left;
+}
+</style>
+    
+</head>
+
+<BODY  font-size: 75% bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top bgColor=#f6e1a0 style="width: 403px">
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=104% bgColor=#fefefe>
+            <div align="center" class="ui-jqgrid">
+              <table border="0" cellpadding="2" style="width: 75%">
+                <tr>
+                  <td style="width: 75%" class="style1">
+
+				  <div class="style1">
+
+				  <font face="Arial"><b><font size="4">
+					<a href="<%=JustPath(oProp.ScriptPath)+[/default]+oProp.Ext %>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+
+                    <br>
+                    jqGrid List&nbsp;&nbsp;&nbsp; <font face><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="window.location = '<%=JustPath(oProp.ScriptPath)%>';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">
+				  Show Code</a></font></span></font></small></font></font></b></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				  <font face="Arial"><b><font face size="4"><small>
+				  <font face="arial,helvetica"><span style="font-weight: 400">
+				  <font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=jsongrid]%>">
+				  jsongrid.avfp</a></font></span></font></small></font></b></font></div>
+				  <table id="list"></table>
+<div id="pager"></div>
+<div id="resultDiv"></div>
+
+                  </td>
+                  <center>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%= include("footer.avfp") %>

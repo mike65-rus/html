@@ -1,0 +1,137 @@
+<body bgcolor="#1D5090" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+ <table cellspacing="0" cellpadding="0" width="100%" border="0">
+  <tbody>
+   <tr>
+    <td valign="bottom" width="100%" bgcolor="#1D5090"> </td>
+   </tr>
+  </tbody>
+ </table>
+
+ <table cellspacing="0" cellpadding="0" width="100%" border="0">
+  <tbody>
+   <tr>
+    <td width="100%">
+     <table cellspacing="0" cellpadding="12" width="98%" border="0">
+      <tbody>
+       <tr>
+        <td valign="top" bgcolor="#F6E1A0">
+         <p align="left"> </p>
+        </td>
+
+        <td valign="top" width="104%" bgcolor="#FEFEFE">
+         <div align="center">
+          <table border="0" cellpadding="2" width="100%">
+           <tr>
+            <td width="80%">
+             <form method="post" action="<%=oProp.ScriptPath%>?action=<%=oSession.VALUE("previous")%>">
+              <input type="hidden" name="process" value="yes">
+
+              <table border="0" width="580" cellspacing="5" cellpadding="0">
+               <tr>
+                <td valign="middle" align="middle"><a href="<% =oProp.ScriptPath %>"><img border="0" src="images/activeVFP.gif"></a></td>
+
+                <td width="1" rowspan="2" valign="top" align="middle" bgcolor="#000000"> </td>
+
+                <td valign="center" align="left"><font face="Arial"><big>Welcome to ActiveVFP!         <b><font face="" size="4"><small><font face="arial,helvetica"><span style="font-weight: 400"><font size="3" face="Arial"><!--                     <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a>  --></font></span></font></small></font></b></big><br>
+                <small>Этот сайт создан для сотрудников нашей больницы</small></font></td>
+               </tr>
+
+               <tr>
+                <td width="180" valign="top" align="right">
+                 <table border="0" width="112%">
+                  <tr>
+                   <td width="100%" valign="middle" align="center"><!--
+                                  <p align="left"><font face="Arial"><i><br>
+                                  <font face="arial,helvetica"><input type="button" value="Go Back" onClick="history.back()"></font></i></font>
+                                 --></td>
+                  </tr>
+                 </table>
+                </td>
+
+                <td>
+                 <div align="left">
+                  <p><font face="Arial" size="2" color="#000000">Для доступа ко всем функциям сайта вы должны указать <strong>Имя пользователя</strong> и <strong>Пароль.</strong></font></p>
+                 </div>
+
+                 <div align="left">
+                  <p><font face="Arial" size="2"><b><i><font color="red">Система не восприняла вашу информацию.  Пожалуйста, повторите попытку.  Also, if there has been no activity for 20 minutes or more, your session will timeout and you will have to sign on again.</font></i></b></font></p>
+                 </div>
+
+                 <table border="2" width="400" bordercolorlight="#00639c" bordercolordark="#004080" bordercolor="#00639C">
+                  <tr>
+                   <td width="100%">
+                    <table border="0" cellpadding="0" cellspacing="0" height="74" style="width: 100%">
+                     <tr>
+                      <td height="25">Пользователь:</td>
+                      <%
+                      
+                        lnUser=0 
+                        lcKey=ALLTRIM(oRequest.cookies(oSession.Value("mkey")))
+                        oSQL = CREATEOBJECT("AVFPsql")
+                      	oSQL.LogIn([oSession.Value("cnAVFP")])
+                        oSQL.cSQLCursor = "mcookies"
+                        oSql.Execute([SELECT * FROM COOKIES WHERE KID=']+ALLTRIM(lcKey)+['])
+                        IF RECCOUNT('mcookies')>0
+                          lnUser=mcookies.UID
+                      	ENDIF
+                      	oSql.cSQLCursor='users'
+                      	oSql.Execute([SELECT UID,UNAME FROM USERS ORDER BY UNAME])
+                      	
+                      %>
+                          <td height="25">
+                            <select name="Login" id="UserName">
+                              <%
+                                SELECT users
+                                SCAN
+                                  lcSelected=''
+                                  IF users.UID==lnUser
+                                    lcSelected=' selected'
+                                  ENDIF
+                              %>  
+                                <option value="<%= ALLTRIM(STR(users.UID,16,0))+["]+lcSelected) %>  > <%=ALLTRIM(users.UNAME) %> </option>
+
+                              <%
+                                ENDSCAN  
+                              %>
+                            </select>
+                          </td>
+                     </tr>
+
+                     <tr>
+                      <td height="27">Пароль:</td>
+
+                      <td height="27"><input type="password" name="Password" size="15" value="">  
+                      <input type="submit" value="Вход" name="B1"></td>
+                     </tr>
+
+                     <tr>
+                      <td height="22">
+                       <p align="right"><input type="checkbox" name="C1" value="ON"></p>
+                      </td>
+
+                      <td height="22">Запомнить меня</td>
+                     </tr>
+                    </table>
+                   </td>
+                  </tr>
+                 </table>
+
+                 <p><font face="Arial" size="1">Если у вас есть проблемы со входом в систему после ввода правильных учетных данных, то проверьте что ваш браузер поддерживает сохранение <strong>"Куков"</strong> и что в нем разрешено выполнение сценариев <strong>JavaScript</strong> .</font></p>
+
+                 <p> </p>
+                </td>
+               </tr>
+              </table>
+             </form>
+            </td>
+           </tr>
+          </table>
+         </div>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </td>
+   </tr>
+  </tbody>
+ </table><%= include("footer.avfp") %>

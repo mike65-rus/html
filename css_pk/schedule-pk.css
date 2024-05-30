@@ -1,0 +1,202 @@
+
+#schedule-month-view {
+    padding: 10px 5px;
+    margin-bottom: -1px;
+    min-height: 350px;
+    width:1100px;
+    font: inherit;
+}
+.schedule-month-div {
+    overflow-y:scroll;
+    display:inline-block;
+    width:100%;
+    height:100%;
+}
+.schedule-day {
+/*    float: left;
+    position: relative;
+    width: 120px;
+    height: 60px;
+    margin: 0 5px;
+    padding: 0px;
+*/
+    border: 2px solid black;
+    margin-bottom: 5px;
+    /* background-color: HoneyDew; */
+}
+
+.schedule-date {
+    text-align: center;
+    font-weight: bold !important;
+    border-bottom: 1px solid black;
+}
+.schedule-empty {
+    font-size: xx-large;
+    text-align: center;
+    font-weight: bold !important;
+}
+.schedule-past-date {
+    background-color: LightGrey;
+    color: white;
+}
+.schedule-holiday-date {
+    background-color: LightSteelBlue;
+    color: white;
+}
+.schedule-today {
+    border: 3px solid IndianRed;
+}
+.schedule-month-table {
+    border-spacing: 5px;
+    border-collapse: separate;
+    width:98%;
+    height:100%;
+}
+.schedule-day-names {
+    font-weight: bold !important;
+    text-align: center;
+}
+div.schedule-clickable:hover {
+    color: #fff;
+/*    background: #CA293E;  */
+    background:mediumslateblue;
+}
+table.schedule-month-table td:focus {
+    background: #f44;
+}
+.schedule-day-table {
+    border-spacing: 5px;
+    border-collapse: separate;
+    width:98%;
+}
+.schedule-cabinet {
+    text-align: center;
+    font-weight: bold !important;
+    border-bottom: 1px solid black;
+}
+.schedule-day-disabled {
+    color: grey;
+}
+.schedule-cabinet-empty {
+    font-size: x-large;
+    text-align: center;
+    font-weight: bold !important;
+}
+.schedule-day-talon {
+    border: 2px solid black;
+    margin-bottom: 5px;
+    /* background-color: HoneyDew; */
+}
+table.schedule-day-table td:hover {
+    color: #fff;
+    /*    background: #CA293E;  */
+    background:mediumslateblue;
+}
+.schedule-bold {
+    font-weight: bold;
+}
+.schedule-details-list {
+    height: 350px;
+
+}
+.schedule-details-list  ul {
+    -moz-column-count:2;
+    -webkit-column-count:2;
+    column-count:2;
+}
+.ticket-details-list {
+    -moz-column-count:3;
+    -webkit-column-count:3;
+    column-count:3;
+    margin:5px;
+    height:96%;
+    overflow-y:scroll
+}
+.service-detail-label {
+    font-weight:bold ;
+}
+table.schedule-exams-level1-table {
+    table-layout: fixed;
+    width:100%;
+}
+.fa.k-sprite,
+.fa.k-sprite::before {
+    font-size: 12px;
+    line-height: 12px;
+    vertical-align: middle;
+}
+.schedule-wizard-tab-footer {
+    margin-top:5px;
+    margin-bottom: 5px;
+}
+.schedule-wizard-tab {
+    height:475px;
+}
+#schedule-tree-filterText {
+    width: 80%;
+    /*
+    box-sizing: border-box;
+    padding: 6px;
+    border-radius: 3px;
+    border: 1px solid #d9d9d9;
+    */
+}
+/*
+.schedule-service-detail {
+    height: 50px;
+    width:100%;
+    border:1px solid grey;
+}
+*/
+
+.schedule-exams {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    margin: 0 5px;
+    border: 1px solid #d9d9d9;
+}
+.schedule-small-input {
+    font-size:small;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.schedule-170 {
+    width:200px;
+}
+.schedule-big-markers .k-plus {
+    -ms-transform: scale(1.7); /* IE */
+    -moz-transform: scale(1.7); /* FF */
+    -webkit-transform: scale(1.7); /* Safari and Chrome */
+    -o-transform: scale(1.7); /* Opera */
+    margin-right:10px;
+}
+.schedule-big-markers .k-minus {
+    -ms-transform: scale(1.7); /* IE */
+    -moz-transform: scale(1.7); /* FF */
+    -webkit-transform: scale(1.7); /* Safari and Chrome */
+    -o-transform: scale(1.7); /* Opera */
+    margin-right:10px;
+}
+.schedule-big-markers .k-checkbox {
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+    margin-right:10px;
+}
+.checkbox-invisible {
+    display:none !important;
+}
+.schedule-k-checkbox-label {
+    font-size:unset !important;
+    margin-bottom:10px;
+    margin-top:5px;
+    margin-left:5px;
+}
+.schedule-k-checkbox-label:hover {
+   text-decoration: line-through;
+   background-color: transparent ;
+}
+
+

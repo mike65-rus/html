@@ -1,0 +1,19 @@
+                <%  * Результаты в формате HTML %>
+<!--                <strong>Мои пациенты</strong> -->
+    <div id="html_div">
+        <div class="no-print form toolbar pull-left k-content">
+             <button rel="tooltip" title="Назад"  class="k-button" type="button"
+                 onClick="history.go(-1);return true;"><i class="fa fa-arrow-left"></i></button>
+             <button rel="tooltip" title="Печать"  class="k-button" type="button"
+                 onClick="window.print();return true;"><i class="fa fa-print"></i></button>
+        </div>
+        <p class="no-print">&nbsp;</p>
+        <div id="html_results">
+
+        </div>
+
+        <div id="word_results" class="no-print">
+
+        </div>
+        <div class='kdl-print-footer'></div>
+    </div>

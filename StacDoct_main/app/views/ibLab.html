@@ -1,0 +1,247 @@
+<div id="ib-lab" class="top-div">
+<div id="current_lab_tabs" class="tabbable">
+    <ul class="nav nav-tabs" id="labtabs">
+        <li rel="ibtab5" class="active"><a href="#ilab5" data-toggle="tab" id="labtab5" data-bind="events:{click:setCurrentTab},text:firstTabText"></a></li>
+        <li rel="ibtab0"><a href="#ilab0" data-toggle="tab" id="labtab0" data-bind="visible:isClinica,events:{click:setCurrentTab}">Клиника</a></li>
+        <li rel="ibtab1"><a href="#ilab1" data-toggle="tab" id="labtab1" data-bind="visible:isBioXim,events:{click:setCurrentTab}">Биохимия</a></li>
+        <li rel="ibtab2"><a href="#ilab2" data-toggle="tab" id="labtab2" data-bind="visible:isMocha,events:{click:setCurrentTab}">Моча</a></li>
+        <li rel="ibtab3"><a href="#ilab3" data-toggle="tab" id="labtab3" data-bind="visible:isKal,events:{click:setCurrentTab}">Кал</a></li>
+        <li rel="ibtab4"><a href="#ilab4" data-toggle="tab" id="labtab4" data-bind="visible:isOther,events:{click:setCurrentTab}">Прочее</a></li>
+        <li rel="ibtab9"><a href="#ilab9" data-toggle="tab" id="labtab9" data-bind="visible:isExt,events:{click:setCurrentTab}">Микробиология</a></li>
+        <li rel="ibtab6"><a href="#ilab6" data-toggle="tab" id="labtab6" data-bind="events:{click:setCurrentTab}">История</a></li>
+    </ul>
+</div>
+<div id="lab-content" class="tab-content">
+    <div class="tab-pane" id="ilab0">
+        <!-- клиника -->
+        <div class="form-inline toolbar ">
+            <button type="button"  rel="tooltip" title="Печать"
+                    class="labButton k-button pull-left" data-bind="events:{click:print}">
+                <i class="fa fa-print"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                     class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+                <i class="fa fa-external-link"></i>
+            </button>
+        </div>
+        <div>&nbsp;</div>
+        <div id="divlab0" class="divlab" data-bind="html:clinicaHtml">
+
+        </div>
+    </div>
+    <div class="tab-pane" id="ilab1">
+        <!-- биохимия -->
+        <div class="form-inline toolbar">
+            <button type="button"  rel="tooltip" title="Печать"
+                    class="labButton  k-button pull-left" data-bind="events:{click:print}">
+                <i class="fa fa-print"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                     class="labButton k-button pull-left" data-bind="{events:{click:showExternal}}">
+                <i class="fa fa-external-link"></i>
+            </button>
+        </div>
+        <div>&nbsp;</div>
+        <div id="divlab1"  class="divlab"  data-bind="html:bioXimHtml">
+
+        </div>
+    </div>
+    <div class="tab-pane" id="ilab2">
+        <!-- моча -->
+        <div class="form-inline toolbar">
+            <button type="button"  rel="tooltip" title="Печать"
+                    class="labButton  k-button pull-left" data-bind="events:{click:print}">
+                <i class="fa fa-print"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                     class="labButton k-button pull-left" data-bind="{events:{click:showExternal}}">
+                <i class="fa fa-external-link"></i>
+            </button>
+        </div>
+
+        <div>&nbsp;</div>
+        <div id="divlab2"  class="divlab"  data-bind="html:mochaHtml">
+
+        </div>
+    </div>
+    <div class="tab-pane" id="ilab3">
+        <div class="form-inline toolbar">
+            <button type="button"  rel="tooltip" title="Печать"
+                    class="labButton  k-button pull-left" data-bind="events:{click:print}">
+                <i class="fa fa-print"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                     class="labButton k-button pull-left" data-bind="{events:{click:showExternal}}">
+                <i class="fa fa-external-link"></i>
+            </button>
+
+        </div>
+
+        <div>&nbsp;</div>
+        <div id="divlab3"  class="divlab"  data-bind="html:kalHtml">
+
+        </div>
+        <!-- кал -->
+    </div>
+    <div class="tab-pane" id="ilab4">
+        <!-- прочее -->
+        <div class="form-inline toolbar">
+            <button type="button"  rel="tooltip" title="Печать"
+                    class="labButton  k-button pull-left" data-bind="events:{click:print}">
+                <i class="fa fa-print"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                     class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+                <i class="fa fa-external-link"></i>
+            </button>
+        </div>
+        <div>&nbsp;</div>
+        <div id="divlab4"  class="divlab"  data-bind="html:otherHtml">
+
+        </div>
+    </div>
+    <div class="tab-pane" id="ilab9">
+        <!-- микробиология GetAnalyze.fdb) -->
+        <div class="form-inline toolbar">
+            <button type="button"  rel="tooltip" title="Печать"
+                    class="labButton  k-button pull-left" data-bind="events:{click:print}">
+                <i class="fa fa-print"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                     class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+                <i class="fa fa-external-link"></i>
+            </button>
+        </div>
+        <div>&nbsp;</div>
+        <div id="divlab9"  class="divlab"  data-bind="html:extHtml">
+
+        </div>
+    </div>    <div class="tab-pane active" id="ilab5">
+        <!-- все анализы -->
+        <div class="form-inline toolbar">
+            <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                     class="labButton k-button pull-left" data-bind="{events:{click:showExternal}}">
+                <i class="fa fa-external-link"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button id="turnLabDiv" type="button"  rel="tooltip"
+                    class="labButton  k-button pull-left" data-bind="attr:{title:eyeTitle},events:{click:toggleGrid}">
+                <i data-bind="attr:{class:eyeClass}" ></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button  type="button"  rel="tooltip" title="Обновить"
+                     class="labButton  k-button pull-left" data-bind="click:onRefresh">
+                <i class="icon-refresh"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button type="button"  rel="tooltip" title="Печать"
+                    class="labButton  k-button pull-left" data-bind="events:{click:print},visible:isAllVisible">
+                <i class="fa fa-print"></i>
+            </button>
+        </div>
+        <div>&nbsp;</div>
+        <div id="divlab5"  class="divlab"  data-bind="html:allHtml,visible:isAllVisible">
+
+        </div>
+        <div>&nbsp;</div>
+        <div id="ibLab" class="ibgrid1"
+             data-role="grid"
+             data-sortable="false"
+             data-pageable="true"
+             data-filterable="false"
+             data-selectable="true"
+             data-auto-bind="false"
+             data-columns='[
+            {field: "iddoc", title: "iddoc",hidden: true },
+            {field: "ask_id", title: "ask_id",hidden: true },
+            { field: "data_a", title: "Дата", width: "10%", format: "{0:dd.MM.yyyy}"},
+            { field: "time", title: "Время", width: "8%", format: "{0:HH:mm}"},
+            { field: "bl_name", title: "Анализ", width: "30%"  },
+            { field: "bm_name", title: "Биоматериал", width: "15%"   },
+            { field: "last_view", title: "Просмотр", width: "15%", format: "{0:dd.MM.yyyy - HH:mm}" }
+            ]'
+            data-bind="source:labListDs,visible:isGridVisible,events:{dataBinding:onDataBinding}"
+
+                ></div>  <!-- kendo grid -->
+        <!--
+            <script type="text/x-kendo-template" id="ibLabToolbar">
+                <div class="form-inline toolbar" id="ibLabGridToolbar">
+                    <button rel="tooltip" title="Динамика" id="btnDynamLab" class="k-button pull-left" type="button"
+                        onclick="showLabDiv('divlab5')"><i class="fa fa-table"></i></button>
+                    <button rel="tooltip" title="Обновить" id="btnRefreshLab" class="k-button pull-right" type="button" data-bind="events:{click: readLab}"><i class="icon-refresh"></i></button>
+                </div>
+            </script>
+        -->
+    </div>
+    <div class="tab-pane" id="ilab6">
+        <!-- История -->
+        <div class="form-inline toolbar">
+			<button class="k-button" data-bind="click:hisQuery1">Запросить данные из системы Лаборатория</button>
+<!--             <button type="button"  rel="tooltip" title="Печать"
+                    class="labButton  k-button pull-left" data-bind="events:{click:print}">
+                <i class="fa fa-print"></i>
+            </button>
+            <span class="pull-left">&nbsp;</span>
+            <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                     class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+                <i class="fa fa-external-link"></i>
+            </button>
+ -->        </div>
+        <div>&nbsp;</div>
+			<div id="old-lab-data" class="divlab">
+				<div id="old-lab-data-grid"></div>
+				<div>
+
+				</div>
+			</div>
+        <!-- <div id="divlab6"  class="divlab"  data-bind="html:hisHtml"> -->
+
+        </div>
+    </div>
+	
+	
+	<div id="old-lab-result-window" style="display:none">
+		<div id="old-lab-result" style="padding:5px">
+			<div id="old-lab-result-header">
+				<div>
+					<span>Пациент:<span style="font-weight: bold" data-bind="html:patLabel"></span></span>
+					<span class="pull-right">
+					<button class="k-button" data-bind="click:printOldResult" title="Печать">
+					<i class="fa fa-print"></i>
+					</button>
+					&nbsp;
+					<button class="k-button" data-bind="click:exportPDF" title="Получить в формате PDF">
+					<i class="fa fa-save"></i>
+					</button>
+					&nbsp;
+					</span>
+				</div>
+				<div>
+					<input type="checkbox" id="includeToIb" class="k-checkbox" data-bind="checked:isOldAnalIncluded"/>
+					<label class="k-checkbox-label" for="includeToIb">Присоединить к текущей ИБ</label>
+				</div>
+				<hr>
+			</div>
+			<div id="old-lab-print" style="height:500px;overflow: auto">
+				<div id="old-lab-result-body-html"  data-bind="html:oldHtml"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+</div>
+
+<script id="lab-check-template" type="text/x-kendo-template">
+    # if (data.included) { #
+    <button type="button" class="k-button lab-chk-button" title="Нажмите чтобы исключить исследование из текущей ИБ"><i class="fa fa-check-square-o fa-2x"></i></button>
+    # } #
+    # if (!data.included) { #
+    <button type="button" class="k-button lab-chk-button" title="Нажмите чтобы включить исследование в текущую ИБ"><i class="fa fa-square-o fa-2x"></i></button>
+    # } #
+</script>

@@ -1,0 +1,43 @@
+<div class="k-content" style="width: 100%" id="ib-news-part">
+    <div id="ibNewsGrid" class="ibgrid-news"
+        data-role="grid"
+        data-sortable="false"
+        data-pageable="true"
+        data-filterable="false"
+        data-selectable="true"
+        data-toolbar='[ { template: kendo.template($("#ibNewsToolbar").html()) } ]'
+        data-auto-bind="false"
+        data-columns='[
+            {field: "ask_id", title: "ask_id",hidden: true },
+            {field: "sys_id", title: "Вид", width:"5%",template:$("#ib-news-template").html()  },
+            { field: "curdate", title: "Дата", width: "10%", format: "{0:dd.MM.yyyy}"},
+            { field: "curtime", title: "Время", width: "10%", format: "{0:HH:mm}"},
+            { field: "ext1", title: "Исследование", width: "30%"},
+            { field: "ext2", title: "Доп.Инфо", width: "20%"},
+            { field: "ext3", title: "Ext3"}
+        ]'
+        data-bind="source: dataSource, events: { change: onChange, dataBound: onDataBound }">
+    </div>  <!-- kendo grid -->
+</div>
+
+<script type="text/x-kendo-template" id="ibNewsToolbar">
+    <span class="pull-left">
+                                <p><strong>Новое</strong></p>
+                        </span>
+    <div class="form-inline toolbar  pull-right" id="ibNewsGridToolbar">
+        <button rel="tooltip" title="Обновить" id="btnRefreshNews"
+                class="k-button" type="button" data-bind="events:{click: onRefresh}">
+            <i class="icon-refresh"></i>
+        </button>
+    </div>
+</script>
+
+<script id="ib-news-template" type="text/x-kendo-template">
+    # if (data.sys_id === 2) { #
+    <i class="fa fa-desktop"></i>
+    # } #
+    # if (data.sys_id === 1) { #
+    <i class="fa fa-flask"></i>
+    # } #
+</script>
+

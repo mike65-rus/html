@@ -1,0 +1,529 @@
+<%
+LOCAL AjaxResponse,lcAction
+*IF !(oSession.VALUE("authenticated"))
+IF .F.
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+	DO CASE
+	    CASE lcAction=='patient_docs_crud'
+	        lcCrudAction=oRequest.QueryString("crud_action")
+	        lcData=oRequest.Form("data")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+       		oObj=oJSON.parse(lcData)
+            oCases=NEWOBJECT('CASES','CASES.prg')
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    DO CASE
+   		        CASE lcCrudAction=="read"
+                    lnRet=oCases.GetPatientDocs(oObj.patient_id,oObj.date_end,"patdocs")
+   		    ENDCASE
+            oCases=NULL
+            CLEAR CLASS CASES
+            IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=RECCOUNT('patdocs')
+                oJSON.keyforcursors='patdocs'
+                oJSON.appendBlank=.F.
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('patdocs'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='get_all_docs_vid' && get all docs vid's (for tree view)
+   	        lnDocId=VAL(oRequest.QueryString("doc_id"))
+   	        lnUserId=oSession.Value("uid")
+
+   	        oIB=NewObject('CASES','CASES.prg')
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+            oRet=oIb.getAllDocVids(lnUserId)
+            oIB=NULL
+            CLEAR CLASS CASES
+   		    IF oRet.Count==0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=oRet.Count
+*       		    AddProperty(AjaxResponse,"doc_tree", "")  &&Add a property that will indicate the error
+                oJSON.keyForItems="docs"
+ *               AjaxResponse.doc_tree=oJSON.stringify(oRet,"doc_name,doc_type,doc_subtype,sub_items")
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify(oRet,"doc_name,doc_type,doc_subtype,sprite,sub_items"))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='create_doc'
+			lcAskId=oRequest.QueryString("ask_id")
+   	        lcPin=oRequest.QueryString("pin")
+   	        lnEvn=VAL(oRequest.QueryString("evn"))
+   	        lnUserId=VAL(oRequest.QueryString("user_id"))
+   	        lnDocId=VAL(oRequest.QueryString("doc_id"))
+            lnDocSub=VAL(NVL(oRequest.QueryString("doc_sub"),""))
+            lcExtData=NVL(oRequest.QueryString("ext_data"),"")
+            lcRecordIdSrc=NVL(oRequest.QueryString("src_record_id"),"")
+
+   	        oIB=NewObject('CASES','CASES.prg')
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lcRet=""
+   		    lcLogo3=""
+   		    lcSurveyLink=""
+   		    lnSurveyLinkType=0
+   		    lcRecordID=""
+   		    lcExt1=""
+   		    lcExt2=""
+   		    lcExt3=""
+            lcHtmlTemplate=""
+            lcJsonTemplate=""
+            lcCaseId=""
+   		    DO CASE
+   		        CASE INLIST(lnDocId,11,60,71)
+					*почему-то приходит всегда 0
+					lnDocSub=1
+   		            lcRet=oIb.CreateDocFromTemplate(lnDocId,lnDocSub,lnUserId,lcAskId,oProp.AppStartPath,@lcLogo3,@lcHtmlTemplate,@lcJsonTemplate)
+   		        CASE lnDocId=1
+   		            lcRet=oIB.CreateVyp(lnUserId,lcAskId,@lcLogo3,lcExtData,@lcExt1,@lcExt2)
+   		        CASE lnDocId=31
+   		            lcRet=oIB.CreateBlankNapr(lnUserId,lcAskId,@lcLogo3)
+   		        CASE lnDocId=21
+   		            lcRet=oIB.CreateBlankJad(lnUserId,lcAskId,@lcLogo3)
+   		        CASE lnDocId=59
+   		            lcRet=oIB.CreateBlankOnko(lnUserId,lnEVN,@lcLogo3,@lcSurveyLink,@lnSurveyLinkType,@lcRecordId,@lcExt1,@lcExt2,@lcExt3)
+   		        CASE lnDocId=57
+   		            lcRet=oIB.CreateBlankOtravlenie(lnUserId,lcAskId,@lcLogo3,@lcSurveyLink,@lnSurveyLinkType,@lcRecordId,@lcExt1,@lcExt2,@lcExt3)
+   		        CASE lnDocId=58
+   		            lcRet=oIB.CreateBlankInfek(lnUserId,lcRecordIdSrc,lnEVN,@lcLogo3,@lcCaseId)
+   		    ENDCASE
+            oIB=NULL
+            CLEAR CLASS CASES
+		    IF lnDocId=58 AND .F.
+                AjaxResponse.error="Jabber сработал!<br>"+lcRet
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+   		    IF EMPTY(lcRet)
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        IF INLIST(lnDocId,1,31,59,57)
+   		            lcRet=getLogo(oProp.AppStartPath+[hospital.TXT],lcLogo3)+lcRet
+   		        ENDIF
+   		        CREATE CURSOR DOC (RECORD_ID C(36) NULL, CASE_ID C(36) NULL, DOC_ID N(12,0) NULL, DOC_SUB N(12,0) NULL, ;
+   		            SURVEY_LINK C(200) NULL, LINK_TYPE N(1,0) NULL,;
+   		         EXT1 C(200) NULL, EXT2 C(200) NULL,   EXT3 C(200) NULL, ;
+                 DOC_HTML M, DOC_JSON M, HTML_TEMPLATE M, JSON_TEMPLATE M,HTML_LINK C(200) )
+
+   		        APPEND BLANK
+   		        REPLACE RECORD_ID WITH lcRecordID, DOC_ID WITH lnDocId, DOC_SUB WITH lnDocSub, ;
+   		            DOC_HTML WITH lcRet, SURVEY_LINK WITH lcSurveyLink, ;
+   		            LINK_TYPE WITH lnSurveyLinkType, ;
+   		            EXT1 WITH lcExt1,;
+   		            EXT2 WITH lcExt2,;
+   		            EXT3 WITH lcExt3,;
+   		            CASE_ID WITH lcCaseId
+                IF INLIST(lnDocId,11,60,71)
+                    REPLACE DOC_HTML WITH "",;
+                        HTML_LINK WITH lcRet,;
+                        HTML_TEMPLATE WITH lcHtmlTemplate, ;
+                        JSON_TEMPLATE WITH lcJsonTemplate ;
+                        IN DOC
+                ENDIF
+                AjaxResponse.records=RECCOUNT('doc')
+                oJSON.keyforcursors='doc'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('doc'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+		CASE (lcAction=='71_send_doc')
+   	        lcRecordId=NVL(oRequest.QueryString("record_id"),"")
+   	        lcEvn=oRequest.QueryString("evn")
+   	        lcPin=oRequest.QueryString("pin")
+			lcFio=oRequest.QueryString("fio")
+   	        lnUserId=VAL(oRequest.QueryString("user_id"))
+   	        lnDocId=VAL(oRequest.QueryString("doc_id"))
+   	        lnSendMsg=NVL(oRequest.QueryString("send"),"")
+   	        lnSendMsg=VAL(lnSendMsg)
+
+            nBytes=oRequest.oRequest.TotalBytes
+            lcBinData=oRequest.oRequest.BinaryRead(nBytes)
+            lcBinData2=STRTRAN(lcBinData,CHR(226)+[†—],[&#8599;])
+            lcBinData2=STRTRAN(lcBinData2,CHR(226)+[†],[&#8600;])
+            lcBinData2=STRTRAN(lcBinData2,CHR(239)+CHR(187)+CHR(191),[])
+            lcStr16=STRCONV(lcBinData2,11)
+            lcDoc=STRCONV(lcStr16,2)
+            lcDoc=STRTRAN(lcDoc,[&#8599;?],[&#8599;])
+            lcDoc=STRTRAN(lcDoc,[&#8600;?],[&#8600;])
+
+   	        oIB=NewObject('CASES','cases.prg')
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+
+   	        lnRet=oIB.SendDoc71(lcRecordId,lcEvn,lnDocId,lnUserId,lcDoc,oProp.AppStartPath+[DOC_STORAGE\])
+            oIB=NULL
+            CLEAR CLASS cases
+   	        IF (lnRet<=0)
+                        AjaxResponse.error="Не удалось отправить сообщение!<br>Повторите попытку позже!"
+   	        ENDIF
+            lcStr=oJSON.stringify(AjaxResponse)
+            oJSON=NULL
+            CLEAR CLASS json2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+		CASE lcAction=='59_send_doc'
+   	        lcRecordId=NVL(oRequest.QueryString("record_id"),"")
+			lcEvn=oRequest.QueryString("evn")
+   	        lcPin=oRequest.QueryString("pin")
+			lcFio=oRequest.QueryString("fio")
+   	        lnUserId=VAL(oRequest.QueryString("user_id"))
+   	        lnDocId=VAL(oRequest.QueryString("doc_id"))
+   	        lnSendMsg=NVL(oRequest.QueryString("send"),"")
+   	        lnSendMsg=VAL(lnSendMsg)
+			lnPartCount=VAL(oRequest.QueryString("parts"))
+
+            nBytes=oRequest.oRequest.TotalBytes
+            lcBinData=oRequest.oRequest.BinaryRead(nBytes)
+            lcBinData2=STRTRAN(lcBinData,CHR(226)+[†—],[&#8599;])
+            lcBinData2=STRTRAN(lcBinData2,CHR(226)+[†],[&#8600;])
+            lcBinData2=STRTRAN(lcBinData2,CHR(239)+CHR(187)+CHR(191),[])
+            lcStr16=STRCONV(lcBinData2,11)
+            lcDoc=STRCONV(lcStr16,2)
+            lcDoc=STRTRAN(lcDoc,[&#8599;?],[&#8599;])
+            lcDoc=STRTRAN(lcDoc,[&#8600;?],[&#8600;])
+
+   	        oIB=NewObject('cases','cases.prg')
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+
+   	        lnRet=oIB.SendDoc59(lcRecordId,val(lcEvn),lcPin,lcFio,lnDocId,lnUserId,lnPartCount,lcDoc,oProp.AppStartPath+[\DOC_STORAGE\])
+            oIB=NULL
+            CLEAR CLASS cases
+   	        IF (lnRet<=0)
+                        AjaxResponse.error="Не удалось отправить сообщение!<br>Повторите попытку позже!"
+   	        ENDIF
+            lcStr=oJSON.stringify(AjaxResponse)
+            oJSON=NULL
+            CLEAR CLASS json2
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+	    CASE (lcAction=='save_doc') or (lcAction=='save_doc_cda')
+   	        lcRecordId=oRequest.QueryString("record_id")
+   	        lcAskId=oRequest.QueryString("evn")
+   	        lnUserId=VAL(oRequest.QueryString("user_id"))
+   	        lnDocId=VAL(oRequest.QueryString("doc_id"))
+   	        lnSendMsg=NVL(oRequest.QueryString("send"),"")
+   	        lnSendMsg=VAL(lnSendMsg)
+            lnDocSub=VAL(NVL(oRequest.QueryString("doc_subtype"),""))
+     	    lcDocDate=NVL(oRequest.QueryString("doc_date"),"")
+     	    lcDocTime=NVL(oRequest.QueryString("doc_time"),"")
+     	    lcExt1=NVL(oRequest.QueryString("ext1"),"")
+     	    lcExt2=NVL(oRequest.QueryString("ext2"),"")
+     	    lcExt3=NVL(oRequest.QueryString("ext3"),"")
+     	    lcCaseId=NVL(oRequest.QueryString("case_id"),"")
+*   	        lnEvn=VAL(oRequest.QueryString("evn"))
+
+
+	        nBytes=oRequest.oRequest.TotalBytes
+	        lcBinData=oRequest.oRequest.BinaryRead(nBytes)
+*   	        =StrToFile(lcBinData,"c:\activevfp\123.txt")
+   	        lcBinData2=STRTRAN(lcBinData,CHR(226)+[†—],[&#8599;])
+   	        lcBinData2=STRTRAN(lcBinData2,CHR(226)+[†],[&#8600;])
+            lcBinData2=STRTRAN(lcBinData2,CHR(239)+CHR(187)+CHR(191),[])
+   	        lcStr16=STRCONV(lcBinData2,11)
+ *  	        =StrToFile(lcStr16,"c:\activevfp\123_16.txt")
+   	        lcDoc=STRCONV(lcStr16,2)
+   	        lcDoc=STRTRAN(lcDoc,[&#8599;?],[&#8599;])
+   	        lcDoc=STRTRAN(lcDoc,[&#8600;?],[&#8600;])
+ *  	        =StrToFile(lcDoc,"c:\activevfp\123_1251.txt")
+*   	        lcDoc=oRequest.FORM("doc")
+
+   	        oIB=NewObject('CASES','CASES.prg')
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    IF lcAction=='save_doc'
+       		    lnRet=oIB.SaveDoc(lcCaseId,lcRecordID,VAL(lcAskId),lnDocId,lnUserId,lcDoc,"doc","DOC",lnDocSub,lcDocDate,lcDocTime,lcExt1,lcExt2,lcExt3)
+            ELSE
+                lnRet=oIB.SaveDoc(lcCaseId,lcRecordID,VAL(lcAskId),lnDocId,lnUserId,lcDoc,"doc","DOC",lnDocSub,lcDocDate,lcDocTime,lcExt1,lcExt2,lcExt3)
+            ENDIF
+            oIB=NULL
+            CLEAR CLASS CASES
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        IF (lcAction=='save_doc') AND (!EMPTY(lnSendMsg))
+           	        oIB=NewObject('CASES','CASES.prg')
+           	        SELECT DOC
+           	        GO TOP
+           	        lnRet=oIB.SendDoc(doc.RECORD_ID,VAL(lcAskId),lnDocId,lnUserId,lcDoc,oProp.AppStartPath+[\DOC_STORAGE\])
+           	        IF (lnRet<=0)
+                        AjaxResponse.error="Документ сохранен, но отправить сообщение не удалось!<br>Повторите попытку позже!"
+           	        ENDIF
+           	        oIB=NULL
+           	        CLEAR CLASS CASES
+           	    ENDIF
+                AjaxResponse.records=RECCOUNT('doc')
+                oJSON.keyforcursors='doc'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('doc'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+        CASE lcAction=='get_doc_by_id'
+   	        lcRecordId=oRequest.QueryString("record_id")
+   	        oIB=NewObject('CASES','CASES.prg')
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.AppendBlank=.F.
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+            lnRet=oIb.getDocById(lcRecordId,"doc")
+            oIB=NULL
+            CLEAR CLASS CASES
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('doc')
+                oJSON.keyforcursors='doc'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('doc'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='get_ibDoc'  && get one doc
+   	        lcRecordId=oRequest.QueryString("record_id")
+   	        oIB=NewObject('CASES','CASES.prg')
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+            lnRet=oIb.getIbDoc(lcRecordId,"ibdoc2")
+            oIB=NULL
+            CLEAR CLASS CASES
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                SELECT IBDOC2
+                GO TOP
+                SELECT * FROM ibdoc2 INTO CURSOR IBDOC READWRITE
+                SELECT IBDOC
+                IF RECCOUNT()=0
+                    APPEND BLANK
+                ENDIF
+                SCAN
+                    SCATTER MEMVAR MEMO
+                    IF !("gb2-logo-div" $ m.DOC_HTML)
+                        IF INLIST(m.Doc_Id,59,57)
+                            lcRet=getLogo(oProp.AppStartPath+[hospital.TXT],"")
+                            m.DOC_HTML=lcRet+m.DOC_HTML
+                        ENDIF
+                    ENDIF
+                    GATHER MEMVAR MEMO
+                ENDSCAN
+                GO TOP
+                AjaxResponse.records=RECCOUNT('ibdoc')
+                oJSON.keyforcursors='ibdoc'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ibdoc'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+       	    CASE lcAction=='delete_doc'
+
+                lcRecId=oRequest.QueryString("record_id")
+
+                oIB=NewObject('CASES','CASES.prg')
+                oJSON=NEWOBJECT('json2','json2.prg')
+
+                AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+                ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+                AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+                lnRet=oIB.deletePatientDoc(lcRecId)
+                oIB=NULL
+                CLEAR CLASS CASES
+                IF (lnRet<0)
+                    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                    lcStr=oJSON.stringify(AjaxResponse)
+                    oJSON=NULL
+                    CLEAR CLASS json2
+                    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                    oResponse.Write(lcStr)
+                    oResponse.Flush
+                    lcHTMLout=[]
+                ELSE
+                    CREATE CURSOR DOC (RECORD_ID C(36))
+                    APPEND BLANK
+                    REPLACE RECORD_ID WITH lcRecId
+                    AjaxResponse.records=RECCOUNT('doc')
+                    oJSON.keyforcursors='doc'
+                    lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('doc'))
+                    oJSON=NULL
+                    CLEAR CLASS json2
+                    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                    oResponse.Write(lcStr)
+                    oResponse.Flush
+                    lcHTMLout=[]
+                ENDIF
+     	    CASE lcAction=='get_created_on_src'
+
+                lcRecId=oRequest.QueryString("record_id")
+
+                oIB=NewObject('CASES','CASES.prg')
+                oJSON=NEWOBJECT('json2','json2.prg')
+                oJSON.appendBlank=.F.
+
+                AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+                ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+                AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+                lnRet=oIB.GetDocsMayBeCreatedOnSource(lcRecId)
+                oIB=NULL
+                CLEAR CLASS CASES
+                IF (lnRet<0)
+                    AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                    lcStr=oJSON.stringify(AjaxResponse)
+                    oJSON=NULL
+                    CLEAR CLASS json2
+                    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                    oResponse.Write(lcStr)
+                    oResponse.Flush
+                    lcHTMLout=[]
+                ELSE
+                    AjaxResponse.records=RECCOUNT('dista')
+                    oJSON.keyforcursors='dista'
+                    lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('dista'))
+                    oJSON=NULL
+                    CLEAR CLASS json2
+                    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                    oResponse.Write(lcStr)
+                    oResponse.Flush
+                    lcHTMLout=[]
+                ENDIF
+	    CASE lcAction=='get_all_dist_docs_vid' && get all docs vid's (for tree view)
+   	        lcRecordIdSrc=NVL(oRequest.QueryString("record_id"),"")
+   	        lnUserId=oSession.Value("uid")
+
+   	        oIB=NewObject('CASES','CASES.prg')
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+            oRet=oIb.getAllDocVids(lnUserId,lcRecordIdSrc)
+            oIB=NULL
+            CLEAR CLASS CASES
+   		    IF oRet.Count==0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=oRet.Count
+*       		    AddProperty(AjaxResponse,"doc_tree", "")  &&Add a property that will indicate the error
+                oJSON.keyForItems="docs"
+ *               AjaxResponse.doc_tree=oJSON.stringify(oRet,"doc_name,doc_type,doc_subtype,sub_items")
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify(oRet,"doc_name,doc_type,doc_subtype,sprite,sub_items"))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+
+  ENDCASE
+ENDIF
+%>

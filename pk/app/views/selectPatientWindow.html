@@ -1,0 +1,19 @@
+<div id="select-patient-window"  class="k-block" style="padding-left: 15px;padding-right:15px;padding-bottom:10px">
+    <div >
+
+        <input class="k-input" placeholder="ПИН или ФИО" type="text" required  data-msg-required="Задайте критерий поиска"
+               style="margin-top:10px;font-weight:bold;font-size:x-large;height:35px; width:500px;padding-left:5px;padding-right:5px"/>
+        &nbsp;
+        <button class="k-button" data-bind="events{click:doSearch}">Поиск</button>
+    </div>
+    <div style="margin-top: 10px; font-weight:bold; height:20px; width:100%" data-bind="html:currentPatientLabel"></div>
+    <div style="margin-top:10px;width:100% ">
+        <select id="patientListBox" style="width:100% "></select>
+    </div>
+    <div style="margin-top:10px;width:100%;text-align: center ">
+        <button class="k-button" data-bind="enabled:isSelectPatientEnabled,events{click:selectPatient}">Выбрать</button>
+        &nbsp;
+        &nbsp;
+        <button class="k-button"  data-bind="events{click:cancelSelectPatient}">Отказ</button>
+    </div>
+</div>

@@ -1,0 +1,487 @@
+
+<%
+  sUserAgent=NVL(oRequest.oRequest.ServerVariables("HTTP_USER_AGENT").Item(),"")
+  sGuid=CreateGuid()
+  sDeviceType="desktop"
+  sRemoteAddr=NVL(oRequest.oRequest.ServerVariables("REMOTE_ADDR").Item(),"")
+  bFormRegistered=RegisterForm(sGuid,sDeviceType,sUserAgent,sRemoteAddr)
+  IF .F.
+      sServerVars=""
+      sServerVars=sServerVars+"USER_AGENT="+NVL(oRequest.oRequest.ServerVariables("HTTP_USER_AGENT").Item(),"")+CHR(13)+CHR(10)
+      sServerVars=sServerVars+"USER="+NVL(oRequest.oRequest.ServerVariables("AUTH_USER").Item(),"")+CHR(13)+CHR(10)
+      sServerVars=sServerVars+"RemoteAddr="+NVL(oRequest.oRequest.ServerVariables("REMOTE_ADDR").Item(),"")+CHR(13)+CHR(10)
+      sServerVars=sServerVars+"RemoteHost="+NVL(oRequest.oRequest.ServerVariables("REMOTE_HOST").Item(),"")+CHR(13)+CHR(10)
+      sServerVars=sServerVars+"RemoteUser="+NVL(oRequest.oRequest.ServerVariables("REMOTE_USER").Item(),"")+CHR(13)+CHR(10)
+      =StrToFile(sServerVars,"C:\sites\gb2\prg\serverVars.txt",0)
+  ENDIF
+%>
+<% IF sDeviceType=="desktop" %>
+    <%= include("header.avfp") %>
+<% ELSE %>
+    <!DOCTYPE HTML >
+    <HTML  lang="ru">
+    <HEAD>
+    <TITLE>ГБ2 :: <%=IIF(ISNULL(oProp.Action),[Default],oProp.Action)%></TITLE>
+    <META http-equiv=Content-Type content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="javascript/css/bootstrap.min.css" rel="stylesheet">
+    <link href="javascript/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+     <script src="javascript/jquery-1.9.1.js" type="text/javascript"></script>
+     <script src="javascript/bootstrap.min.js"></script>
+
+<% ENDIF %>
+
+
+ <!-- Custom styles for this template -->
+<!---  <link href="javascript/css/custom/signin.css" rel="stylesheet">  --->
+<% IF sDeviceType=="mobile" %>
+    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
+    <link rel="manifest" href="mobile-manifest.json">
+    <link rel="apple-touch-icon" href="html/images/1-56-192.png">
+    <meta name="theme-color" content="#317EFB"/>
+    <script>
+    /*
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/gb2/sw.js').then(function(registration){
+                localStorage.setItem("serviceWorkerRegistered","true");
+                console.log("ServiceWorker Registration success");
+            }).catch (function(err) {
+                console.log('ServiceWorker Registration failed with ' + error);
+                localStorage.setItem("serviceWorkerRegistered","");
+            });
+        };
+        */
+         localStorage.setItem("serviceWorkerRegistered","");
+    </script>
+<% ENDIF %>
+<script language="JavaScript">
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+}
+function reloadPage() {
+    document.location.reload(true);
+}
+function globalAlgoFilter(sAlgoName) {
+    return sAlgoName.startsWith("ГОСТ");
+}
+function validateForm(el) {
+//    el.preventDefault();
+    var x = document.forms["loginForm"]["loginType"].value;
+    var bNeedSign=true;
+    if (x=="cert") {
+        var e = document.getElementById('CertListBox');
+        var selectedCertID = e.selectedIndex;
+        if (selectedCertID == -1) {
+            alertify.alert("Не выбран сертификат!");
+            return false;
+        }
+        var cert=global_selectbox_container[selectedCertID];
+        cadesplugin.async_spawn (function*(args) {
+            var oSigner=null;
+            var signOk=!bNeedSign;
+		var signOk=true;
+		/*	
+            if (bNeedSign) {
+                try {
+                    oSigner = yield cadesplugin.CreateObjectAsync("CAdESCOM.CPSigner");
+                }
+                catch (er) {
+                }
+                if (oSigner) {
+                    yield oSigner.propset_Certificate(args[0]);
+                }
+                var dataToSign="Hello";
+                var oSignedData = yield cadesplugin.CreateObjectAsync("CAdESCOM.CadesSignedData");
+                var CADES_BES = 1;
+                var Signature;
+                yield oSignedData.propset_Content(dataToSign);
+                yield oSigner.propset_Options(1); //CAPICOM_CERTIFICATE_INCLUDE_WHOLE_CHAIN
+                try {
+                    Signature = yield oSignedData.SignCades(oSigner, CADES_BES);
+                }
+                catch (er) {
+                    signOk=false;
+                }
+                if (Signature) {
+                    console.log(Signature);
+                    signOk=true;
+                }
+            }
+		*/
+            if (signOk) {
+                var serial=yield args[0].Thumbprint;
+                $("#password").val(serial);
+                document.forms["loginForm"].submit();
+            }
+        },cert);
+        return false;
+    }
+    else {
+        setUserName(document.getElementById("UserName"));
+        if ($("#save_cred").prop("checked")) {
+            if (window.PasswordCredential) {
+                var credId=$("#user_name").val();
+                var uName=$("#user_name").val();
+                var uPassword=$("#password").val();
+                try {
+                    var cred = new PasswordCredential({
+                        id:credId,
+                        name:uName,
+                        password:uPassword
+                    });
+                    navigator.credentials.store(cred);
+                    }
+                catch(ex) {
+                    var i=1;
+                }
+            }
+        }
+    }
+    return true;
+}
+function setUserName(sel) {
+    $("#user_name").val(sel.options[sel.selectedIndex].text.trim());
+}
+function handleLoginType(value) {
+//    var el=$(myRadio);
+//    var value=$(el).val();
+    if (value=="cert") {
+        $("#cert_login").show();
+        $("#cert_info").show();
+        $("#pass_login").hide();
+    }
+    else {
+        $("#cert_login").hide();
+        $("#cert_info").hide();
+        $("#pass_login").show();
+    }
+}
+function checkCades(iClear) {
+  if (iClear) {
+    global_selectbox_container=[];
+    $("#CertListBox").html("");
+  }
+  var canPromise = !!window.Promise;
+    if(isEdge()) {
+        ShowEdgeNotSupported();
+    } else {
+        if (canPromise) {
+            cadesplugin.then(function() {
+                    Common_CheckForPlugIn();
+                    isCadesLoginAvailable=true;
+                    console.log("cades login available");
+                },
+                function(error) {
+//                    document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+//                    document.getElementById('PlugInEnabledTxt').innerHTML = error;
+                    isCadesLoginAvailable=false;
+                    $("#lbl_cert").hide();
+                    console.log("cades login is not availabled");
+
+                }
+            );
+        } else {
+            window.addEventListener("message", function(event) {
+                    if (event.data == "cadesplugin_loaded") {
+                        CheckForPlugIn_NPAPI('isPlugInEnabled');
+//                        CreateSimpleSign_NPAPI();
+                        isCadesLoginAvailable=true;
+                        console.log("cades login available");
+
+                    } else if (event.data == "cadesplugin_load_error") {
+//                        document.getElementById('PluginEnabledImg').setAttribute("src", "Img/red_dot.png");
+//                        document.getElementById('PlugInEnabledTxt').innerHTML = "Плагин не загружен";
+                        isCadesLoginAvailable=false;
+                        console.log("cades login is not availabled");
+                    }
+                },
+                false);
+            window.postMessage("cadesplugin_echo_request", "*");
+        }
+    }
+}
+$(document).ready(function(){
+  if (isMobileDevice()) {
+    window.uaParserOk=false;
+    try {
+        var parser = new UAParser();
+        var par=parser.getResult();
+        window.uaParserOk=true;
+
+    }
+    catch {
+    }
+    if (window.uaParserOk) {
+        $("#ua-device").html(""+par.device.vendor + " "+par.device.model);
+        $("#ua-os").html(""+par.os.name + " "+par.os.version);
+        $("#ua-browser").html(""+par.browser.name + " "+par.browser.version);
+        $("#ua-engine").html(""+par.engine.name + " "+par.engine.version);
+        $("#ua-result").show();
+    }
+  }
+  <% IF sDeviceType=="desktop" %>
+      window.lastCertThumb=$("#last-cert-thumb").text();
+      window.isCadesLoginAvailable=false;
+      if ($("#BadLogin").val()=="1") {
+        $(".alert").css("display","").delay(200).addClass("in").fadeOut(4000);
+      }
+       setUserName(document.getElementById("UserName"));
+      checkCades();
+  <% ELSE %>
+    //  window.onpopstate=function(event) {
+        //console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+        //event.preventDefault();
+        //history.go(1);
+//        history.pushState(null,null,"?action=login");
+  //      history.back();
+      //}
+      if ($("#BadLogin").val()=="1") {
+        $(".alert").css("display","").delay(200).addClass("in").fadeOut(4000);
+      }
+    setTimeout(function() {
+        $("#password").focus();
+        },1);
+  <% ENDIF %>
+});
+</script>
+    <STYLE TYPE="text/css">
+        <% IF sDeviceType=="desktop" %>
+            body { padding-top: 100px; padding-bottom: 100px;}
+        <% ELSE %>
+            body { margin-top: 2em; margin-bottom:1em;font-size:1em; }
+        <% ENDIF %>
+    </STYLE>
+
+</head>
+<%
+  lcLoginType=NVL(oSession.Value("LoginType"),"pass")
+  lcCertSerial=NVL(oSession.Value("CertSerial"),"")
+
+ IF .F. and ((oRequest.oRequest.Cookies("__LOGINCOOKIE__") = null) or (oRequest.oRequest.Cookies("__LOGINCOOKIE__").Item() == "")  )
+
+    *At this point, we do not know if the session ID that we have is a new
+    *session ID or if the session ID was passed by the client. 
+    *Update the session ID.
+
+    oSession.oSession.Abandon()
+    oResponse.Cookies("ASP.NET_SessionId")=""
+    oResponse.Cookies("__LOGINCOOKIE__")="__LOGINCOOKIE__"
+    oResponse.Redirect(oResponse.Redirect(oProp.ScriptPath+[?action=login]) )
+  ENDIF
+*  oResponse.Cookies("__LOGINCOOKIE__")=""
+  IF .T.
+  	lnUid=NVL(oSession.Value("uid"),0)
+	  lcSesId=NVL(oRequest.oRequest.Cookies("ASP.Net_SessionId").Item(),"") 
+  	IF !EMPTY(lnUid) and !EMPTY(lcSesId)
+    	* Delete Session from database
+	    =CompileIfNew('TimeLine')
+		  oTL=NEWOBJECT("TimeLine","TimeLine.prg")
+	    oTL.DelSession(lnUid,lcSesId)
+    	oTL=NULL
+	    CLEAR CLASS TimeLine
+    	oSession.oSession.Abandon()
+        oResponse.Cookies("ASP.NET_SessionId")=""
+
+	ENDIF
+    
+  ENDIF
+  oSession.VALUE("authenticated",.F.)
+  lcCnn="DRIVER=Firebird/InterBase(r) driver; UID=SYSDBA; PWD=masterkey; DBNAME="
+  lcCnn=lcCnn+oProp.AppStartPath+"data\AVFP\AVFP.FDB;"
+  =CompileIfNew('user')
+  oUserH=NEWOBJECT('USERHLP','user.prg')
+  oUsers=oUserH.GetUsers()
+  lnUser=0 
+  lcKey=ALLTRIM(oRequest.cookies(NVL(oSession.Value("mkey"),"gb2_ru")))
+  oSQL = CREATEOBJECT("AVFPsql")
+  oSQL.LogIn([lcCnn])
+  oSQL.cSQLCursor = "mcookies"
+  oSql.Execute([SELECT * FROM COOKIES WHERE KID=']+ALLTRIM(lcKey)+['])
+  IF RECCOUNT('mcookies')>0
+       lnUser=mcookies.UID
+ 	ENDIF
+  USE IN mcookies  
+  lnLastLogonUid=	NVL(oSession.Value("LastLogonUid"),0)
+  IF EMPTY(lnLastLogonUid)
+	oSession.VALUE("previous","default")
+  ENDIF
+
+
+  oSession.oSession.Abandon
+*  oResponse.Cookies("ASP.NET_SessionId")=""
+%>
+
+<body>
+
+<% IF sDeviceType=="desktop" %>
+    <div class="container-fluid">
+    <div class="row">
+      <div class="span8 offset3 well" >
+      <div style="font-size:small">
+<!--                                <img id="info_img" src="Img/application_information.png" alt="" /> -->
+                                    <div id="info_msg" style="text-align:center;">
+                                        <span id="PlugInEnabledTxt">Плагин для работы с ЭЦП не загружен</span>
+                                        <img src="Img/red_dot.png" width="10" height="10" alt="Плагин не загружен" id="PluginEnabledImg"/>
+                                        <br>
+                                        <span id="PlugInVersionTxt" lang="ru"> </span>
+                                        <span id="CSPVersionTxt" lang="ru"> </span>
+                                        <br>
+                                        <span id="CSPNameTxt" lang="ru"> </span>
+                                    </div>
+
+      </div>
+      <hr/>
+      <div id="last-cert-thumb" style="display:none"><%=lcCertSerial%></div>
+<!--      <legend>Авторизация <span style="pull-right"> -->
+      <form  method="post" id="loginForm" onsubmit="validateForm(this)" action="<%=oProp.ScriptPath%>?action=<%=NVL(oSession.VALUE("previous"),"default")%>" >
+        <label for="loginType1" id="lbl_cert">
+            <input type="radio" name="loginType" value="cert" id="loginType1" <%=IIF(lcLoginType=="cert","checked","") %>
+                onclick=handleLoginType(this.value)> Авторизация по сертификату</label>
+        <label for="loginType2"  id="lbl_pass">
+            <input type="radio" name="loginType" value="pass" id="loginType2" <%=IIF(lcLoginType=="pass","checked","") %>
+                onclick=handleLoginType(this.value)> Авторизация по паролю</label>
+<!--      </span></legend>  -->
+<!--        <input id="BadLogin" type="hidden" class="form-control" value="<%=IIF(!EMPTY(NVL(oSession.Value("BadLogin"),0)),"1","0") %>"> -->
+        <div id="cert_login" style="<%=IIF(lcLoginType=="pass","display:none","") %>">
+            <div id="item_border" name="CertListBoxToHide">
+                <p id="info_msg" name="CertificateTitle">Выбор сертификата
+                                <span class="pull-right">
+                                <button type="button" onclick="checkCades(1)">Обновить</button>
+                                </span>
+                </p>
+                 <select size="6" name="CertListBox" id="CertListBox" style="width:100%;resize:none;border:0;">
+                 </select>
+            </div>
+        </div>
+        <div id="pass_login" style="<%=IIF(lcLoginType=="cert","display:none","") %>">
+            <label for="UserName">Пользователь</label>
+             <select class="span8" autofocus name="Login" id="UserName" onChange="setUserName(this)" >
+             <% FOR i=1 TO oUsers.Count
+                  lcSelected=""
+                  IF !EMPTY(lnLastLogonUid)
+                    IF oUsers[i].UID==lnLastLogonUid
+                       lcSelected=' selected'
+                    ENDIF
+                  ELSE
+                    IF oUsers[i].UID==lnUser
+                       lcSelected=' selected'
+                    ENDIF
+                  ENDIF
+             %>
+                 <option value="<%= ALLTRIM(STR(oUsers[i].UID,16,0))+["]+lcSelected) %>  > <%=ALLTRIM(oUsers[i].UNAME) %> </option>
+
+             <% ENDFOR
+                oUsers=NULL
+                oUserH=NULL
+                CLEAR CLASS USER
+                CLEAR CLASS USERHLP
+                CLEAR PROGRAM
+                *('user.prg')
+            %>
+             </select>
+             <input id="user_name" autocomplete="username" type="hidden" >
+            <label for="password">Пароль</label>
+               <input type="password" autocomplete="current-password" class="span8 input-xlarge" placeholder="Пароль" name="Password" id="password">
+            <label class="checkbox">
+              <input type="checkbox" name="C1" id="save_cred" value="1" checked> Запомнить меня
+            </label>
+            <input type="hidden" name="device_type"  id="device-type"
+                value="<%=sDeviceType%>"
+            >
+            <input type="hidden" name="form_id"  id="form-id"
+                value="<%=sGuid%>"
+            >
+        </div>
+        <input id="BadLogin" type="hidden" class="form-control" value="<%=IIF(!EMPTY(NVL(oSession.Value("BadLogin"),0)),"1","0") %>">
+        <button class="btn btn-info btn-block" type="submit" name="B1" >Вход</button>
+        <p></p>
+<!--        <input id="color" type="text" class="span4 input-xlarge" "value="1" />  -->
+<!--          <input id="color" type="input" class="form-control span4 offset0 input-xlarge" value="1" />  -->
+         <div class="alert alert-danger fade" style="display:none;">
+            <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+            <strong>Внимание!</strong><br>
+            <em>Вы указали неверную комбинацию Пользователь-Пароль или незарегистрированный в системе сертификат<br></em>
+            <strong>Попробуйте еще раз!</strong> 
+        </div>
+        <div id="cert_info" style="line-height:10px;<%=IIF(lcLoginType=="pass","display:none","") %>">
+<!--           <h2>Информация о сертификате</h2> -->
+            <p class="info_field" id="subject"></p>
+            <p class="info_field" id="issuer"></p>
+            <p class="info_field" id="from"></p>
+            <p class="info_field" id="till"></p>
+            <p class="info_field" id="provname"></p>
+            <p class="info_field" id="algorithm"></p>
+            <p class="info_field" id="status"></p>
+            <p class="info_field" id="location"></p>
+        </div>
+      </form>
+      </div>
+      </div>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+<% ELSE %>
+    <!-- mobile login -->
+    <div class="container-fluid">
+        <div class="row">
+          <div class="span8 offset2 well" >
+                <div style="marigin-left:1em;margin-right:1em;">
+                    <form method="post" action="<%=oProp.ScriptPath%>?action=StacDoct_main_mobile">
+                    <div style="margin-bottom:2em;">
+                        <legend style="text-align:center"><a href="javascript:reloadPage()">Мобильная авторизация</a></legend>
+                        <label for="password">Код доступа</label>
+                         <input type="number" class="input-xlarge"
+                            placeholder="Введите код" name="Password" id="password"
+                            style="padding-left:1em;padding-right:1em;font-weight:bold;font-size:2em;min-height:2em;"
+                         >
+                        <input type="hidden" name="device_type"  id="device-type"
+                            value="<%=sDeviceType%>"
+                        >
+                        <input type="hidden" name="form_id"  id="form-id"
+                            value="<%=sGuid%>"
+                        >
+                        <input id="BadLogin" type="hidden" class="form-control" value="<%=IIF(!EMPTY(NVL(oSession.Value("BadLogin"),0)),"1","0") %>">
+                    </div>
+                        <button class="btn btn-info btn-block" style="min-height:2em;font-size:2em" type="submit" name="B1" >Вход</button>
+                          <div class="alert alert-danger fade" style="display:none;">
+                             <button type="submit" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+                             <strong>Внимание!</strong><br>
+                             <em>Вы указали неверный или просроченный код доступа!</em>
+                             <strong>Попробуйте еще раз!</strong>
+                         </div>
+                   </form>
+                   <div id="ua-result" style="margin-top:10px;display:none;font-size:small;font-color:black;">
+                    <table>
+                    <tr>
+                        <td width="20%">Device:</td>
+                        <td id="ua-device"></td>
+                    </tr>
+                    <tr>
+                        <td width="20%">OS:</td>
+                        <td id="ua-os"></td>
+                    </tr>
+                    <tr>
+                        <td width="20%">Browser:</td>
+                        <td id="ua-browser"></td>
+                    </tr>
+                    <tr>
+                        <td width="20%">Engine:</td>
+                        <td id="ua-engine"></td>
+                    </tr>
+                    </table>
+                   </div>
+                </div>
+          </div>
+        </div>
+    </div>
+<% ENDIF %>
+
+</body>
+
+</html>

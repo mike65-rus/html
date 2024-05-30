@@ -1,0 +1,92 @@
+<div id="visit-window">
+    <div id="visit-tab-strip" style="width:100%;height:100%">
+    </div>
+
+</div>
+<div id="new-visit-window">
+    <div class="k-block">
+    <form class="visitForm" id="visitForm">
+        <fieldset>
+            <dl>
+                <dt>
+                    <label for="idVisitDate" class="label-required"><span data-bind="text:visitData.dateLabel"></span></label>
+                    <span class="k-invalid-msg" data-for="ДатаПосещения"></span>
+                </dt>
+                <dd>
+                    <input id="idVisitDate" name="ДатаПосещения" field="visitDate"  data-role="datepicker"
+                    data-footer="Сегодня - #: kendo.toString(data, 'dd.MM.yyyy') #"
+                    data-bind="value:visitData.date,enabled:visitData.isDateEnabled" required
+                    data-mask="99.99.9999"
+                    />
+                    <!--
+                     <button class="k-button" data-field="lastName" data-bind="click: visitData.nextDate">
+                        <a href="#" data-field="lastName" data-bind="click: clear" class="k-icon k-i-close">&nbsp;</a>
+                      </button>
+                      -->
+                </dd>
+                <dt>
+                    <label for="idPaymentType" class="label-required"><span>Тип оплаты:</span></label>
+                    <span class="k-invalid-msg" data-for="ТипОплаты"></span>
+                </dt>
+                <dd>
+                    <input id="idPaymentType" name="ТипОплаты" field="visitPaymentType"  data-role="dropdownlist"
+                        data-bind="value:visitData.paymentType,
+                            source:dataSources.paymentTypes"
+                        data-text-field="name"
+                        data-value-field="id"
+                        data-height="400"
+                        style="width:100%"
+                         required
+                    />
+                </dd>
+                <dt>
+                    <label id="labelVisitType" for="idVisitType"><span>Вид посещения:</span></label>
+                    <span class="k-invalid-msg" data-for="ВидПосещения"></span>
+                </dt>
+                <dd>
+                    <input id="idVisitType" name="ВидПосещения" field="visitType"  data-role="dropdownlist"
+                        data-bind="value:visitData.visitType,
+                            source:dataSources.visitTypes, enabled:visitData.isVisitTypeEnabled"
+                        data-text-field="name"
+                        data-value-field="id"
+                        data-option-label="Выберите вид посещения..."
+                        data-height="400"
+                        style="width:100%"
+
+                    />
+                </dd>
+            </dl>
+            <!--
+            <ol>
+                <li>
+                    <label for="visit-form-is-dns">Осмотр в дневном стационаре</label>
+                    <input type="checkbox" name="isDnSt" id="visit-form-is-dnst" data-bind="checked:visitData.isDnSt">
+                </li>
+                <li>
+                    <label for="ДатаПосещения" data-bind="text:visitData.dateLabel"></label>
+                    <input name="ДатаПосещения" field="visitDate"  data-role="datepicker"
+                        data-bind="value:visitData.date,enabled:visitData.isDateEnabled" required
+                    />
+                    <span class="k-invalid-msg" data-for="ДатаПосещения"></span>
+                </li>
+            </ol>
+            -->
+        </fieldset>
+        <div style="margin-top: 10px;text-align:center">
+            <button class="k-button k-primary" type="button" data-bind="events:{click:onSaveVisitClick}">Сохранить</button>
+            <button class="k-button" type="button">Отказ</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+<script type="text/x-kendo-template" id="template-visit-main">
+    <div class='visit-tab-content' style='font-weight:bold'>Посещение</div>
+ </script>
+<script type="text/x-kendo-template" id="template-visit-services">
+    <div class='visit-tab-content' style='font-weight:bold'>Услуги</div>
+ </script>
+<script type="text/x-kendo-template" id="template-visit-schedules">
+    <div class='visit-tab-content' style='font-weight:bold'>Направления</div>
+ </script>
+

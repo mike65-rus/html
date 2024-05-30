@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+    <meta charset="windows-1251">
+    <title></title>
+    <style>
+        div[contenteditable="true"] {
+            background-color: Bisque  ; border-width: 3px; border-style:inset; min-height:1em;
+        }
+        .i-edit {
+            font-family:inherit;
+            font-size:inherit;
+            font-weight:inherit;
+            background:AliceBlue; border:1px solid black;
+            padding: 2px 4px;
+            display:inline-block;
+            min-width: 150px;
+        }
+        .my-sel::before {
+            font-family:inherit;
+            font-size:inherit;
+            font-weight:inherit;
+            background:AntiqueWhite; border:1px solid black;
+            padding: 2px 4px;
+            display:inline-block;
+            min-width:150px;
+        }
+        .my-sel.sel1::before {
+            content:attr(data-sel)
+        }
+    </style>
+
+</head>
+<body>
+<div class="no-page-break width-100 vyp-anamez-div blank-zero">
+    <p class="vyp-zag vyp-diag-p">Жалобы</p>
+    <div class="vyp-diag-edt"  contenteditable="true"></div>
+</div>
+<div class="no-page-break width-100 vyp-anamez-div blank-zero">
+    <p class="vyp-zag vyp-diag-p">Анамнез болезни</p>
+    <div class="vyp-diag-edt"  contenteditable="true"></div>
+</div>
+<div class="no-page-break width-100 vyp-anamez-div blank-zero">
+    <p class="vyp-zag vyp-diag-p">Анамнез жизни</p>
+    <div>
+        <div>
+            <span class="no-blank">Туберкулез
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+            <span>&nbsp;</span>
+            <span class="no-blank">Вен.заболевания
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+            <span>&nbsp;</span>
+            <span class="no-blank">Вир.гепатит
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+        </div>
+        <div>
+            <span class="no-blank">Гемотрансфузии
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+            <span>&nbsp;</span>
+            <span class="no-blank">Сахарный диабет
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+            <span>&nbsp;</span>
+            <span class="no-blank">Глистные инвазии
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+        </div>
+        <div class="new-line no-empty">
+            <span class="no-blank">Перенесенные заболевания
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+        </div>
+        <div class="new-line no-empty">
+            <span class="no-blank">Операции,травмы
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+        </div>
+        <div class="new-line no-empty">
+            <span class="no-blank">Наследственность
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+        </div>
+        <div class="new-line no-empty">
+            <span class="no-blank">Лекарственная непереносимость
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+        </div>
+        <div class="new-line no-empty">
+            <span class="no-blank">Первичные интоксикации:
+                <span class="no-blank">алкоголь
+                    <span contenteditable="true" class="i-edit"></span>
+                </span>
+                <span>&nbsp;</span>
+                <span class="no-blank">табакокурение
+                    <span contenteditable="true" class="i-edit"></span>
+                </span>
+                <span>&nbsp;</span>
+                <span class="no-blank">наркомания
+                    <span contenteditable="true" class="i-edit"></span>
+                </span>
+            </span>
+        </div>
+        <div class="no-page-break width-100 vyp-anamez-div blank-zero">
+            <p class="vyp-zag vyp-diag-p">Экспертный анамнез</p>
+            <span class="no-blank">б/л №
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+            <span class="no-blank">Профессия
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+            <span class="no-blank">Число дней нетрудоспособности за 12 месяцев
+                <span contenteditable="true" class="i-edit"></span>
+            </span>
+        </div>
+        <div class="no-page-break width-100 vyp-anamez-div blank-zero">
+            <p class="vyp-zag vyp-diag-p">Объективно</p>
+            <div class="new-line no-empty">
+                <span class="no-blank">Состояние:
+                    <span class="my-sel sel1" data-sel="средней степени тяжести"
+                            data-opt="удовлетворительное;средней степени тяжести;тяжелое;крайне тяжелое">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                </span>
+                <span>&nbsp;</span>
+                <span class="no-blank">Сознание:
+                    <span class="my-sel sel1" 
+                          data-opt="ясное;сопор;кома;бред;галлюцинации">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Поведение:
+                    <span class="my-sel sel1" 
+                          data-opt="адекватное;неадекватное">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                </span>
+                <span>&nbsp;</span>
+                <span class="no-blank">Положение:
+                    <span class="my-sel sel1" 
+                          data-opt="активное;пассивное;вынужденное">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Конституционный тип:
+                    <span class="my-sel sel1" 
+                          data-opt="нормостенический;гиперстенический;астенический">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                </span>
+                <span>&nbsp;</span>
+                <span class="no-blank">Питания:
+                    <span class="my-sel sel1" 
+                          data-opt="умеренного;избыточного;пониженного">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Кожные покровы и видимые слизистые склеры:
+                    <span class="my-sel sel1" 
+                          data-opt="обычной окраски;бледные;субиктеричные;иктеричные;акроцианоз;диффузный цианоз">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Лимфатические узлы
+                    <span contenteditable class="i-edit"></span>
+                </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Периферические отеки
+                    <span contenteditable class="i-edit"></span>
+                </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Суставы
+                    <span contenteditable class="i-edit"></span>
+                </span>
+            </div>
+            <!-- Оборотная сторона -->
+            <div class="new-line no-empty">
+                <span><strong>Органы дыхания.&nbsp;</strong>Грудная клетка
+                    <span class="my-sel sel1"
+                          data-opt="плоская;цилиндрическая;коническая">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                    <span>&nbsp;формы.&nbsp;</span>
+                </span>
+                <span class="no-blank">Пальпаторно
+                    <span class="my-sel sel1" 
+                          data-opt="безболезненна;болезненна">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                 </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Перкуторно звук
+                    <span class="my-sel sel1" 
+                          data-opt="легочный;тупость;легочный с коробочным оттенком;притупление">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                 </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Аускультативно дыхание
+                    <span class="my-sel sel1" 
+                          data-opt="везикулярное;ослабленное;жесткое;не прослушивается">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                 </span>
+            </div>
+            <div class="new-line no-empty">
+                <span class="no-blank">Хрипы
+                    <span class="my-sel sel1" 
+                          data-opt="нет;сухие;влажные">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                    <span class="my-sel sel1" 
+                          data-opt="крепитация;шум трения плевры">
+                    </span>
+                    <span contenteditable class="i-edit"></span>
+                 </span>
+                <span class="no-blank">ЧДД
+                    <span contenteditable class="i-edit"></span>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script>
+    window.clickMySel = function (el) {
+//    debugger;
+        var sOpt=$(el).attr("data-opt");
+//        alert(sOpt+" clicked!");
+        var aOpt=sOpt.split(";");
+        var iMax=aOpt.length-1;
+        var iCur=Number($(el).attr("data-ind"));
+        if (iCur==iMax) {
+            iCur=0;
+        }
+        else {
+            iCur=iCur+1;
+        }
+//        console.log("user selected option # "+i.toString()+" "+new Date().toString());
+        $(el).attr("data-ind",iCur);
+        $(el).attr("data-sel",aOpt[iCur]);
+    }
+    function getRandomInt(min, max)
+    {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    $(document).ready(function() {
+        $(".my-sel.sel1").each(function(i) {
+            var sOpt=$(this).attr("data-opt");
+            var aOpt=sOpt.split(";");
+            var sSel=$(this).attr("data-sel");
+            var ind=-1;
+            if (sSel) {
+                ind=aOpt.indexOf(sSel);
+                if (ind<0) {
+                    sOpt=sOpt+";"+sSel;
+                }
+            }
+            else {
+                sSel="...";
+            }
+            $(this).attr("title",sOpt);
+            sOpt=sOpt+";...";
+            aOpt=sOpt.split(";");
+            ind=aOpt.indexOf(sSel);
+            $(this).attr("data-opt",sOpt);
+            $(this).attr("data-sel",aOpt[ind]);
+            $(this).attr("data-ind",ind);
+            $(this).attr("tabindex",0);
+            $(this).keydown(function(event){
+                if (event.keyCode===32) {
+                    clickMySel(this);
+                    event.preventDefault();
+                }
+            });
+            $(this).click(function(event){
+//                if (event.keyCode===32) {
+                    clickMySel(this);
+                    event.preventDefault();
+//                }
+            });
+            $(this).after("<button class='my-sel-btn'>...</button>");
+        });
+        $(".my-sel-btn").attr("tabindex",-1);
+    });
+</script>
+</body>
+</html>

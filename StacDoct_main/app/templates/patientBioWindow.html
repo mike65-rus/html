@@ -1,0 +1,108 @@
+<div id="patient_bio_window"  class="k-content">
+    <form>
+        <fieldset>
+            <legend>Антропометрия &nbsp; &nbsp;  &nbsp; &nbsp;
+                <span>
+                    <button class="k-button patient-bio-clear-button"
+                            type="button"
+                            tabindex="-1"
+                            title="Обнулить данные о росте и весе"
+                            data-bind="events:{click:clearBio1},enabled:isSaveVisible"
+                    >Очистить
+                    </button>
+                </span>
+            </legend>
+            <ul class="patient_bio_field_list">
+                <li>
+                    <label>
+                        Вес (кг):
+                        <input data-role="numerictextbox"
+                               data-min="20"
+                               data-max="300"
+                               data-format="n0"
+                               data-bind="value:bioModel.weight"
+                               class="patient-bio-input bold"
+                        >
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Рост (см):
+                        <input data-role="numerictextbox"
+                               data-min="50"
+                               data-max="230"
+                               data-format="n0"
+                               data-bind="value:bioModel.height"
+                               class="patient-bio-input bold"
+                        >
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <span>Индекс массы тела (кг/м<sup>2</sup>):</span>
+                        <input readonly tabindex="-1" data-role="numerictextbox"
+                               data-format="n2"
+                               data-bind="value:imt"
+                               class="patient-bio-input bold"
+                        >
+                    </label>
+                    <label data-bind="text:imtLabel"></label>
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>Параметры крови &nbsp;&nbsp;
+                <span>
+                    <button class="k-button patient-bio-clear-button"
+                            type="button"
+                            tabindex="-1"
+                            title="Обнулить данные о параметрах крови"
+                            data-bind="events:{click:clearBio2},enabled:isSaveVisible"
+                    >Очистить
+                    </button>
+                </span>
+            </legend>
+            <ul class="patient_bio_field_list">
+                <li>
+                    <label>
+                        Группа крови:
+                        <input data-role="dropdownlist"
+                               data-auto-bind="true"
+                               data-bind="value:bioModel.blood_group,source:bloodGroupDs"
+                               class="patient-bio-input bold"
+                               style="width:90%;min-height:30px"
+                        >
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Резус-фактор:
+                        <input data-role="dropdownlist"
+                               data-auto-bind="true"
+                               data-bind="value:bioModel.blood_rezus,source:bloodRezusDs"
+                               class="patient-bio-input bold"
+                               style="width:90%;min-height:30px"
+                        >
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Фенотип:
+                        <input data-role="dropdownlist"
+                               data-auto-bind="true"
+                               data-bind="value:bioModel.blood_fenotype,source:bloodFenotypeDs"
+                               class="patient-bio-input bold"
+                               style="width:90%;min-height:30px"
+                        >
+                    </label>
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+    <div style="text-align: center;margin-top:5px;">
+        <button class="k-button" data-bind="events:{click:saveData},enabled:isSaveVisible">Сохранить</button>
+        &nbsp;&nbsp;
+        <button class="k-button" data-bind="events:{click:close}">Закрыть</button>
+    </div>
+</div>
+

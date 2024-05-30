@@ -1,0 +1,111 @@
+<%
+LOCAL AjaxResponse,lcAction
+*IF !(oSession.VALUE("authenticated"))
+IF .F.
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+	DO CASE
+	    CASE lcAction=='list'
+	        lcAskId=oRequest.QueryString("ask_id")
+            oIb=NEWOBJECT("IB","IB.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oIb.GetNews(lcAskId,"ibnews")
+   		    oIb=NULL
+   		    CLEAR CLASS IB
+   		    IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='ibnews'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ibnews'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='set_last_view'
+	        lcAskId=oRequest.QueryString("ask_id")
+	        lnSysId=VAL(oRequest.QueryString("sys_id"))
+	        lcDocList=oRequest.QueryString("doc_list")
+	        lnUser=oSession.Value("uid")
+	        CREATE CURSOR ISSL_UPD (;
+	            ASK_ID C(26),;
+	            IDDOC C(100),;
+	            IS_NEW N(1,0) ;
+	        )
+	        nLines=ALINES(aLi,lcDocList,0,",")
+            FOR i=1 TO nLines
+                INSERT INTO ISSL_UPD (ASK_ID,IDDOC,IS_NEW) VALUES (lcAskId,aLi[i],0)
+            ENDFOR
+            oIb=NEWOBJECT("IB","IB.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    iEmulMode=NVL(oSession.Value("emul"),0)
+   		    IF iEmulMode<=0
+   		        lbRet=oIb.UpdateIbIssl(lnSysId,"issl_upd",lnUser)
+   		        oIb=NULL
+   		        CLEAR CLASS IB
+   		    ELSE
+   		        lbRet=.T.
+   		    ENDIF
+   		    IF !lbRet
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('issl_upd')
+                oJSON.keyforcursors='issl_upd'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('issl_upd'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+        CASE lcAction=='get_for_mon_gp'
+	        lnUser=oSession.Value("uid")
+            oIb=NEWOBJECT("IB","IB.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            lnRet=oIb.GetForMonGp(lnUser,"ForMonGp")
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+            AjaxResponse.records=RECCOUNT('formongp')
+            GO TOP IN formongp
+            sHash=oSession.value("hash")
+            REPLACE HASH WITH sHash IN formongp
+            oJSON.keyforcursors='formongp'
+            lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('formongp'))
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+
+	ENDCASE
+ENDIF
+%>

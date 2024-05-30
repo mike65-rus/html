@@ -1,0 +1,40 @@
+<%
+  lcAction=NVL(oProp.Action,"login")
+  lcARM=MakeCramb()
+    lcInfoBtn=MakeInfoBtn()
+    lcHref="Сообщение в ИТ поддержку [user_id="+ALLTRIM(STR(oSession.Value("uid"),12,0))+"] [user_name="+oSession.Value("uname")+"]"
+%>
+<div id="simplefooter" class="navbar  navbar-fixed-bottom" style="height:40px;">
+   <div class="navbar-inner">
+      <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+            <%=lcARM%>
+            <li>
+            <span class="navbar-text" class="pull-right" ">
+<!--
+               Copyright	&copy; 2014-<%=TRANSFORM(YEAR(DATE())) %>
+               <a class="no-exit" href="http://pgb2.ru" target="_blank">
+style="width:500px"
+               	pgb2.ru</a>
+               	&nbsp;pgb2.ru
+   	-->
+               	&nbsp;&nbsp;
+               	тел. поддержки: <span title="Вопросы по работе программы">405-015 (программная)</span>,
+               	<span title="Технические вопросы по работе компьютера, принтера">405-100 (техническая)</span>; email поддержки:
+               	<a class="no-exit"
+
+               	href="mailto://support@hospital.local?subject=<%=lcHref%>" title="Написать в службу поддержки">support@hospital.local</a>
+<!--   -->
+            </span>	
+            </li>
+       </ul>
+       <!--
+       <span id="footer-info-span" class="pull-right">
+            <%**=lcInfoBtn%>
+       </span>
+       -->
+      </div>
+   </div>
+</div>   
+<!-- </BODY>
+</HTML>	-->

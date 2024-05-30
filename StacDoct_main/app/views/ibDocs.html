@@ -1,0 +1,138 @@
+<div id="ib-docs" class="top-div">
+    <div id="docs_tabs" data-role="tabstrip" data-animation="false" data-bind="events: { select: onTabSelect }">
+        <ul  id="docstabs">
+            <li class="k-state-active">Список</li>
+        </ul>
+        <div>
+            <div id="ibDocsGrid" class=".ibDocsGrid" data-role="grid"
+            data-toolbar='[ { template: kendo.template($("#ibDocs-toolbar1").html()) } ]'
+            data-auto-bind="false"
+            data-selectable="true"
+            data-columns='[
+            {field: "record_id", title: "RECORD_ID",hidden: true },
+            {field: "doc_id", title: "DOC_ID",hidden: true },
+            {field: "ask_id", title: "ASK_ID",hidden: true },
+            {field: "doc_name", title: "ВидДок", width:"30%", template:$("#doc_name-template").html()},
+            {field: "doc_indo", title: "Информация", width:"30%", template:$("#doc_info-template").html()},
+            {field: "doc_date", title: "Дата - Время", width: "15%", template:$("#doc_date-template").html()},
+            {field: "created", title: "Создан", width: "15%", format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "user_fio", title: "Автор", width: "20%",template: "#=user_name.fio()#"},
+            {field: "modified", title: "Изменен", width: "15%", format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "del_doc", title: "", width: "5%",template:$("#doc_delete-template").html()}
+            ]'
+            data-bind="source:ibDocsListDs,events:{dataBinding:onDataBinding}"
+                    >
+
+            </div> <!-- grid -->
+        </div>
+    </div>
+</div>
+<!-- *Grid Toolbar Template -->
+<script type="text/x-kendo-template" id="ibDocs-toolbar1">
+    <div class="pull-left" style="margin-right:20px;" id="ibDocs_Toolbar2">
+        <p><strong>Медицинские документы&nbsp;<span data-bind="visible:isAllCases" style="font-style:italic;">(По всем случаям)</span></strong></p>
+    </div>
+    </div>
+    <div class="form-inline toolbar pull-right" id="ibDocs_Toolbar">
+        <button rel="tooltip" title="Создать новый документ" id="btnNewDoc_ibDocs" class="k-button" type="button"
+                data-bind="visible:isCreateVisible, events:{click: createClick}"><i class="fa fa-magic"></i></button>
+        <span class="pull-right">&nbsp;</span>
+        <button rel="tooltip" title="Обновить документы по этому случаю" id="btnRefresh1_ibDocs" class="k-button" type="button"
+                data-bind="events:{click: onRefresh}"><i class="icon-refresh"></i></button>
+        <button rel="tooltip" title="Показать документы по всем случаям" id="btnRefresh2_ibDocs" class="k-button" type="button"
+                data-bind="events:{click: onRefreshAll},visible:isAllCasesVisible">По всем случаям</button>
+    </div>
+</script>
+
+<script id="doc_name-template" type="text/x-kendo-template">
+    <a href="\#/get-doc/#:data.record_id#">#=data.doc_name#</a>
+</script>
+
+<script id="doc_date-template" type="text/x-kendo-template">
+    # var dateTimeFnc=function(docDate,docTime) {
+        var sRet="";
+        sRet=kendo.toString(docDate,"dd.MM.yy") || "";
+        if (sRet) {
+            if(kendo.toString(docTime,"HH:mm")) {
+                sRet=sRet+" - "+kendo.toString(docTime,"HH:mm");
+            }
+        }
+        return sRet;
+    } #
+    #= dateTimeFnc(doc_date,doc_time) #
+</script>
+
+<script id="doc_delete-template" type="text/x-kendo-template">
+   # var infoDoc2=function(is_signed,signs,recordId) {
+       var sRet="";
+       var sAskId=JSON.parse(selIb=sessionStorage.getItem("__amplify__selectedIb")).data.ask_id;
+        if ((!signed) && (sAskId===ask_id)) {
+            sRet='<button data-bind="click:deleteAction,visible:isDeleteVisible" title="Удалить документ"><i class="fa fa-times" ></i></button>';
+        }
+        else {
+            if (signed) {
+                var aTitles=[];
+                var oSigns=JSON.parse(signs);
+                var aSigns=oSigns.signs.rows;
+                for (var i=0;i<aSigns.length;i++) {
+                    oSign=aSigns[i];
+                    sTime=kendo.toString(kendo.parseDate(oSign.sign_ts),"dd.MM.yy HH:mm");
+                    aTitles.push(oSign.uname.fio()+"- "+sTime);
+                }
+                if (!aTitles.length) {
+                    sTitle="Документ подписан";
+                }
+                else {
+                    sTitle=aTitles.join("; ");
+                }
+                sRet='<button data-bind="click:showSignsDetails" data-recid="'+recordId+'" class="signature-image" title="'+sTitle+'"></button>';
+            }
+            else {
+                sRet='&nbsp;';
+            }
+        }
+        return sRet;
+   } #
+   #= infoDoc2(signed,signs,record_id,ask_id) #
+</script>
+<script id="doc_info-template" type="text/x-kendo-template">
+    # var infoDoc=function(docType,subtype,ext1,ext2,ext3) {
+        var sRet=ext1 || "";
+        if (ext1=="undefined") {
+            sRet="";
+        }
+        if (docType==59) {
+            if (subtype==1) {
+            sRet="Выписка";
+            }
+            if (subtype==2) {
+            sRet="Извещение";
+            }
+            if (subtype==3) {
+            sRet="Протокол";
+            }
+            if (sRet) {
+                sRet="Тип документа:<strong>"+sRet+"</strong>";
+                if (ext3) {
+                    sRet=sRet+"<div>Адресат:"+ext3+"</div>";
+                 }
+            }
+        }
+        if (docType==58) {
+            sRet="<div>О чем:<strong>"+ext1+"</strong></div><div>Вид:<strong>"+ext2+"</strong></div><div>Адресат:"+ext3+"</div>";
+        }
+        if (docType==57 || docType == 62) {
+            sRet="<div>Адресат:"+ext3+"</div>";
+        }
+        if (docType==1) {
+            if (ext1 && !(ext1=="undefined")) {
+                sRet="<div>Отделение:"+ext1+"</div>";
+            }
+            if (ext2  && !(ext2=="undefined")) {
+                sRet=sRet+"<div>"+ext2+"</div>";
+            }
+        }
+        return sRet;
+    } #
+    #= infoDoc(doc_id,subtype,ext1,ext2,ext3) #
+</script>

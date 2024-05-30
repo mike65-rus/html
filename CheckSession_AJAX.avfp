@@ -1,0 +1,8 @@
+<%
+	nUserId=NVL(oSession.Value("uid"),0)
+	lcStr=ALLTRIM(STR(nUserId,16,0))
+	oResponse.ContentType = "text/plain"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]	
+%>

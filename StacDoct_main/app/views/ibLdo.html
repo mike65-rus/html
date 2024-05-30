@@ -1,0 +1,412 @@
+<div id="ib-ldo"  class="top-div">
+
+<div id="current_ldo_tabs" class="tabbable">
+    <ul class="nav nav-tabs" id="ldotabs">
+        <li rel="ibtabldo8" class="active"><a href="#ildo8" data-toggle="tab" id="labtabldo8" data-bind="events:{click:setCurrentTab},text:firstTabText"></a></li>
+        <li rel="ibtabldo0"><a rel="ЭКГ" href="#ildo0" data-toggle="tab" id="labtabldo0" data-bind="events:{click:setCurrentTab},visible:isEkg">ЭКГ</a></li>
+        <li rel="ibtabldo1"><a rel="ФД" href="#ildo1" data-toggle="tab" id="labtabldo1" data-bind="events:{click:setCurrentTab},visible:isFd">ФД</a></li>
+        <li rel="ibtabldo2"><a rel="УЗД" href="#ildo2" data-toggle="tab" id="labtabldo2" data-bind="events:{click:setCurrentTab},visible:isUzd">УЗД</a></li>
+        <li rel="ibtabldo3"><a rel="Рентген" href="#ildo3" data-toggle="tab" id="labtabldo3" data-bind="events:{click:setCurrentTab},visible:isRentgen">Рентген</a></li>
+        <li rel="ibtabldo4"><a rel="КТ" href="#ildo4" data-toggle="tab" id="labtabldo4" data-bind="events:{click:setCurrentTab},visible:isKt">КТ</a></li>
+        <li rel="ibtabldo5"><a rel="Эндоскопия" href="#ildo5" data-toggle="tab" id="labtabldo5" data-bind="events:{click:setCurrentTab},visible:isEndo">Эндоскопия</a></li>
+        <li rel="ibtabldo6"><a rel="Физиотерапия" href="#ildo6" data-toggle="tab" id="labtabldo6" data-bind="events:{click:setCurrentTab},visible:isFisio">Физиотерапия</a></li>
+        <li rel="ibtabldo7"><a rel="Прочее" href="#ildo7" data-toggle="tab" id="labtabldo7" data-bind="events:{click:setCurrentTab},visible:isOther">Прочее</a></li>
+        <li rel="ibtabldo9"><a rel="PACS" href="#ildo9" data-toggle="tab" id="labtabldo9"  data-bind="events:{click:setCurrentTab}" >PACS</a></li>
+        <li rel="ibtabldo10"><a rel="История" href="#ildo10" data-toggle="tab" id="labtabldo10"  data-bind="events:{click:setCurrentTab}" >История</a></li>
+        <li rel="ibtabldo11"><a rel="Направления" href="#ildo11" data-toggle="tab" id="labtabldo11"  data-bind="events:{click:setCurrentTab}" >Направления в RIS</a></li>
+    </ul>
+</div>
+<div id="ldo-content" class="tab-content">
+<div class="tab-pane" id="ildo0">
+    <!-- ЭКГ -->
+    <div class="form-inline toolbar ">
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton k-button pull-left"  data-bind="{events:{click:print}}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+    </div>
+    <div id="divldo0" class="divldo" rel="ЭКГ" data-bind="html:ekgHtml">
+
+    </div>
+</div>
+<div class="tab-pane" id="ildo1">
+    <!-- ФД -->
+    <div class="form-inline toolbar">
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton  k-button pull-left"  data-bind="{events:{click:print}}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left" data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+    </div>
+    <div id="divldo1"  class="divldo" rel="ФД"  data-bind="html:fdHtml">
+
+    </div>
+</div>
+<div class="tab-pane" id="ildo2">
+    <!-- УЗД -->
+    <div class="form-inline toolbar">
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton  k-button pull-left"  data-bind="{events:{click:print}}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left" data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+    </div>
+
+    <div id="divldo2"  class="divldo" rel="УЗД"  data-bind="html:uzdHtml">
+
+    </div>
+</div>
+<div class="tab-pane" id="ildo3">
+    <!-- Рентген -->
+    <div class="form-inline toolbar">
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton  k-button pull-left"  data-bind="{events:{click:print}}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+
+    </div>
+
+    <div id="divldo3"  class="divldo"  rel="Рентген"  data-bind="html:rentgenHtml">
+
+    </div>
+</div>
+<div class="tab-pane" id="ildo4">
+    <!-- КТ -->
+    <div class="form-inline toolbar">
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton  k-button pull-left"  data-bind="{events:{click:print}}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+    </div>
+    <div id="divldo4"  class="divldo"  rel="КТ"  data-bind="html:ktHtml">
+
+    </div>
+</div>
+
+<div class="tab-pane" id="ildo5">
+    <!-- Эндоскопия -->
+    <div class="form-inline toolbar">
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton  k-button pull-left"  data-bind="{events:{click:print}}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+    </div>
+    <div id="divldo5"  class="divldo"  rel="Эндоскопия"  data-bind="html:endoHtml">
+
+    </div>
+</div>
+
+<div class="tab-pane" id="ildo6">
+    <!-- Физиотерапия -->
+    <div class="form-inline toolbar">
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton  k-button pull-left"  data-bind="{events:{click:print}}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+    </div>
+    <div id="divldo6"  class="divldo"  rel="Физиотерапия"  data-bind="html:fisioHtml">
+
+    </div>
+</div>
+
+<div class="tab-pane" id="ildo7">
+    <!-- Прочее -->
+    <div class="form-inline toolbar">
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton  k-button pull-left"  data-bind="{events:{click:print}}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+    </div>
+    <div id="divldo7"  class="divldo"  rel="Прочее"  data-bind="html:otherHtml">
+
+    </div>
+</div>
+
+
+<div class="tab-pane active" id="ildo8">
+    <!-- все Исследования -->
+    <div class="form-inline toolbar">
+        <button  type="button"  rel="tooltip" title="Открыть в новом окне"
+                 class="labButton k-button pull-left"  data-bind="{events:{click:showExternal}}">
+            <i class="fa fa-external-link"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button id="turnLdoDiv" type="button"  rel="tooltip"
+                class="labButton  k-button pull-left"  data-bind="attr:{title:eyeTitle},events:{click:toggleGrid}">
+            <i data-bind="attr:{class:eyeClass,title:eyeTitle}" ></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button  type="button"  rel="tooltip" title="Обновить"
+                 class="labButton  k-button pull-left" data-bind="click:onRefresh">
+            <i class="icon-refresh"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <button type="button"  rel="tooltip" title="Печать"
+                class="labButton  k-button pull-left"  data-bind="{events:{click:print},visible:isAllVisible}">
+            <i class="fa fa-print"></i>
+        </button>
+        <span class="pull-left">&nbsp;</span>
+        <!--
+        <button rel="tooltip" title="Направить пациента на исследование в ЛДО" data-bind="click: doNaprLdo, visible: isNaprLdoVisible" class="k-button">
+            <img src="html/images/xray-human.png">
+        </button>
+        -->
+    </div>
+    <div>&nbsp;</div>
+    <div id="divldo8"  class="divldo"  rel="Все" data-bind="visible:isAllVisible,html:allHtml">
+
+    </div>
+    <div>&nbsp;</div>
+    <div id="ibLdo" class="ibgrid1"
+         data-role="grid"
+         data-sortable="false"
+         data-pageable="true"
+         data-filterable="false"
+         data-selectable="true"
+         data-auto-bind="false"
+         data-columns='[
+            {field: "ask_id", title: "ask_id",hidden: true },
+            { field: "curdate", title: "Дата", width: "10%", format: "{0:dd.MM.yyyy}"},
+            { field: "curtime", title: "Время", width: "8%", format: "{0:HH:mm}"},
+            { field: "namearm", title: "Раздел", width: "15%"  },
+            { field: "title", title: "Исследование", width: "30%"  },
+            { field: "namedoct", title: "Врач", width: "20%"   },
+            { field: "last_view", title: "Просмотр", width: "15%" }
+            ]'
+         data-bind="source:ldoListDs,visible:isGridVisible,events:{dataBinding:onDataBinding}"
+
+    ></div>  <!-- kendo grid -->
+</div>
+
+<div class="tab-pane" id="ildo9">
+    <div>
+        Запросить данные из госпитальной PACS-системы:
+        <button class="k-button" data-bind="click:pacsQuery1">по этому случаю</button>
+        &nbsp;
+        <button class="k-button" data-bind="click:pacsQuery2">по всем случаям пациента</button>
+        <!-- <hr> -->
+    </div>
+    <div>&nbsp;</div>
+    <div id="pacs-data" class="divldo" data-bind="html:pacsHtml"></div>
+</div>
+
+<div class="tab-pane" id="ildo10">
+    <!-- История -->
+    <div>
+        <button class="k-button" data-bind="click:oldQuery">Запросить данные из системы ЛДО</button>
+        <!-- &nbsp;
+        <button class="k-button" data-bind="click:pacsQuery2">по всем случаям пациента</button> 
+        <hr> -->
+    </div>
+    <div>&nbsp;</div>
+	<div id="old-ldo-data" class="divldo">
+		<div id="old-ldo-data-grid"></div>
+		<div>
+
+		</div>
+	</div>
+    <!-- <div id="old-ldo-data" class="divldo" data-bind="html:oldldoHtml"></div> -->
+</div>
+
+<div class="tab-pane" id="ildo11">
+    <!-- Направления -->
+    <!--
+    <div>
+        <button class="k-button" data-bind="click:ibRisQuery">Запросить данные из системы ЛДО</button>
+        &nbsp;
+        <button class="k-button" data-bind="click:doNaprLdo">Новое направление</button>
+        <hr>
+    </div>
+    -->
+    <div style="height:500px">
+        <div id="ibRisOrders" class="ibgrid1"
+             data-role="grid"
+             data-sortable="false"
+             data-pageable="true"
+             data-filterable="false"
+             data-selectable="false"
+             data-auto-bind="true"
+             data-resizable="true"
+             data-height="100%"
+             data-toolbar='[ { template: kendo.template($("#toolbar-ib-ris_orders").html()) } ]'
+             data-columns='[
+                {field: "ask_id", title: "ask_id",hidden: true },
+                { field: "plandatetime", title: "Д/план", width: "11%", format: "{0:dd.MM.yy HH:mm}"},
+                { field: "datetime", title: "Д/исслед", width: "11%", format: "{0:dd.MM.yy HH:mm}"},
+                { field: "user_name", title: "Направитель", width: "15%"},
+                { field: "name_issl", title: "Исследование",
+                    template:kendo.template($("#ris-issl-name-template").html())},
+                { field: "comment", title: "Цель исследования",
+                    template:kendo.template($("#ris-comment-template").html())},
+                { field: "status", title: "Статус",  width: "15%",
+                    template: kendo.template($("#ris-status-template").html()) },
+				{ field: "del_order", title: "",  width: "4%",
+                    template: kendo.template($("#ris-delete-template").html()) }	
+                ]'
+             data-bind="source:ibRisDs"
+
+        ></div>  <!-- kendo grid -->
+    </div>
+</div>
+
+<div id="old-ldo-result-window" style="display:none">
+    <div id="old-ldo-result" style="padding:5px">
+        <div id="old-ldo-result-include">
+            <input type="checkbox" id="ldoIncludeToIb" class="k-checkbox" data-bind="checked:oldIsslIncluded"/>
+            <label class="k-checkbox-label" for="ldoIncludeToIb">Присоединить к текущей ИБ</label>
+            <hr>
+        </div>
+        <div id="old-ldo-result-header">
+            <div>
+                <span>Дата:<span style="font-weight: bold" data-bind="html:oldDate"></span></span>
+                &nbsp;
+                <span>Время:<span style="font-weight: bold" data-bind="html:oldTime"></span></span>
+                &nbsp;
+                <span>Врач:<span style="font-weight: bold"  data-bind="html:oldVrach"></span></span>
+                <span class="pull-right">
+                <button class="k-button" data-bind="click:printOldResult" title="Печать">
+                <i class="fa fa-print"></i>
+                </button>
+                &nbsp;
+                <button class="k-button" data-bind="click:exportPDF" title="Получить в формате PDF">
+                <i class="fa fa-save"></i>
+                </button>
+                &nbsp;
+                </span>
+            </div>
+            <div>
+                <span>Исследование:<span style="font-weight: bold" data-bind="html:oldTitle"></span></span>
+            </div>
+            <hr>
+        </div>
+        <div id="old-ldo-print" style="height:500px;overflow: auto">
+            <div id="old-ldo-result-body-html"  data-bind="html:oldHtml"></div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+<script id="ldo-check-template" type="text/x-kendo-template">
+    # if (data.included) { #
+    <button type="button" class="k-button ldo-chk-button" title="Нажмите чтобы исключить исследование из текущей ИБ"><i class="fa fa-check-square-o fa-2x"></i></button>
+    # } #
+    # if (!data.included) { #
+    <button type="button" class="k-button ldo-chk-button" title="Нажмите чтобы включить исследование в текущую ИБ"><i class="fa fa-square-o fa-2x"></i></button>
+    # } #
+</script>
+<script type="text/x-kendo-template" id="toolbar-ib-ris_orders">
+    <div>
+        <div class="toolbar">
+            <span class="pull-left">
+                <p><strong>Направления в RIS <span style="font-size:smaller">
+                    &nbsp;(радиологическая информационная система)</span></strong>
+                </p>
+             </span>
+            <div class="form-inline toolbar pull-left" id="GridRisToolbar">
+                &nbsp;
+                <span>
+                    <button class="k-button" data-bind="events:{click:doNaprLdo},visible:isNaprLdoVisible"
+                            title="Создать новое направление">
+                        <img src="html/images/xray-human.png">
+                        &nbsp;Новое направление
+                    </button>
+                </span>
+                &nbsp;
+                <span class="pull-right">
+                    <button rel="tooltip" title="Обновить" id="btnRefreshRis" class="k-button" title="Обновить список направлений"
+                        type="button" data-bind="events:{click: ibRisQuery}"><i class="icon-refresh"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-template" id="ris-delete-template">
+    # if (status==1) { #
+		 <button data-bind="click:cancelNaprLdo" title="Удалить"><i class="fa fa-times" ></i></button>
+    # } #
+</script>
+
+<script type="text/x-kendo-template" id="ris-status-template">
+    # if (status==0) { #
+    Создано
+    # } #
+    # if (status==1) { #
+    Отправлено в RIS
+    # } #
+    # if (status==11) { #
+    Обновлено лаборантом
+    # } #
+    # if (status==12) { #
+    <a href="https://pgb2.ris-x.com:443/share/image/#=idpacs#/?popup=1" target="_blank" title="Показать в RIS">
+        <strong>Выполнено в RIS</strong></a>
+    # } #
+    # if (status==2) { #
+    <a href="https://pgb2.ris-x.com:443/share/image/#=idpacs#/?popup=1" target="_blank" title="Показать в RIS">
+        <strong>Описано в RIS</strong></a>
+    # } #
+	# if (status==31) { #
+    В процессе отмены
+    # } #
+    # if (status==3) { #
+    Отменено
+    # } #
+    # if (status==4) { #
+    Ошибка отправки
+    # } #
+</script>
+
+<script type="text/x-kendo-template" id="ris-comment-template">
+    <div style="font-size:smaller;">
+        <div>#=reason || ""#&nbsp;</div>
+    <!--        <div><em>#=comment || ""#&nbsp;</em></div> -->
+    </div>
+</script>
+<script type="text/x-kendo-template" id="ris-issl-name-template">
+    <div style="font-size:smaller;">
+        <div>#=service# #=name_issl#</div>
+    </div>
+</script>

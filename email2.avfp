@@ -1,0 +1,146 @@
+
+<head>
+<style type="text/css">
+		body { font-size: 62.5%; }
+		</style>
+</head>
+
+<%= include("header.avfp") %>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="16%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          	<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<a href="http://affiliate.godaddy.com/redirect/C536501AFDED7217700477046BECCF905134E0194DAC0E300443444C140BE50D7B401880AAC3CA99E8FE89874EE4A708" title="GoDaddy.com Hosting Plans">Cloud Web Hosting</a><img src="http://affiliate.godaddy.com/content/spacer.png?q=C536501AFDED7217700477046BECCF905134E0194DAC0E300443444C140BE50D7B401880AAC3CA99E8FE89874EE4A708" width="0" height="0" alt=""/><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/D637B91824E8AB208DC5C3E9A6BCF12201CEBDB2337B4868D946B171E5E0293C6C53D6B9E76954936DA60A9103F1EEEB" title="Go Daddy $12.99 SSL Sale!">SSL Certificates</a><br>
+<img src="http://affiliate.godaddy.com/content/spacer.png?q=D637B91824E8AB208DC5C3E9A6BCF12201CEBDB2337B4868D946B171E5E0293C6C53D6B9E76954936DA60A9103F1EEEB" width="0" height="0" alt=""/>
+<a href="http://affiliate.godaddy.com/redirect/FBF30519EF2549A6C7FD931E0110F4A3A6AD0C0B4185ED53B4B4A35A82155280BD1BE7FFBC72914B5D13DD5286A24C63" title="Domain Sale! $7.49 .com at GoDaddy">Domains</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/5D4E84FDB824DA1BF2EBEAA8AEC031477920D18EEF3CE5E303D9A14761A0E673CFD6EFAA251C2F64D3FB278DB2D84E29" title="Group Email from GoDaddy.com">Email Plans</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/5346D2E3C84B6485D98715FC579DA88FEFD87AB00CA25E07F1404C0CF93CB820DB40455B834BBF241E7A77AD17F788FE" title="GoDaddy.com Virtual Dedicated Servers">Virtual Dedicated Servers</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/E724A54E4B99D26CE0DED191029B609A5F8405C2B213A4317114CC5CA04116DF5BEC8D942CB954A47E9D1AEEF5C3F97D" title="Dedicated Servers at GoDaddy.com">Dedicated Servers</a></TD>
+          <TD vAlign=top width=100% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="10" width="100%" cellspacing="10">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath%>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    SMTP E-Mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></font></b></font></td>
+                  </tr>
+<%
+    oSMTP=NEWOBJECT('AVFPsmtp')
+    oSMTP.cSMTPServer= 'smtp.east.cox.net' && GoDaddy: 'relay-hosting.secureserver.net'  && enter your smtp server name or ip
+    oSMTP.cSenderName = oRequest.FORM("txtMailFrom")
+    oSMTP.cRecipient= oRequest.FORM("txtMailTo")
+    oSMTP.cBCCList = oRequest.FORM("txtMailBcc")
+    oSMTP.cSubject = oRequest.FORM("txtMailSubject")
+    oSMTP.cMessage = oRequest.FORM("S1")
+    lcSuccess=oSMTP.CDOsend()
+%>
+                  <tr>
+                    <td width="149%">
+                    <div align="center">
+                      <table border="0" cellpadding="2" width="100%">
+                        <tr>
+                          <td width="100%" colspan="2">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i><font color="#FF0000">E-mail
+                            sent!&nbsp;&nbsp; </font></i><font face="arial,helvetica"><small><font face size="4"><b><font face="Arial"><input type="button" value="Go Back" onClick="history.back()"></font></b></font></small></font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">To:</p>
+                          </td>
+                  <center>
+                          <td width="82%">
+                           
+                          &lt;%=oRequest.FORM(&quot;txtMailTo&quot;)%&gt;
+                           
+                          </td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">From:</td>
+                  <center>
+                          <td width="82%">&lt;%=oRequest.FORM(&quot;txtMailFrom&quot;)%&gt;</td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">BCC:</td>
+                  <center>
+                          <td width="82%">&lt;%=oRequest.FORM(&quot;txtMailBcc&quot;)%&gt;</td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">Reply-To:</td>
+                  <center>
+                          <td width="82%">&lt;%=oRequest.FORM(&quot;txtMailReplyTo&quot;)%&gt;</td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%" valign="baseline">
+                            <p align="right">Importance:</td>
+                          <td width="82%" valign="baseline">
+                            
+                            &lt;%=SUBSTR(oRequest.FORM(&quot;D1&quot;),4)%&gt;
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">Subject:</td>
+                  <center>
+                          <td width="82%">&lt;%=oRequest.FORM(&quot;txtMailSubject&quot;)%&gt;</td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">File Attachment:</td>
+                  <center>
+                          <td width="82%">&lt;%=oRequest.FORM(&quot;txtMailAttachment&quot;)%&gt;</td>
+                        </tr>
+              </center>
+                        <tr>
+                          <td width="18%">
+                            <p align="right">File Description</td>
+                          <td width="82%">&lt;%=oRequest.FORM(&quot;txtMailFileDesc&quot;)%&gt;</td>
+                        </tr>
+                        <tr>
+                          <td width="18%" valign="top">
+                            <p align="right">Body:</td>
+                          <td width="82%">
+                            
+                            &lt;%=oRequest.FORM(&quot;S1&quot;)%&gt;
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                          <td width="18%"></td>
+                          <td width="82%">&nbsp;</td>
+                        </tr>
+                      </table>
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%= include("footer.avfp") %>

@@ -1,0 +1,237 @@
+<!--                  data-height="600" -->
+
+<div class="demo-section">
+    <div data-role="tabstrip" data-animation="false" id="recom-tabs" data-bind="events:{select:onTabSelect}">
+        <ul>
+            <li><i class="fa fa-thumb-tack"></i>&nbsp;Рекомендации</li>
+            <li><i class="fa fa-desktop"></i>&nbsp;ЛДО</li>
+            <li><i class="fa fa-flask"></i>&nbsp;КДЛ</li>
+            <li><i class="fa fa-info"></i>&nbsp;Информация</li>
+            <li><i class="fa fa-bell-o"></i> Оповещения</li>
+        </ul>
+        <div class="k-content">
+            <div id="grid" class="ibgrid"
+                 data-role="grid"
+                 data-sortable="false"
+                 data-pageable="false"
+                 data-filterable="false"
+                 data-selectable="true"
+                 data-columns='[
+                { field: "ask_id", title: "ID", hidden: true },
+                { field: "niib", title: "ИБ", width: "7%" },
+                { field: "fio", title: "ФИО", width: "20%",template:$("#fio-template-recom").html() },
+                 {field: "date_ask", title: "Д/пост", format: "{0:dd.MM.yy}", width:"10%"},
+               { field: "ext3", title: "Рекомендация",encoded:false },
+                {field: "ext2", title: "Основание"},
+                {field: "ext1", title: "suffix", hidden: true}
+              ]'
+                 data-bind="source: dataSource"
+                 data-auto-bind="true"
+                 data-height="100%"
+            >
+            </div>
+        </div>
+        <div class="k-content">
+            <div id="grid-ldo" class="ibgrid"
+                 data-role="grid"
+                 data-sortable="{mode:'multiple',allowUnsort:true,showIndexes:true}"
+                 data-pageable="false"
+                 data-filterable="false"
+                 data-selectable="true"
+                 data-columns='[
+            { field: "ask_id", title: "ID", hidden: true },
+            { field: "niib", title: "ИБ", width: "7%" },
+            { field: "fio", title: "ФИО", template:$("#fio-template-recom").html() },
+             {field: "date_ask", title: "Д/пост", format: "{0:dd.MM.yy}", width:"10%"},
+            {field: "date", title: "Дата", format: "{0:dd.MM.yy}", width:"10%"},
+            {field: "time", title: "Время", format: "{0:HH:mm}", width:"10%"},
+            { field: "ext3", title: "Вид исследования" },
+            {field: "ext2", title: "Исследование"}
+          ]'
+                 data-bind="source: dataSourceLdo"
+                 data-auto-bind="true"
+                 data-height="100%"
+            >
+            </div>
+    </div>
+
+    <div class="k-content">
+        <div id="grid-kdl" class="ibgrid"
+             data-role="grid"
+             data-sortable="{mode:'multiple',allowUnsort:true,showIndexes:true}"
+             data-pageable="false"
+             data-filterable="false"
+             data-selectable="true"
+             data-columns='[
+    { field: "ask_id", title: "ID", hidden: true },
+    { field: "niib", title: "ИБ", width: "7%" },
+    { field: "fio", title: "ФИО", template:$("#fio-template-recom").html() },
+     {field: "date_ask", title: "Д/пост", format: "{0:dd.MM.yy}", width:"10%"},
+    {field: "date", title: "Дата", format: "{0:dd.MM.yy}", width:"10%"},
+    {field: "time", title: "Время", format: "{0:HH:mm}", width:"10%"},
+    { field: "ext3", title: "Вид исследования" },
+    {field: "ext2", title: "Исследование"}
+  ]'
+             data-bind="source: dataSourceKdl"
+             data-auto-bind="true"
+             data-height="100%"
+        >
+        </div>
+    </div>
+
+    <div>
+        <div style="height:600px; overflow-y:scroll;" id="admInfoList" data-role="listview"
+             data-template="templates-admInfoItem" data-selectable="true"
+             data-bind="source:dataSourceAdmInfo" data-auto-bind="true">
+        </div>
+    </div>
+        <!--
+        <div>
+            <div style="height:600px; overflow-y:scroll;" id="notificationsList" data-role="listview"
+                 data-template="templates-notificationsItem" data-selectable="true"
+                 data-bind="source:dataSourceNotifications,events:{dataBound:onNotificationsDataBound}" data-auto-bind="true">
+            </div>
+        </div>
+        -->
+        <div class="k-content">
+            <div id="grid-noti" class="ibgrid"
+                 data-role="grid"
+                 data-sortable=false"
+                 data-pageable="false"
+                 data-filterable="false"
+                 data-selectable="true"
+                 data-columns='[
+    { field: "ask_id", title: "ID", hidden: true },
+    { field: "niib", title: "ИБ", width: "7%" },
+    { field: "fio", title: "ФИО", template:$("#fio-template-noti").html() },
+    {field: "date_ask", title: "Дата госп", format: "{0:dd.MM.yy}", width:"10%"},
+    {field: "date_out", title: "Дата вып", format: "{0:dd.MM.yy}", width:"10%"},
+    {field: "notification",title:"Требование",template:$("#noti-template-notification").html()},
+    {command: {text:"Исключить",click:ibPlanOutChange},title:" ",width:"120px" }
+  ]'
+                 data-bind="source: dataSourceIbPlanOut"
+                 data-auto-bind="true"
+                 data-height="100%"
+            >
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    function ibPlanOutChange(e) {
+        e.preventDefault();
+        //alert("change");
+        var tr = $(e.target).closest("tr"); // get the current table row (tr)
+        // get the data bound to the current table row
+        var data = this.dataItem(tr);
+//        console.log("Details for: " + data.fio);
+        var dsIbPlanChange = new kendo.data.DataSource({
+            pageSize: 1000,
+            transport: {
+                read: {
+                    url: "default.aspx?action=StacDoct_main/newIb_AJAX&action2=ib_plan_out_change",
+                    dataType: "json"
+                }
+            },
+//            requestEnd: utils._onRequestEnd,
+            schema: {
+                data: "plan_out.rows",
+                total: "records",
+                errors: "error",
+                model: { id:"id",
+                    fields: {
+                        id: {type:"number"},
+                        ask_id: {type:"string"},
+                        is_vyp: {type:"number"}
+                    }
+                }
+            },
+            error: function(e) {
+//                utils.ajax_error(e);
+            }
+        });
+        var dialogPlanOutChange=$("<div id='ib-plan-out-change'/>").kendoDialog({
+            width: "600px",
+            title: "Причина исключения "+data.fio.fio(),
+            closable: true,
+            modal: true,
+            content: "<p>Укажите причину исключения ИБ № <strong>"+data.niib.toString()+"</strong> из этого списка<p>",
+            actions: [
+                { text: 'Смерть',
+                    action: function(e) {
+                    data.set("is_vyp",3);
+                    dsIbPlanChange.read({id:data.id,is_vyp:data.is_vyp});
+                    }
+                },
+                { text: 'Отравление',
+                    action: function(e) {
+                        data.set("is_vyp",2);
+                        dsIbPlanChange.read({id:data.id,is_vyp:data.is_vyp});
+                    }
+                },
+                { text: 'Травма',
+                    action: function(e) {
+                        data.set("is_vyp",1);
+                        dsIbPlanChange.read({id:data.id,is_vyp:data.is_vyp});
+                    }
+                },
+                { text: 'Нет причины',
+                    action: function(e) {
+                        data.set("is_vyp",0);
+                        dsIbPlanChange.read({id:data.id,is_vyp:data.is_vyp});
+                    },
+                    primary: true
+                }
+            ]
+        }).data("kendoDialog");
+        dialogPlanOutChange.open();
+    }
+</script>
+<script type="text/x-kendo-template" id="toolbar-all-recomendations">
+    <div>
+        <div class="toolbar">
+            <span class="pull-left">
+              <p><strong>Рекомендации программы</strong></p>
+              </span>
+            <span class="pull-right">
+                <button rel="tooltip" title="Обновить" id="btnRefresh1" class="k-button" type="button" data-bind="events:{click: onRefresh}"><i class="icon-refresh"></i></button>
+            </span>
+            </div>
+
+        </div>
+    </div>
+</script>
+
+<script id="palata-template" type="text/x-kendo-template">
+    # var sRet=(data.dnst==1) ? "ДС" : data.palata; #
+    #= sRet #
+</script>
+<script id="fio-template-recom" type="text/x-kendo-template">
+    # var sRet=""; #
+    # var suffix=(data.ext1.startsWith("{")) ? ("/"+data.ext1) : "" ; #
+    # sRet="<a href='\#/ib/"+data.ask_id+suffix+"'>"+data.fio+"</a>"; #
+    #= sRet #
+</script>
+<script id="fio-template-noti" type="text/x-kendo-template">
+    # var sRet=""; #
+    # var suffix=(data.ext1.startsWith("{")) ? ("/"+data.ext1) : "" ; #
+    # sRet="<a href='\#/ib/"+data.ask_id+suffix+"'>"+data.fio+"</a>"; #
+    #= sRet #
+</script>
+<script id="noti-template-notification" type="text/x-kendo-template">
+    # var sRet="ТРЕБУЕТСЯ сформировать выписной эпикриз"; #
+    # if (data.is_vyp==3) { #
+        #sRet="Смерть - исключен";#
+    #}#
+    # if (data.is_vyp==2) { #
+    #sRet="Отравление - исключен";#
+    #}#
+    # if (data.is_vyp==1) { #
+    #sRet="Травма - исключен";#
+    #}#
+    #= sRet #
+</script>
+<!-- <a href="\#/ib/#:data.ask_id#/#:data.ext1#">#=data.fio#</a> -->
+
+<!-- data-toolbar='[ { template: kendo.template($("#toolbar-all-recomendations").html()) } ]' -->

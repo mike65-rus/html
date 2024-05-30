@@ -1,0 +1,14 @@
+<div id="ib-recomendations">
+    <p>
+    <strong>Рекомендации программы</strong>
+    <span class="pull-right">
+        <button rel="tooltip" title="Обновить" class="k-button" type="button" data-bind="events:{click: onRefresh}">
+            <i class="icon-refresh"></i>
+        </button>
+    </span>
+    </p>
+    <div id="ibRecomList" data-role="listview" data-template="templates-recomList" data-selectable="true"
+         data-bind="source:recomDs,events:{change:onListViewChange}" data-auto-bind="true">
+    </div>
+
+</div>

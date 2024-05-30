@@ -1,0 +1,167 @@
+<%=include("header.avfp")%>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="1165" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top bgColor=#f6e1a0 style="width: 106px">
+            <p align="left">&nbsp;
+            <p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;
+</TD>
+          <TD vAlign=top width=894 bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td>
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath %>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    Multiple Tables on a Page</font></b></font></td>
+                  <center>
+                  </tr>
+<%
+* table 1
+SELE * FROM Customer WHERE TITLE ='Sales' INTO CURSOR tCursor
+
+*Settings
+   lnPageMax  =999        && total records displayed per page
+   lnpagenumbers =0       && how many page numbers to show (0=no page numbers)
+   lnRowCount = RECCOUNT()    
+   lnPageBegin = 1
+
+%>
+                  <tr>
+                    <td width="149%">
+                    &lt;%=DATETIME()%&gt;&nbsp; <font face><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="window.location = '<%=oProp.ScriptPath%>';"></font></small></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face="Arial"><b> 
+					<font face size="4"><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></b></font><br>
+                    <div align="center">
+                      <table border="0" cellpadding="2" width="100%">
+                        <tr>
+                          <td width="50%" valign="top">&nbsp;<b>All Sales Staff</b>
+                            <div align="right">
+                              <table border="0" cellpadding="2" width="100%">
+                                <tr>
+                                  <th width="40%" bgcolor="#00FFFF">
+                                    <p align="left"><font size="1">Company</font></p>
+                                  </th>
+                                  <th width="36%" bgcolor="#00FFFF">
+                                    <p align="left"><font size="1">Contact</font></p>
+                                  </th>
+                                  <th width="24%" bgcolor="#00FFFF">
+                                    <p align="left"><font size="1">Title</font></p>
+                                  </th>
+                                </tr>
+<% FOR lnX = lnPageBegin TO lnPageMax 
+        IF lnX <= lnRowCount
+			    GOTO lnX   && MOD() is for alternating color for rows %>
+
+                                <tr>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="40%"><font size="1"><a href="<%=oProp.ScriptPath +[?action=detail&cust_id=]+ALLTRIM(cust_id)%>">&lt;%=tCursor.company%&gt;</a></font></td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="36%"><font size="1">&lt;%=tCursor.Contact%&gt;</font></td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="24%"><font size="1" color="#000000">&lt;%= tCursor.Title %&gt;</font></td>
+                                </tr>
+<%		ENDIF
+	ENDFOR 
+%>  
+
+                              </table>
+                            </div>
+                            <br>
+                            # Records=&lt;%=RECCOUNT()%&gt;
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                          </td>
+<%
+* table 2
+SELE * FROM Employee INTO CURSOR tCursor
+
+*Settings
+   lnPageMax  =999        && total records displayed per page
+   lnpagenumbers =0       && how many page numbers to show (0=no page numbers)
+   lnRowCount = RECCOUNT()    
+   lnPageBegin = 1
+%>
+                          <td width="50%" valign="top"><b>Employees</b>
+                            <div align="center">
+                              <table border="0" cellpadding="2" width="100%">
+                                <tr>
+                                  <th width="40%" bgcolor="#C0C0C0">
+                                    <p align="left"><font size="1">Last Name</font></p>
+                                  </th>
+                                  <th width="36%" bgcolor="#C0C0C0">
+                                    <p align="left"><font size="1">Title</font></th>
+                                </tr>
+<% FOR lnX = lnPageBegin TO lnPageMax 
+        IF lnX <= lnRowCount
+			    GOTO lnX   && MOD() is for alternating color for rows %>
+
+                                <tr>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="40%"><font size="1">&lt;%=tCursor.Last_name%&gt;</font></td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="36%"><font size="1">&lt;%=tCursor.Title%&gt;</font></td>
+                                </tr>
+<%		ENDIF
+	ENDFOR 
+%>  
+
+                              </table>
+                            </div>
+                            <br>
+                            # Records=&lt;%=RECCOUNT()%&gt;<br>
+                            <br>
+<%
+* table 3
+SELE * FROM Customer WHERE TITLE='Sales Representative' ;
+	INTO CURSOR tCursor
+
+*Settings
+   lnPageMax  =999        && total records displayed per page
+   lnpagenumbers =0       && how many page numbers to show (0=no page numbers)
+   lnRowCount = RECCOUNT()    
+   lnPageBegin = 1
+%>
+                            &nbsp;<b>Sales Reps</b>
+                            <div align="left">
+                              <table border="0" cellpadding="2" width="100%">
+                                <tr>
+                                  <th width="33%" bgcolor="#00FFFF">Company</th>
+                                  <th width="33%" bgcolor="#00FFFF">Contact</th>
+                                  <th width="34%" bgcolor="#00FFFF">Title</th>
+                                </tr>
+<% FOR lnX = lnPageBegin TO lnPageMax 
+        IF lnX <= lnRowCount
+			    GOTO lnX   && MOD() is for alternating color for rows %>
+                                <tr>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="33%"><font size="1"><a href="<%=oProp.ScriptPath +[?action=detail&cust_id=]+ALLTRIM(cust_id)%>">&lt;%=tCursor.company%&gt;</a></font></td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="33%"><font size="1">&lt;%=tCursor.Contact%&gt;</font></td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="34%"><font size="1" color="#000000">&lt;%=tCursor.Title %&gt;</font></td>
+                                </tr>
+<%		ENDIF
+	ENDFOR 
+%>  
+                              </table>
+                            </div>
+                            <br>
+                            # Records=&lt;%=RECCOUNT()%&gt;
+                            <p>&nbsp;</td>
+                        </tr>
+                      </table>
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

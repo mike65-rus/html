@@ -1,0 +1,66 @@
+<div id="pacs-window" class="demo-section">
+    <div >
+        <form  id="pacs-form" class="form-inline">
+            <span>Период:</span>
+            <label for="date-start">Начало
+                <input rel="tooltip" name="Начало" required="required"
+                       id="date-start"  autofocus="true"
+                       data-role="datepicker"
+                       data-format="dd.MM.yyyy"
+                       data-bind="value:dateStart"
+                />
+                <span class="k-invalid-msg" data-for="Начало"></span>
+            </label>
+            <label for="date-end">Окончание
+                <input rel="tooltip" name="Окончание"  required="required"
+                       id="date-end"
+                       data-role="datepicker"
+                       data-format="dd.MM.yyyy"
+                       data-bind="value:dateEnd"
+                />
+                <span class="k-invalid-msg" data-for="Окончание"></span>
+            </label>
+            <label for="issuer">Описания
+                <input rel="tooltip" name="Описание"  required="required"
+                       id="issuer"
+                       data-role="dropdownlist"
+                       data-bind="source:issuersDs,value:issuer,events:{change:onIssuerChange}"
+                       data-value-field="id"
+                       data-text-field="name"
+                       data-value-primitive="true"
+                />
+                <span class="k-invalid-msg" data-for="Описание"></span>
+            </label>
+
+            <button class="k-button" type="button" data-bind="events:{click:doQuery}">Поиск</button>
+        </form>
+
+    </div>
+
+    <div class="k-content"  id="pacs-content">
+        <div id="grid-pacs" class="ibgrid"
+             data-role="grid"
+             data-sortable="true"
+             data-pageable="false"
+             data-filterable="false"
+             data-selectable="true"
+             data-height="100%"
+             data-columns='[
+                {field: "patientid",title:"PACS-ID",hidden:"true"},
+                {field: "issuer",title:"Issuer",hidden:"true"},
+                {field: "patientname",title:"PACS-ФИО",width:"20%"},
+                {field: "fio",title:"ФИО",width:"20%"},
+                {field: "sex",title:"Пол"},
+                {field: "birt",title:"Д/рожд",format: "{0:dd.MM.yyyy}" },
+                {field: "curtime",title:"Дата",format: "{0:dd.MM.yyyy - HH:mm}" },
+                {field: "studymodal",title:"Иссл"},
+                {field: "series",title:"Серий"},
+                {field: "instances",title:"Файлов"},
+              ]'
+             data-bind="source: dataSource,events:{change:onGridRowChange}"
+             data-auto-bind="false"
+        >
+        </div>
+    </div>
+</div>
+

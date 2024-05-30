@@ -1,0 +1,54 @@
+<div id="ib_doc_speaker_window" class="k-content">
+    <div id="speaker-info"></div>
+    <p></p>
+    <div id="speaker_div_start">
+        <button id="speaker_start_button" data-bind="click:toggle">
+            <img alt="Старт" id="speaker_start_img" src="html/images/mic.gif">
+        </button>
+    </div>
+    <div id="speaker_results">
+        <span class="final" id="final_span"></span>
+        <span class="interim" id="interim_span"></span>
+    </div>
+    <p id="speaker-field-title"></p>
+    <div id="speaker-toolbar">
+        <button rel="tooltip" title="Новая строка" data-text="<br>" data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">Стр</button>
+        <button rel="tooltip" title="Точка" data-text="."  data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button"  type="button">.</button>
+        <button rel="tooltip" title="Запятая" data-text=","  data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button"  type="button">,</button>
+        <button rel="tooltip" title="Точка запятая" data-text=";" data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">;</button>
+        <button rel="tooltip" title="Двоеточие" data-text=":"  data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">:</button>
+        <button rel="tooltip" title="Открыть скобку" data-text=" (" data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">(</button>
+        <button rel="tooltip" title="Закрыть скобку" data-text=") " data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">)</button>
+        <button rel="tooltip" title="Вопросительный знак" data-text="?"  data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">?</button>
+        <button rel="tooltip" title="Восклицательный знак" data-text="!" data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">!</button>
+        <button rel="tooltip" title="Звездочка" data-text="*" data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">*</button>
+        <button rel="tooltip" title="Дефис" data-text="-"  data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">-</button>
+        <button rel="tooltip" title="Тире (только кнопка)" data-text=" - "  data-bind="click:buttonClick"
+                class="k-button speaker-toolbar-button" type="button">--</button>
+        <!--
+    <button rel="tooltip" title="Пробел (только кнопка)" onclick="speakerInsert(' ')"
+        class="k-button speaker-toolbar-button" type="button">&nbsp;</button>
+        -->
+    </div>
+    <p></p>
+    <div id="speaker-editor" style="max-width:780px" contenteditable="true"></div>
+    <p></p>
+    <div class="pull-right">
+        <button rel="tooltip" title="Сохранить" data-bind="click:save"
+                class="k-button" type="button"><i class="fa fa-gear"></i> Сохранить</button>
+        <span>&nbsp;</span>
+        <button rel="tooltip" class="k-button" title="Отказ" data-bind="click:close" type="button">
+            <i class="fa fa-ban"></i> Отказ</button>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<%
+    IF (NVL(oSession.value("DeviceType"),"desktop")=="mobile")
+        *IF !(NVL(oSession.value("isadmin"),.F.))
+           oResponse.Redirect(oProp.ScriptPath+"?action=StacDoct_main_mobile")
+        *ENDIF
+    ENDIF
+%>
+<% * Main Menu %>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#apps">Приложения</a>
+            </div>
+            <div id="apps" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <ul>
+                    <%
+                        bDnStPk=.F.
+                    	 sApps=oSession.value("apps")+"," 
+	                     sUid=ALLTRIM(STR(oSession.value("uid"),12,0)) 
+    	                 sHash=oSession.value("hash")
+    	                 =SetStacMode(oSession.value("uid"))
+    	                 bDnStPk=(oSession.value("StacMode")=="pk")
+                    %>
+                    <% IF ("01," $ sApps) %>
+                          <% IF (NVL(oSession.value("DeviceType"),"desktop")=="mobile") %>
+                              <li class="app-1" data-mode="st" style='line-height:40px;'>
+                                <a href="default.aspx?action=StacDoct_main_mobile">Мобильный АРМ врача стационара</a>
+                              </li>
+                          <% ENDIF %>
+                          <li class="app-1" data-mode="st" style='line-height:40px;'>
+                            <a href="default.aspx?action=StacDoct_main">АРМ врача стационара</a>
+                          </li>
+
+                    <% ENDIF %>
+                    <% IF ("03," $ sApps) %>
+                          <li  class="app-3" style='line-height:40px;'>
+                            <a href="default.aspx?action=pk ">АРМ врача поликлиники</a>
+                          </li>
+                    <% ENDIF %>
+                    <% IF (bDnStPk) %>
+                          <li class="app-1" data-mode="pk"  style='line-height:40px;'>
+                            <a href="default.aspx?action=StacDoct_main">АРМ врача дневного стационара (Поликлиника,КВД)</a>
+                          </li>
+                    <% ENDIF %>
+                    <% IF ("04," $ sApps) %>
+                          <li  style='line-height:40px;'>
+                            <a href="https://tele.pgb2.ru/medsystem/expertreview/home/index?uid=<%=sUid+[&h=]+sHash %>" target="_blank">Экспертиза качества лечения</a>
+                          </li>
+                    <% ENDIF %>
+                    <% IF .F. and ("99," $ sApps) %>
+                          <li  style='line-height:40px;'>
+                            <a href="https://tele.pgb2.ru/Medsystem/ExpertReview/Home/InfectionMonitor?uid=<%=sUid+[&h=]+sHash %>" target="_blank">Ежедневный мониторинг грипп,пневмония,ОРВИ</a>
+                          </li>
+                    <% ENDIF %>
+                    <% IF ("07," $ sApps) %>
+                          <li style='line-height:40px;'>
+                            <a href="https://tele.pgb2.ru/Medsystem/InfectionMonitor/Home/PatientList?uid=<%=sUid+[&h=]+sHash %>" target="_blank">Ежедневный мониторинг грипп,пневмония,ОРВИ</a>
+                          </li>
+                    <% ENDIF %>
+                    <% IF ("08," $ sApps) %>
+                          <li style='line-height:40px;'>
+                            <a href="https://tele.pgb2.ru/HL7Planner/Home/PlanMany?doctor=<%=sUid+[&h=]+sHash %>" target="_blank">Групповое направление в РИС-ЛДО</a>
+                          </li>
+                    <% ENDIF %>
+					<% IF ("09," $ sApps) %>
+                          <li style='line-height:40px;'>
+                            <a href="https://tele.pgb2.ru/Medsystem/Gb2Ajax/PlanPhrases/PlanPhrasesEditor" target="_blank">Редактирование плана обследования и лечения</a>
+                          </li>
+                    <% ENDIF %>
+                    <% IF ("05," $ sApps) %>
+                          <li style='line-height:40px;'>
+                            <a href="default.aspx?action=re ">Реестры ОМС</a>
+                          </li>
+                    <% ENDIF %>
+                    <% IF ("06," $ sApps) %>
+                          <li style='line-height:40px;'>
+                            <a href="default.aspx?action=ldo ">АРМ просмотра исследований КДЛ/ЛДО</a>
+                          </li>
+                    <% ENDIF %>
+                </ul>
+              </div>
+            </div>
+          </div>

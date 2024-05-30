@@ -1,0 +1,39 @@
+<div id="deseases-details-window-container"
+     style="max-height:600px;max-width:600px;padding-left: 15px;padding-right:15px;padding-bottom:10px;">
+    <div id="deseases-details-content">
+        <div>
+            <span data-bind="text:selectedDesease.mkb" style="font-weight: bold"></span>
+            &nbsp;
+            &nbsp;
+            <span data-bind="text:selectedPatient.pin"></span>
+            &nbsp;
+            <span data-bind="text:selectedPatient.fio"></span>
+        </div>
+        <div>
+            <div data-bind="text:selectedDesease.mkb_name1" style="overflow: hidden"></div>
+            <div data-bind="text:selectedDesease.mkb_name2"  style="overflow: hidden"></div>
+        </div>
+        <div style="margin-top: 10px;height:400px">
+            <div id="deseases-details-grid" class="pk-grid" style="width:100%;height:100%"
+                 data-role="grid"
+                 data-selectable="row"
+                 data-bind="source:detailsDs"
+                 data-groupable="false"
+                 data-filterable="false"
+                 data-pageable="false"
+                 data-navigatable="true"
+                 data-sortable="true"
+                 data-columns='[
+                 {field: "id", title: "id",hidden: true },
+                 { field: "des_date", title: "Дата",  format: "{0:dd.MM.yyyy}"},
+                 { field: "des_doct", title: "Врач"},
+                 { field: "source", title: "Источник",values:appData.visitsListsLookups.aSources}
+                 ]'
+            >
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;margin-top: 10px" id="deseases-details-command-bar">
+        <button class="k-button"  data-bind="events{click:closeWindow}">Закрыть</button>
+    </div>
+</div>

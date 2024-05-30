@@ -1,0 +1,59 @@
+<div id="myib4"
+    data-role="grid"
+    data-sortable="true"
+    data-pageable="true"
+    data-filterable="false"
+    data-selectable="true"
+    data-auto-bind="false"
+    data-toolbar='[ { template: kendo.template($("#toolbar4").html()) } ]'
+    data-columns='[
+        {field: "ask_id", title: "ASK_ID",hidden: true },
+        { field: "niib", title: "ИБ", width: "7%" },
+        { field: "fio", title: "ФИО", width: "30%",  template:$("#fio4-template").html()
+        },
+        { field: "date_ask", title: "Д/пост", width: "13%", format: "{0:dd.MM.yyyy - HH:mm}"
+        },
+        { field: "date_out", title: "Д/выб", width: "13%", format: "{0:dd.MM.yyyy - HH:mm}"
+        },
+        { field: "date_omo", title: "Д/Арх", width: "9%", format: "{0:dd.MM.yyyy}"
+        },
+        {
+        field: "otd1", title: "Отд",width: "5%"
+        },
+        {
+            field: "rezult1", title: "Исход",template:$("#diagnoze-template-arx").html()
+        },
+        {
+            field: "user_fio", title: "Врач", width: "15%"
+        }
+
+    ]'
+    data-bind="source: dataSource, events: { change: onChange, dataBound: onDataBound }"
+    >
+</div>  <!-- kendo grid -->
+
+<script type="text/x-kendo-template" id="toolbar4">
+    <span class="pull-left">
+                                <p><strong>Архив</strong></p>
+                        </span>
+    <div class="form-inline toolbar pull-right" id="Grid4Toolbar">
+        <input class="k-input" title="Поиск пациента" id="ib-selector-arxpac" placeholder="Поиск по фамилии..."
+               autofocus="true" style="width:350px;padding-left:5px;padding-right:5px;"
+               data-bind="value:sText"/>
+        <select rel="tooltip" title="Выбор объектов" data-role="dropdownlist" data-value-field="act_val" data-text-field="act_descr"
+                data-height="500", data-bind="source: actSource, value: selectedAction" style="width:250px;">
+        </select>
+        <button rel="tooltip" title="Обновить" id="btnRefresh4" class="k-button" type="button" data-bind="events:{click: onRefresh}"><i class="icon-refresh"></i></button>
+    </div>
+</script>
+<script id="fio4-template" type="text/x-kendo-template">
+    # var sLink="default.aspx?action=ibViewer\\#/ib/"+data.ask_id; #
+    # if (sLink) { #
+    <a href="#:sLink#" target="_blank"  rel="opener"  title="Открыть ИБ">#=data.fio#</a>
+    # } #
+</script>
+<script id="diagnoze-template-arx" type="text/x-kendo-template">
+    <div>
+        <div class="diag-in-grid" title="Показать диагнозы по ИБ">#=(data.rezult1 || '...')#</div>
+    </div>
+</script>

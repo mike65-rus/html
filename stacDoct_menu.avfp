@@ -1,0 +1,22 @@
+<%= include("header.avfp") %>
+<script>
+$(function() {
+$( "#accordion" ).accordion();
+});
+
+$(function() {
+$( 'a.button' )
+.button();
+//.click(function( event ) {
+//event.preventDefault();
+//});
+});
+</script>
+</HEAD>
+<BODY>
+ <!-- автоматическое перенаправление на Login.avfp, если нет логина или таймаут -->
+<%= include("loginInclude.avfp") %>
+ <!-- Page Header -->
+<%= include("headerInfo.avfp") %>
+
+<%=include("footer.avfp")%>

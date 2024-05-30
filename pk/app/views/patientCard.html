@@ -1,0 +1,13 @@
+<div id="patient-card" >
+    <div class="k-block" style="width:100%;height:50px;line-height:50px;padding-left:10px; padding-right:10px">
+        <button class="k-button" title="Выбор пациента" data-bind="click:newPatient" style="margin-top:-5px">
+            <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
+        </button>
+        &nbsp;&nbsp;
+        <!-- <span>Амбулаторная карта</span> -->
+        <span data-bind="html:selectedPatientLabel" style="font-weight: bold"></span>
+    </div>
+    <div data-bind="visible:isCardVisible">
+        <div id="patient-card-tabstrip"></div>
+    </div>
+</div>

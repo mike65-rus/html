@@ -1,0 +1,20 @@
+<div id="ibdocs_vid_view_modal" class="k-content">
+    <!-- <h6>Выберите вид документа:</h6> -->
+    <div id="doc_tree" style="height:400px;width:500px;overflow:auto;border:1px solid black;"
+            data-role="treeview"
+            data-text-field="doc_name"
+            data-value-field="uid"
+            data-spritecssclass-field="sprite"
+            data-bind="source:ds,events:{select:onSelect}"
+            ></div>
+    <p>
+    <div class="pull-right" id="ibdocs_vid_view_modal_buttons">
+        <button rel="tooltip" title="Выполнить действие" data-bind="events:{click:ok},enabled:isOkEnabled"
+                class="k-button" type="button" id="ibdocs_vid_okButton" disabled><i class="fa fa-gear"></i> Выполнить</button>
+        <span>&nbsp;</span>
+        <button rel="tooltip" title="Отказ" class="k-button" type="button"
+                data-bind="click:cancel" id="ibdocs_vid_cancelButton">
+            <i class="fa fa-ban"></i> Отказ</button>
+    </div>
+    </p>
+</div>

@@ -1,0 +1,285 @@
+<div id="ib_fiscal_window"  class="k-content">
+    <table width="100%">
+        <tr>
+            <td>
+                <div class='input-div'>
+                    <label for="fiscal_dateask">Дата начала госпитализации:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="k-input" type='input' id="fiscal_dateask"
+                            data-role="datepicker"
+                            data-bind="{value:dateAsk,enabled:isDateAskEnabled}"
+                            />
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="fiscal_dateout">Дата окончания госпитализации:
+                    <input  type='text' id="fiscal_dateout"
+                           data-role="mydatepicker" data-no-keyboard="true"
+                           data-bind="{value:dateOut,enabled:isDateOutEnabled,min:dateAsk,max:maxDateOut}"
+                            />
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="fiscal_003">Характер основного заболевания:</label>
+                <div class='input-div'>
+                    <input class='form-input' type='text' id="fiscal_003"
+                           data-role="dropdownlist"
+                           data-auto-bind="true"
+                           data-text-field="name"
+                           data-value-field="code"
+                           data-bind="{value:fiscal.czab,source:dsCzab}"
+                           data-option-label="Не указано..."
+                    />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="fiscal_001">Исход случая:</label>
+                <div class='input-div'>
+                    <input class='form-input' type='text' id="fiscal_001"
+                            data-role="dropdownlist"
+                            data-auto-bind="true"
+                            data-text-field="name"
+                            data-value-field="code"
+                            data-bind="{value:fiscal.isxod,source:dsIsxod,events:{change:onIsxodChanged}}"
+                            data-option-label="Не указано..."
+                            />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="fiscal_002">Результат лечения:</label>
+                <div class='input-div'>
+                    <input class='form-input' type='text' id="fiscal_002"
+                           data-role="dropdownlist"
+                           data-auto-bind="true"
+                           data-text-field="name"
+                           data-value-field="code"
+                           data-bind="{value:fiscal.result,source:dsResult,enabled:isResultEnabled}"
+                           data-option-label="Не указано..."
+                            />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div style="margin-top:10px">
+                            Больничный лист: &nbsp;&nbsp;
+                            <span style="font-weight: normal">
+                                <button id="fss_check_button" rel="tooltip" title="Получить из базы данных больничных листов"
+                                        class="k-button" type="button" data-bind="click:checkFss,enabled:isEditable">
+                                    Получить из базы данных ...</button>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <table width="100%">
+                        <td colspan="2">
+                            <label for="fss_001">Статус:
+                            <div class='input-div'>
+                                <input class='form-input' type='text' id="fss_001"
+                                       data-role="dropdownlist"
+                                       data-auto-bind="true"
+                                       data-text-field="name"
+                                       data-value-field="code"
+                                       data-value-primitive="true"
+                                       data-bind="{value:fiscal.fss_answer,source:dsFssAnswers,enabled:isFssAnswerEnabled,
+                                       events:{change:onFssAnswerChanged}}"
+                                />
+                            </div>
+                            </label>
+                        </td>
+                        <td colspan="2">
+                            <label for="fss_002">Номер:
+                                <div class='input-div'>
+                                    <input class='k-input' type='text' id="fss_002" size="100"
+                                           data-bind="value:fiscal.fss_num"
+                                           style="width:350px"
+                                    />
+                                </div>
+                            </label>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="fss_003">Дата открытия:
+                            <div class='input-div'>
+                                <input class='k-input' type='text' id="fss_003"
+                                       data-role="datepicker"
+                                       data-bind="value:fiscal.fss_d1"
+                                />
+                            </div>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="fss_004">Дата закрытия:
+                            <div class='input-div'>
+                                <input class='k-input' type='text' id="fss_004"
+                                       data-role="datepicker"
+                                       data-bind="value:fiscal.fss_d2"
+                                />
+                            </div>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="fss_006">К труду:
+                            <div class='input-div'>
+                                <input class='k-input' type='text' id="fss_006"
+                                       data-role="datepicker"
+                                       data-bind="value:fiscal.fss_d3"
+                                />
+                            </div>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="fss_005">Иное:
+                            <div class='input-div'>
+                                <input class='form-input' type='text' id="fss_005"
+                                       data-role="dropdownlist"
+                                       data-auto-bind="true"
+                                       data-text-field="name"
+                                       data-value-field="code"
+                                       data-value-primitive="true"
+                                       data-bind="{value:fiscal.fss_inoe,source:dsFssInoe}"
+                                       data-option-label="Не указано..."
+                                />
+                            </div>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+                </tr>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%">
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr>
+                        <td width="20%">
+                            <label>КСГ:</label>&nbsp;&nbsp;
+
+                        </td>
+                        <td>
+                            <button class='k-button' type='button' id="fiscal_011_btn"
+                                    data-bind="events:{click:openMkbKsgChooser},enabled:isEditable">Выбор КСГ и МКБ</button>
+                        </td>
+						<td>
+							<label for="ves">Вес пациента:
+								<div class='input-div'>
+									<input class='k-input' type='number' id="ves_001" size="100"
+										   data-bind="value:fiscal.ves"
+										   style="width:100px"
+									/>
+								</div>
+							</label>
+						</td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <table width="100%">
+                <tr>
+                    <td width="15%"><span style="font-weight: bold" id="fiscal_mkb_code" data-bind="text:fiscal.mkb"></span></td>
+                    <td width="85%"><span id="fiscal_mkb_name" data-bind="text:fiscal.mkb_name" ></span></td>
+                </tr>
+                <tr style="display: none;">
+                    <td width="15%"><span id="fiscal_mkb_vers"></span></td>
+                    <td width="85%"></td>
+                </tr>
+            </table>
+        </tr>
+        <tr>
+            <table width="100%">
+                <tr>
+                    <td width="15%"><span style="font-weight: bold" id="fiscal_ksg_code" data-bind="text:fiscal.ksg"></span></td>
+                    <td width="85%"><span id="fiscal_ksg_name" data-bind="text:fiscal.ksg_name"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><span id="fiscal_usl_list" data-bind="text:fiscal.usl_list"></span></td>
+                </tr>
+            </table>
+        </tr>
+
+        <tr>
+            <td>
+                <table width="100%">
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr>
+                        <td width="20%">
+                            <label>Сложность лечения:</label>&nbsp;&nbsp;
+                        </td>
+                        <td>
+                            <button class='k-button' type='button' id="fiscal_013_btn"
+                                    data-bind="events:{click:openKslpDialog},enabled:isEditable">
+                                <strong>Выбор коэффициента сложности</strong>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div data-bind="html:kslpNames"></div>
+            </td>
+        </tr>
+
+        <!--
+        <tr>
+            <td>
+                <label for="fiscal_010">КСГ:</label>
+                <div class='input-div'>
+                    <input class='form-input' type='text' id="fiscal_010"
+                           data-role="dropdownlist"
+                           data-auto-bind="false"
+                           data-text-field="descr"
+                           data-value-field="code"
+                           data-bind="value:fiscal.ksg,source:dsKsg,events:{change:onKsgChanged}"
+                           data-option-label="Не указано..."
+                           style="max-width:780px;"
+                            />
+                </div>
+            </td>
+        </tr>
+        -->
+        <!--
+        <tr>
+            <td>
+                <p>&nbsp;</p>
+                <label for="fiscal_090">Стоимость лечения составила
+                    <input class='k-input' type='input' id="fiscal_090"/>
+                    рублей
+                </label>
+            </td>
+        </tr>
+        -->
+    </table>
+        </tr>
+    </table>
+    <p>
+    <div class="pull-right">
+        <button id="fiscal_save" rel="tooltip" title="Сохранить и закрыть"
+                class="k-button" type="button" data-bind="click:save,enabled:isEditable">Сохранить</button>
+        <span>&nbsp;</span>
+        <!--
+        <button id="fiscal_print" rel="tooltip" title="Печать"
+                class="k-button" type="button">Печать</button>
+        <span>&nbsp;</span>
+        -->
+        <button id="fiscal_close" rel="tooltip" title="Закрыть без сохранения" class="k-button" type="button"
+                data-bind="click:close">
+            Закрыть</button>
+    </div>
+    </p>
+</div>

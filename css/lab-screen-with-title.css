@@ -1,0 +1,39 @@
+/* same as lab-screen.css but pacient title is displayed */
+table.lab-table {width: 80% ; word-break:break-all; cellpadding: 2; border-collapse:collapse}
+td.lab-td {color: black; border: 1px solid black}
+.td1, .td2, .td3, .td-razdel, .td0, td-hidden {font-size: 0.9em}
+.td-small {font-size: 0.8em}
+.td1 {width: 30%}
+.td2 {width: 10%}
+.td3 {width: 10%}
+.td0, .td-hidden, .td-small {width: 10%}
+.td-hidden {border: none}
+.td1,.td2,.td3,.td-razdel,.td-name, .td0, .td-small {border: 1px solid black}
+.td-name {font-size: 1em; background: LightGray }
+.td-bold {font-weight: bold}
+.td3 {border-right-style:double; border-right-width: 2px}
+.td-first {border-left-style:none}
+.red {color:  IndianRed }
+.blue {color: SlateBlue  }
+.green {color:Indigo}
+.grey {background:LightGrey}
+
+p.lab-divider {  margin-top: 0.6em; margin-bottom: 0em; line-height: 0.5}
+
+div.ext-anal {margin-top:3px;}
+table.ext-anal-table {width: 80% ;   cellpadding: 2; border-collapse:collapse}
+table.ext-anal-sub {width: 100% ;   cellpadding: 0; border-collapse:collapse}
+td.ext-anal-table-td {color: black; border: 1px solid black; word-break:normal}
+td.ext-anal-table-td-left-right-border {color:black; border-left:1px solid black; border-right:1px solid black; word-break:normal}
+td.ext-anal-sub-table-td {color: black;  word-break:normal}
+
+div.ext-anal-div {width:100%; margin-top:5px;}
+div.ext-anal-div-head1 {border-top:1px solid black; text-align:center;
+    border-bottom:1px solid gray; border-left:1px solid black; border-right:1px solid black}
+div.ext-anal-div-head2 { text-align:center;
+    border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black}
+table.ext-anal-tbl-1 {table-layout: fixed; width:100%; border-collapse: collapse;
+    margin-top:1px; margin-bottom:1px}
+table.ext-anal-tbl-1 tr td {word-break:normal; border:1px solid black; padding-left:3px; padding-right:3px}
+td.center {text-align: center}
+td.italic {font-style:italic}

@@ -1,0 +1,52 @@
+/* for mobile-app */
+/* kdl-report */
+.td-hidden {
+    visibility: hidden;
+    display:none;
+}
+div.lab-pac-header {
+    display:block;
+}
+/* */
+.fa .km-icon:after,
+.fa .km-icon:before
+{
+    font: 1em/1em 'FontAwesome';
+}
+.km-back:before {
+    font: 1em/1em 'FontAwesome';
+    content:"\f060";
+}
+.no-backbutton .km-back {
+    visibility:hidden;
+}
+.mobile-align-center {
+    text-align: center;
+}
+.km-exit-icon:after,
+.km-exit-icon:before
+{
+    content:"\e0b3"
+}
+.km-arrow-up:after,
+.km-arrow-up:before {
+    font: 1em/1em 'FontAwesome';
+    content: "\f0aa";
+}
+
+.km-arrow-down:after,
+.km-arrow-down:before {
+    font: 1em/1em 'FontAwesome';
+    content: "\f0ab";
+}
+.km-collapsed > .km-collapsible-header > h3:before {
+    font: 1em/1em 'FontAwesome';
+    content: "\f103"; /* double-arrow-down */
+    margin-right:1em;
+}
+
+.km-expanded > .km-collapsible-header > h3:before {
+    font: 1em/1em 'FontAwesome';
+    content: "\f102"; /* double-arrow-up */
+    margin-right:1em;
+}

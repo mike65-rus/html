@@ -1,0 +1,80 @@
+<div class="pk_exams_div" id="visits-tab">
+    <!-- <strong>КДЛ</strong> -->
+    <div id="exams_visits_grid" class="pk-grid" style="width:100%;height:100%"
+         data-role="grid"
+         data-auto-bind="false"
+         data-toolbar='[{ template: kendo.template($("#template-exams-visits-toolbar").html()) }]'
+         data-selectable="row"
+         data-bind="source:gridDs"
+         data-groupable="false"
+         data-filterable="false"
+         data-pageable="false"
+         data-columns='[
+            {field: "visit_id", title: "visit_id",hidden: true },
+            { field: "visit_date", title: "Дата", width: "10%", format: "{0:dd.MM.yyyy}"},
+            { field: "visit_time", title: "Время", width: "8%", format: "{0:HH:mm}", filterable:false, sortable: false, hidden:true},
+            { field: "user_id", values:appData.visitsListsLookups.aUsers, title: "Врач"},
+            { field: "user_id", title: "user_id",hidden: true },
+            { field: "spec_id", values:appData.visitsListsLookups.aSpec, title: "Специальность"},
+            { field: "spec_id", title: "spec_id", hidden: true  },
+            { field: "visit_type", values:appData.visitsListsLookups.aVisitTypes, title: "Посещение"},
+            { field: "visit_type", title: "visit_type", hidden: true },
+            { field: "mkb", title: "МКБ", width:"5%" },
+            { field: "pay_type", values:appData.visitsListsLookups.aPayTypes, title: "Оплата", width:"10%"},
+            { field: "pay_type", title: "pay_type",hidden: true },
+            { field: "otd_id", values:appData.visitsListsLookups.aOtdels, title: "Отд" , width:"5%" },
+            { field: "otd_id", title: "otd_id", hidden: true  }
+         ]'
+    >
+    </div>
+    <!-- grid toolbar template -->
+    <script type="text/x-kendo-template" id="template-exams-visits-toolbar">
+        <div class="form-inline toolbar" id="exams-visits-toolbar">
+            <label for='exams-visits-period'>Период:</label>
+            <input id='exams-visits-period' style='width: 150px;'
+                   data-role="dropdownlist"
+                   data-text-field="text"
+                   data-value-field="value"
+                   data-bind="value: selectedPeriod,
+                    source:periodDs"
+            />
+            &nbsp;
+            &nbsp;
+            <span>
+                <button id="visit-add" rel="tooltip" title="Создать новое посещение"  class="k-button" type="button"
+                        data-bind="events:{click: onAddButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-plus-outline k-icon-24"></span>
+                            </span>
+                </button>
+                &nbsp;
+                <button id="visit-edit" rel="tooltip" title="Изменить посещение"  class="k-button" type="button"
+                        data-bind="events:{click: onEditButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-check-outline k-icon-24"></span>
+                            </span>
+                </button>
+                &nbsp;
+                <button id="visit-delete" rel="tooltip" title="Удалить посещение"  class="k-button" type="button"
+                        data-bind="events:{click: onDeleteButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-minus-outline k-icon-24"></span>
+                            </span>
+                </button>
+
+            </span>
+            &nbsp;
+            &nbsp;
+            <span class="pull-right">
+                <button id="visit-refresh" rel="tooltip" title="Обновить спискок посещений"  class="k-button" type="button"
+                                        data-bind="events:{click: onRefreshButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-refresh k-icon-24"></span>
+                            </span>
+                </button>
+
+            </span>
+        </div>
+    </script>
+
+</div>

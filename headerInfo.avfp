@@ -1,0 +1,154 @@
+ <% iUserId=oSession.Value("uid")
+        sMobileUsers=GetMobileUsers()
+        bMakeMobileBtn=.F.
+        IF (ALLTRIM(STR(iUserId,16,0))+",") $ sMobileUsers
+            bMakeMobileBtn=.T.
+        ENDIF
+ %>
+
+<div id="headerInfo" class="navbar navbar-fixed-top" >
+   <div class="navbar-inner">
+      <div class="container-fluid">
+         <p class="navbar-text pull-left" id="user-name"><%=oSession.Value("uname")%></p>
+         <% IF (NVL(oSession.Value("emul"),0))>0 %>
+            <span id="emul-span" class="pull-left" style="margin-left:10px;color:red">Emul</span>
+         <% ENDIF %>
+		<div id="userid" style="display:none"><%=ALLTRIM(STR(oSession.Value("uid"),12,0))%></div>
+		<div id="userroles" style="display:none"><%=ALLTRIM(oSession.Value("rolescode"))%></div>
+		<div id="cert_thumb" style="display:none"><%=ALLTRIM(oSession.Value("CertSerial"))%></div>
+		<div id="stac_mode" style="display:none"><%=ALLTRIM(oSession.Value("StacMode"))%></div>
+		<span style="display:none" class="navbar-text">Роль:
+	        <input id="current_user_role" style="width:250px;"/>
+		</span>
+        <% IF (UPPER(oProp.Action)=="STACDOCT_MAIN") AND  (ALLTRIM(NVL(oSession.Value("StacMode"),"st"))=="st") %>
+            <span class="navbar-text" id="main-monitor">Монитор:
+                <span   style="display:none" data-bind="visible:isMonitorVisible">
+                    <button class='k-button monitor-button' data-bind="events:{click:monitorButtonClick}" rel="#/all-recomendations?q=1"
+                    title='Рекомендации'><i class='fa fa-thumb-tack'></i>&nbsp;
+                    <span class='badge badge-info' data-bind="text:allRecomendationsCount"></span></button>
+                    <button class='k-button monitor-button' title='ЛДО' data-bind="events:{click:monitorButtonClick}" rel="#/all-recomendations?q=2">
+                    <i class='fa fa-desktop'></i>&nbsp;
+                    <span class='badge badge-info' data-bind="text:allLdoCount"></span></button>
+                    <button class='k-button monitor-button' title='КДЛ'  data-bind="events:{click:monitorButtonClick}" rel="#/all-recomendations?q=3">
+                    <i class='fa fa-flask'></i>&nbsp;
+                    <span class='badge badge-info' data-bind="text:allKdlCount"></span></button>
+                    <button id="notify-monitor-btn" class='k-button monitor-button' title='Оповещения'  data-bind="events:{click:monitorButtonClick}" rel="#/all-recomendations?q=5">
+                        <i class='fa fa-bell-o'></i>&nbsp;
+                        <span class='badge badge-important' data-bind="text:notificationsImportantCount,visible:notificationsImportantCount" ></span>&nbsp;
+                        <span class='badge badge-important' data-bind="text:notificationsOthersCount,visible:notificationsOthersCount"></span>
+                    </button>
+                </span>
+                <span id="kendo-notification"></span>
+                <span id="kendo-notification-ib-plan-out"></span>
+                <span id="monitor-state" class="no-display">
+                    <button  class='k-button'
+                        data-bind="attr:{title:wssButtonTitle},events:{click:monitorStateButtonClick}">
+                        <i data-bind="attr:{class:wssIconClass}"></i>
+                    </button>
+                </span>
+                <% IF bMakeMobileBtn %>
+                    &nbsp; &nbsp;
+                    <span id="mobile-header">
+                        <button  class='k-button' title="Получить код для мобильного устройства"
+                            data-bind="click:mobileButtonClick">
+                            <i class="fa fa-tablet" aria-hidden="true" ></i>
+                        </button>
+                    </span>
+                <% ENDIF %>
+            </span>
+        <% ENDIF %>
+		<span class="pull-left" style="width: 100px;">&nbsp;
+        <!--
+		<a accesskey="я" rel="tooltip" title="Время до окончания сессии <Alt>+<Я>" id="sesTimeout" href="#"></a>&nbsp;
+		-->
+		</span>
+        <% IF UPPER(oProp.Action)=="PK" %>
+             <span class="pull-left">&nbsp;&nbsp;</span>
+             <div class="pull_left">
+    		    <ul id="main-menu" class="nav" >
+                </ul>
+            </div>
+    		<span  style="display:none" class="navbar-text">Специальность:
+	            <input id="current_user_spec" style="width:250px;"/>
+		    </span>
+
+             <!--
+    		<ul class="nav">
+                <li class="dropdown">
+                <a rel="tooltip" title="Меню" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks fa-lg"> </i> <strong> Меню </strong> <b class="caret"></b></a>
+                    <ul class="dropdown-menu main-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a tabindex="-1" href="#/exams">Исследования</a></li>
+                    </ul>
+                </li>
+    		</ul>
+    		-->
+        <% ENDIF %>
+        <% IF !(INLIST(UPPER(oProp.Action),"IBVIEWER")) %>
+            <a rel="tooltip" title="Завершение сеанса"  class="navbar-btn btn btn-inverse pull-right" href="<% =oProp.ScriptPath %>?action=LogOut">Выход</a>
+         <% ELSE %>
+            <a rel="tooltip" title="Закрыть окно"  class="navbar-btn btn btn-inverse pull-right" href="#" onClick="event.preventDefault();self.close();return false">Выход</a>
+         <% ENDIF %>
+         <span class="pull-right">&nbsp;</span>
+		<ul class="nav pull-right">
+          <li class="dropdown">
+            <a rel="tooltip" title="Настройки" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench fa-lg"> </i> <b class="caret"></b></a>
+            <ul class="dropdown-menu" style="padding:10px;">
+              <li>
+                <form class="form k-content">
+                <label><strong>Параметры печати</strong></label>
+                <label>Поля страницы:</label>
+                <table id="print-options-table" width="100%" cellspacing="0px">
+                    <tr>
+                        <td width="32%">Слева</td>
+                        <td>
+                            <input class="print-margin" id="margin-left" type="number" value="2.00" min="0" max="10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="32%">Справа</td>
+                        <td>
+                            <input class="print-margin" id="margin-right" type="number" value="1.00" min="0" max="10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="32%">Сверху</td>
+                        <td>
+                            <input class="print-margin" id="margin-top" type="number" value="1.00" min="0" max="10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="32%">Снизу</td>
+                        <td>
+                            <input class="print-margin" id="margin-bottom" type="number" value="1.00" min="0" max="10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label class="checkbox">
+                                <input type="checkbox"  id="mirror-flag">Зеркальные поля
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+                </form>
+              </li>
+              <li class="divider"></li>
+              <!--
+              <li><a href="#">Item 2</a></li>
+              <li><a href="#">Item 3</a></li>
+              -->
+            </ul>
+          </li>
+        </ul>
+      </div>
+   </div>
+</div>
+
+ <% sVer=SYS(2015)
+        sVer="?ver="+sVer
+ %>
+        <% IF !(INLIST(UPPER(oProp.Action),"PK","STACDOCT_MAIN","IBVIEWER")) %>
+    <script src="html/default/headerInfo.js<%=sVer%>" ></script>
+        <% ENDIF %>
+ <!-- <link rel="stylesheet" type="text/css" href="html/css/one-side.css" media="print"> -->
+

@@ -1,0 +1,25 @@
+<div style="margin:5px;border:solid burlywood" >
+    <div style="margin:5px">
+        <div>
+            <strong>#:kendo.toString(dta,"dd.MM.yy HH:mm")#</strong>
+            &nbsp;
+            <i>#:user_name#</i>
+            &nbsp;
+            #:doc_descr#
+        </div>
+        <dl>
+            # if (diag1) { #
+                <dt>Основной:</dt>
+                <dd class="diag">#=diag1#</dd>
+            # } #
+            # if (diag2) { #
+                <dt>Осложнение:</dt>
+                <dd  class="diag">#=diag2#</dd>
+            # } #
+            # if (diag3) { #
+                <dt>Сопутствующий:</dt>
+                <dd class="diag">#=diag3#</dd>
+            # } #
+        </dl>
+    </div>
+</div>

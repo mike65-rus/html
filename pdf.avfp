@@ -1,0 +1,26 @@
+﻿<%
+oPDF=CREATEOBJECT("pdfrun.print2pdf")
+if isnull(oPDF)
+  return .f.
+endif
+oPDF.cPSColorPrinter ="Xerox Phaser 6120 PS"
+oUtil=NEWOBJECT('AVFPutilities')
+* files older than 20 Minutes(1200 ms.), erase.  3rd param is path - can be hardcoded
+oUtil.DeleteFiles('pdf',1200,oProp.AppStartPath+[Temp\])
+lcCompany=oRequest.Form("Company")
+IF ISNULL(lcCompany) .OR. EMPTY(lcCompany)
+  oPDF.cRecordSelect = [SELECT * from ']+ oProp.DataPath+[customer' INTO CURSOR tcursor]
+ELSE
+  oPDF.cRecordSelect = [SELECT * from '] + oProp.DataPath+[customer' ]+;
+ [WHERE UPPER(company)=ALLTRIM(UPPER(']+lcCompany+[')) INTO CURSOR tcursor]
+ENDIF
+* the following properties are coded for portability.  They may be hardcoded instead.
+oPDF.cReport = oProp.AppStartPath+"reports\listcust.frx"
+oPDF.cPhysicalPath=oProp.AppStartPath+[Temp\]     &&[C:\Program Files\dotComSolution\AVFPdemo2\Temp\]
+oPDF.cLogicalPath=[http://]+oRequest.ServerVariables("HTTP_HOST") +JustPath(oRequest.ServerVariables("URL"))+[/Temp/] &&[http://www.ddddd.com/avfpdemo2/Temp/]
+lcFile=oPDF.GetOutput() && generate output, return temp file name
+lcNewPath=oPDF.cLogicalPath+lcFile && new URL
+oResponse.Redirect(lcNewPath)  && redirect browser to created file
+oPDF = .NULL.
+release oPDF
+%>

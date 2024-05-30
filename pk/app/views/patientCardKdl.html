@@ -1,0 +1,60 @@
+<div class="pk_exams_div" id="kdl-tab">
+    <!-- <strong>КДЛ</strong> -->
+    <div id="exams_kdl_grid" class="pk-grid  pk-grid-dblclick" style="width:100%;height:100%"
+         data-role="grid"
+         data-auto-bind="false"
+         data-toolbar='[{ template: kendo.template($("#template-exams-kdl-toolbar").html()) }]'
+         data-selectable="cell"
+         data-bind="source:gridDs"
+         data-groupable="false"
+         data-filterable="false"
+         data-pageable="false"
+         data-columns='[
+            { field: "check_row", title: " ", width: 30, filterable:false, sortable: false,
+                headerTemplate: "<input class=check_row type=checkbox \>" ,
+                template: "<input class=check_row type=checkbox \>"
+            },
+            {field: "iddoc", title: "iddoc",hidden: true },
+            { field: "data_a", title: "Дата", width: "10%", format: "{0:dd.MM.yyyy}"},
+            { field: "time", title: "Время", width: "8%", format: "{0:HH:mm}", filterable:false, sortable: false},
+            { field: "bl_name", title: "Анализ"},
+            { field: "bm_name", title: "Биоматериал", width: "15%"   },
+            { field: "otd", title: "Отд", width: "8%"  },
+            { field: "vrach", title: "Назначил", width: "15%",
+                        template: "#= vrach.fio() #" },
+            { field: "vrach", title: "Врач", hidden:true},
+            { field: "diag", title: "Диагноз", width: "25%",hidden:true,filterable:false, sortable: false  }
+         ]'
+    >
+    </div>
+    <!-- grid toolbar template -->
+    <script type="text/x-kendo-template" id="template-exams-kdl-toolbar">
+        <div class="form-inline toolbar pull-left" id="exams-kdl-toolbar">
+            <label for='exams-kdl-period'>Период:</label>
+            <input id='exams-kdl-period' style='width: 150px;'
+                   data-role="dropdownlist"
+                   data-text-field="text"
+                   data-value-field="value"
+                   data-bind="value: selectedPeriod,
+                    source:periodDs"
+            />
+            &nbsp;
+            &nbsp;
+            <button rel="tooltip" title="Просмотр выбранных анализов"  class="k-button" type="button"
+                    data-bind="events:{click: onPrintButtonClick}">
+                <span>
+                    <span class="k-icon k-i-file-txt k-icon-24"></span>
+                </span>
+            </button>
+            &nbsp;
+            &nbsp;
+            <button id="exams-kdl-funnel-button" rel="tooltip" title="Установить фильтр по значению выделенной ячейки"  class="k-button" type="button"
+                    data-bind="events:{click: onFilterButtonClick},attr:{title:filterButtonTitle}">
+                        <span data-bind="html:filterButtonIconHtml">
+                            <span class="k-icon k-i-filter k-icon-24"></span>
+                        </span>
+            </button>
+        </div>
+    </script>
+
+</div>

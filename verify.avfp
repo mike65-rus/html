@@ -1,0 +1,150 @@
+<%=include("header.avfp")%>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="16%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=104% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath%>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    Confirm Changes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></font></b></font></td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+            <div align="left">
+              <table border="0" cellpadding="5" width="397" cellspacing="10">
+                  <tr>
+                    <td width="786">
+<%
+* Update Session values from form
+oSession.VALUE("company",oRequest.FORM("company"))
+oSession.VALUE("contact",oRequest.FORM("contact"))
+oSession.VALUE("title",oRequest.FORM("title"))
+oSession.VALUE("address",oRequest.FORM("address"))
+oSession.VALUE("city",oRequest.FORM("city"))
+oSession.VALUE("region",oRequest.FORM("region"))
+IF .NOT. USED('states')
+	USE ('states') IN 0 SHARED
+ENDIF
+SELECT states
+SET ORDER TO stateid
+SEEK PADR(oSession.VALUE("region"),LEN(states.stateid),' ')
+IF FOUND()
+	oSession.VALUE("regionname",states.statename)
+ELSE
+	oSession.VALUE("regionname","")
+ENDIF
+oSession.VALUE("country",oRequest.FORM("country"))
+oSession.VALUE("postalcode",oRequest.FORM("postalcode"))
+oSession.VALUE("phone",oRequest.FORM("voice"))
+oSession.VALUE("fax",oRequest.FORM("fax"))
+oSession.VALUE("email",oRequest.FORM("email"))
+%>
+                    <table bgColor="#FFFFFF" border="0" cellspacing="1" width="545" marginheight="0" marginwidth="0" topmargin="0" leftmargin="0">
+                      <tr>
+                        <td><font face="Arial"><small><font face>
+                          <form action="<%= oProp.ScriptPath+[?action=thanks] %>" method="post" name="theForm">
+                            <font face="Arial">
+                            <p><b>Confirm change to customer information:</b>
+                            <p>&nbsp;
+                            <div align="center">
+                            <table border="0" cellSpacing="1" width="563">
+                              <input name="CustomerID" type="hidden" value="0"><input name="CustType" type="hidden" value="PC">
+                              <tbody>
+                                <tr>
+                                  <td width="148" align="right"><font face="Arial"><small>Company
+                                    Name:</small></font></td>
+                                  <td width="394" align="left">&lt;%=osession.VALUE(&quot;company&quot;)%&gt;</td>
+                                </tr>
+                                <tr>
+                                  <td width="148" align="right"><small><font color="#ff0000" face="Arial">Contact
+                                    Name:</font></small></td>
+                                  <td width="394" align="left">&lt;%=osession.VALUE(&quot;contact&quot;)%&gt;</td>
+                                </tr>
+                                <tr>
+                                  <td width="148" align="right"><small><font color="#ff0000" face="Arial">Mailing
+                                    Address 1:</font></small></td>
+                                  <td width="394" align="left">&lt;%=osession.VALUE(&quot;address&quot;)%&gt;</td>
+                                </tr>
+                                <tr>
+                                  <td width="148" align="right"><font face="Arial"><small>Title:</small></font></td>
+                                  <td width="394" align="left">&lt;%=osession.VALUE(&quot;title&quot;)%&gt;</td>
+                                </tr>
+                                <tr>
+                                  <td width="148" align="right"><small><font color="#ff0000" face="Arial">City:</font></small></td>
+                                </font></font></small>
+                            <td width="394" align="left"><font size="3">&lt;%=osession.VALUE(&quot;city&quot;)%&gt;&nbsp;</font><font face="Arial"><small><font face><small><font face="Arial">&nbsp;</font></small></font></small></font></td>
+                            </tr>
+                            <tr>
+                              <td width="148" align="right"><font face="Arial"><small><font color="#ff0000" face="Arial">State
+                                (US/Can), Zip/Postal</font></small></font></td>
+                            </font>
+                            <td width="382" align="left"><font size="3" face="Arial">&lt;%=ALLTRIM(osession.VALUE(&quot;regionname&quot;))+[  ]+ALLTRIM(osession.VALUE(&quot;postalcode&quot;))%&gt;</font></td>
+                          </tr>
+                          <font face="Arial"><small><font face>
+                          <tr>
+                            <td width="148" align="right"><font face="Arial" color="#FF0000"><small>Country:</small></font></td>
+                          </font></small>
+                          <td width="394" align="left"><font size="3">&lt;%=osession.VALUE(&quot;country&quot;)%&gt;</font></td>
+                          </tr>
+                          <small><font face>
+                          <tr>
+                            <td width="148" align="right"><small><font color="#000000" face="Arial">Voice
+                              Phone:</font></small></td>
+                          </font></small>
+                          <td width="394" align="left"><font size="3">&lt;%=osession.VALUE(&quot;phone&quot;)%&gt;</font></td>
+                          </tr>
+                          <small><font face>
+                          <tr>
+                            <td width="148" align="right"><font face="Arial"><small>FAX:</small></font></td>
+                          </font></small>
+                          <td width="394" align="left"><font size="3">&lt;%=osession.VALUE(&quot;fax&quot;)%&gt;</font></td>
+                          </tr>
+                          <small><font face>
+                          <tr>
+                            <td width="148" align="right"><font color="#ff0000" face="Arial"><small>E-Mail
+                              Address:</small></font></td>
+                          </font></small>
+                          <td width="394" align="left"><font size="3">&lt;%=osession.VALUE(&quot;EMail&quot;)%&gt;</font></td>
+                          </tr>
+                          </tbody>
+                          </table>
+                          </div>
+                          <small><font face>
+                          <p align="center"><input name="B1" type="submit" value="Confirm"> </font></small></font><font face><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="history.back()"></font></small></font></p>
+                          </form>
+                        </td>
+                      </tr>
+                    </table>
+                    </td>
+                  </tr>
+                </table>
+            </div>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

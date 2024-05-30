@@ -1,0 +1,42 @@
+<div id="deseases-details-window-container"
+     style="max-height:600px;max-width:1000px;padding-left: 15px;padding-right:15px;padding-bottom:10px;">
+    <div id="deseases-disp-details-content">
+        <div>
+            <span data-bind="text:selectedDesease.mkb" style="font-weight: bold"></span>
+            &nbsp;
+            &nbsp;
+            <span data-bind="text:selectedPatient.pin"></span>
+            &nbsp;
+            <span data-bind="text:selectedPatient.fio"></span>
+        </div>
+        <div>
+            <div data-bind="text:selectedDesease.mkb_name1" style="overflow: hidden"></div>
+<!--            <div data-bind="text:selectedDesease.mkb_name2"  style="overflow: hidden"></div> -->
+        </div>
+        <div style="margin-top: 10px;height:400px">
+            <div id="deseases-disp-details-grid" class="pk-grid" style="width:100%;height:100%"
+                 data-role="grid"
+                 data-selectable="row"
+                 data-bind="source:detailsDs"
+                 data-groupable="false"
+                 data-filterable="false"
+                 data-pageable="false"
+                 data-navigatable="true"
+                 data-sortable="true"
+                 data-columns='[
+                 {field: "id", title: "id",hidden: true },
+                 { field: "des_date", title: "Дата",  format: "{0:dd.MM.yy}",width:"10%"},
+                 { field: "kdisp_n", title: "Код д/у",width:"12%"},
+                 { field: "mkb", title: "МКБ", width:"8%"},
+                 { field: "mkb_name2", title: "Наименование"},
+                 { field: "des_doct", title: "Врач",width:"12%"},
+                 { field: "source", title: "Источник",values:appData.visitsListsLookups.aSources, width:"10%"}
+                 ]'
+            >
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;margin-top: 10px" id="deseases-disp-details-command-bar">
+        <button class="k-button"  data-bind="events{click:closeWindow}">Закрыть</button>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+<%=include("header.avfp")%>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 border=0 style="width: 1561px">
+        <TBODY>
+        <TR>
+          <TD vAlign=top bgColor=#f6e1a0 style="width: 129px">
+            <p align="left">&nbsp;
+            <p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;
+</TD>
+          <TD vAlign=top width=894 bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" style="width: 100%">
+                <tr>
+                  <td>
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%= oProp.ScriptPath+[?action=default]%>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    Simple Master Detail&nbsp;&nbsp; <font face><small>
+					<font face="arial,helvetica">
+                    <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></span></font></small></font></font></b></font>
+					<p align="left"><font face="Arial"> <font face size="4"><b><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="window.location = '<%= oProp.ScriptPath+[?action=default]%>';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></small></b></font></font></td>
+                  <center>
+                  </tr>
+<%
+theCategory=oRequest.QueryString("c")
+IF ISNULL(theCategory) OR EMPTY(theCategory)
+   theCategory="1"
+ENDIF
+
+* table 1
+SELECT categoryna,descriptio,categoryid FROM categories INTO CURSOR tCursor
+
+
+*Settings
+   lnPageMax  =999        && total records displayed per page
+   lnpagenumbers =0       && how many page numbers to show (0=no page numbers)
+   lnRowCount = RECCOUNT()    
+   lnPageBegin = 1
+%>
+                          <td valign="top" style="width: 4%">&nbsp;<div align="left">
+                              <table border="0" cellpadding="2" style="width: 50%">
+                                <tr>
+                                  <th class="style1" style="width: 2%">
+                                    &nbsp;</th>
+                                  <th align= left class="style1" colspan="2">
+                                    <b>Click a Category</b></th>
+                                </tr>
+                                <tr>
+                                  <th style="width: 2%" class="style2">
+                                    &nbsp;</th>
+                                  <th bgcolor="#C0C0C0" style="width: 15%">
+                                    <p align="left"><font size="1">Category</font></p>
+                                  </th>
+                                  <th bgcolor="#C0C0C0" style="width: 26%">
+                                    <p align="left"><font size="1">Description</font></th>
+                                </tr>
+<% FOR lnX = lnPageBegin TO lnPageMax 
+        IF lnX <= lnRowCount
+			    GOTO lnX   && MOD() is for alternating color for rows %>
+
+                                <tr>
+                                  <td  align="right" style="width: 2%" class="style2">
+								  <%=IIF(VAL(theCategory)=categoryid,[<B>*</B>],[])%></td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> style="width: 15%"><font size="1">
+								  <a href="<%= oProp.ScriptPath+[?action=masterdetail&c=]+ALLTRIM(STR(categoryid))%>"><%=tCursor.categoryna%></a></font></td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> style="width: 10%"><font size="1"><%=tCursor.descriptio%></font></td>
+                                </tr>
+<%		ENDIF
+	ENDFOR 
+%>  
+
+                              </table>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+<%
+* table 2
+
+SELECT * FROM categories, products WHERE categories.categoryid=products.categoryid AND categories.categoryid = &theCategory ;
+	INTO CURSOR tCursor
+
+*Settings
+   lnPageMax  =999        && total records displayed per page
+   lnpagenumbers =0       && how many page numbers to show (0=no page numbers)
+   lnRowCount = RECCOUNT()    
+   lnPageBegin = 1
+%>
+                            &nbsp;<b>Products for Category:</b> <%=categoryna%><div align="left">
+                              <table border="0" cellpadding="2" style="width: 50%">
+                                <tr>
+                                  <th align= left bgcolor="#00FFFF" class="style1" style="width: 46%">Product</th>
+                                  <th align= left bgcolor="#00FFFF" class="style1" style="width: 28%"><b>Qty/Unit</b></th>
+                                  <th align= left width="34%" bgcolor="#00FFFF" class="style1">Price</th>
+                                </tr>
+<% FOR lnX = lnPageBegin TO lnPageMax 
+        IF lnX <= lnRowCount
+			    GOTO lnX   && MOD() is for alternating color for rows %>
+                                <tr>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> style="width: 46%"><font size="1"><%=tCursor.productnam%></font> </td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%>width="33%" style="width: 28%"><font size="1"><%=tCursor.quantitype%></font></td>
+                                  <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> width="34%"><font size="1" color="#000000"><%=TRANS(tCursor.unitprice,'999.99') %></font></td>
+                                </tr>
+<%		ENDIF
+	ENDFOR 
+%>  
+                              </table>
+                            </div>
+                            <br>
+                            # Products=&lt;%=RECCOUNT()%&gt;
+                            <p>&nbsp;</td>
+                        </tr>
+                      </table>
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

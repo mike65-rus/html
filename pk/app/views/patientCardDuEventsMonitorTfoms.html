@@ -1,0 +1,241 @@
+<div >
+    <div id="pk_monitor_tfoms_du1_grid" class="pk-grid pk-grid-dblclick" style="width:100%;height:100%"
+         data-role="grid"
+         data-auto-bind="false"
+         data-toolbar='[{ template: kendo.template($("#template-monitor-tfoms-du1-grid-toolbar").html()) }]'
+         data-selectable="row"
+         data-bind="source:gridDs"
+         data-groupable="false"
+         data-filterable="false"
+         data-pageable="false"
+         data-no-records="{template:'Нет доступных записей.'}"
+         data-columns='[
+            {field: "id", title: "id",hidden: true },
+            {field: "pin", title: "pin",hidden: true },
+            {field: "du_action", title: "Действие",template:$("#mon-du-action-template").html() },
+            {field: "mkb", title: "МКБ" },
+            {field: "date_beg", title: "Дата", format: "{0:dd.MM.yy}",template:$("#mon-du-date-template").html() },
+            {field: "info", title: "Инфо", template:$("#mon-du-info-template").html(),width:"25%" },
+            {field: "user_fio", title: "Автор",template:$("#mon-du-user_name-template").html()},
+            {field: "created", title: "Создан", format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "updated", title: "Изменен",  format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "send_dt", title: "Передан в СКФОМС",  format: "{0:dd.MM.yy - HH:mm}"}
+         ]'
+         data-editable='{mode:"popup",confirmation:false, createAt:"bottom",
+         window:{title:"Редактор",animation:false}, template: kendo.template($("#template-monitor-tfoms-du1-popup-edit").html())}'
+    >
+    </div>
+</div>
+<script type="text/x-kendo-template" id="mon-du-user_name-template">
+    # var ssFio=function(userName) {
+    var sRet="";
+    if (userName) {
+    sRet=userName.fio();
+    }
+    return sRet;
+    } #
+    #= ssFio(user_name) #
+</script>
+
+<script type="text/x-kendo-template" id="mon-du-action-template">
+    # var ssCode=function(dispCode) {
+    var sRet="";
+    if (dispCode) {
+    if (dispCode=="1") {
+    sRet="Постановка";
+    }
+    if (dispCode=="2") {
+    sRet="Осмотр";
+    }
+    if (dispCode=="3") {
+    sRet="Снятие";
+    }
+    }
+    return sRet;
+    } #
+    #= ssCode(du_action) #
+</script>
+<script type="text/x-kendo-template" id="mon-du-date-template">
+    # var ssCode=function(dispCode) {
+    var sRet=null;
+    if (dispCode) {
+    if (dispCode=="1") {
+    sRet=date_beg;
+    }
+    if (dispCode=="3") {
+    sRet=date_end;
+    }
+    if (dispCode=="2") {
+    sRet=date_in;
+    }
+    }
+    return kendo.toString(sRet,"dd.MM.yy");
+    } #
+    #= ssCode(du_action) #
+</script>
+<script type="text/x-kendo-template" id="mon-du-info-template">
+    # var ssCode=function(dispCode) {
+    var sRet="";
+    if (dispCode) {
+    if (dispCode=="1") {
+        switch (beg_type) {
+            case "1":
+                sRet="по результатам диспансеризации";
+                break;
+            case "2":
+                sRet="по результатам профилактического осмотра";
+                break;
+            case "3":
+                sRet="в связи с выявленным заболеванием";
+                break;
+            case "4":
+                sRet="после оказания спец. мед. помощи";
+                break;
+            case "5":
+            sRet="после оказания ВМП";
+                break;
+        }
+    }
+    if (dispCode=="3") {
+        sRet=date_end;
+        switch (end_type) {
+            case "1":
+                sRet="смерть";
+                break;
+            case "2":
+                sRet="изменение прикрепления";
+                break;
+        }
+    }
+    if (dispCode=="2") {
+        switch (rslt) {
+            case "314":
+                sRet="Динамическое наблюдение";
+                break;
+            case "305":
+                sRet="Направлен на госпитализацию";
+                break;
+        }
+
+    }
+    }
+    return sRet;
+    } #
+
+    #= ssCode(du_action) #
+</script>
+
+<script type="text/x-kendo-template" id="template-monitor-tfoms-du1-popup-edit">
+    <div style="margin-left:5px;margin-right:5px;margin-bottom:10px;" class="k-block">
+        <form class="monitor-tfoms-popup-form">
+            <div class="du-act">
+                <label><span class="required">Тип записи</span>
+                    <input name="du_action">
+                    <span class="k-invalid-msg" data-for="du_action"></span>
+                </label>
+            </div>
+            <div class="du-act-0">
+                <label><span class="required">Код МКБ-10</span>
+                    <input name="mkb" class="k-input">
+                    <span class="k-invalid-msg" data-for="mkb"></span>
+                </label>
+            </div>
+            <div class="du-act-1">
+                <fieldset>
+                   <!-- <legend>Постановка на учет</legend> -->
+                <label><span  class="required">Дата постановки на ДУ</span><input data-role="datepicker"
+                                                                                  data-format="dd.MM.yyyy"
+                                                                                  data-parse-formats='["dd/MM/yyyy","dd,MM,yyyy","dd.MM.yy","dd/MM/yy","dd,MM,yy"]'
+                                                                                  name="date_beg"
+                />
+                    <span class="k-invalid-msg" data-for="date_beg"></span>
+                </label>
+                <label><span>Причина постановки на ДУ</span>
+                    <input name="beg_type" style="width:370px;">
+                    <span class="k-invalid-msg" data-for="beg_type"></span>
+                </label>
+
+                <label><span>Группа здоровья</span>
+                    <input name="health_gr">
+                    <span class="k-invalid-msg" data-for="health"></span>
+                </label>
+                </fieldset>
+            </div>
+            <div class="du-act-3">
+                <label><span  class="required">Дата посещения</span>
+                    <input data-role="datepicker"
+                                                                           data-format="dd.MM.yyyy"
+                                                                           data-parse-formats='["dd/MM/yyyy","dd,MM,yyyy","dd.MM.yy","dd/MM/yy","dd,MM,yy"]'
+                                                                           name="date_in"
+                    />
+                    <span class="k-invalid-msg" data-for="date_in"></span>
+                </label>
+                <label><span class="required">Результат обращения</span>
+                    <input name="rslt"  style="width:370px;">
+                    <span class="k-invalid-msg" data-for="rslt"></span>
+                </label>
+            </div>
+            <br>
+            <div class="du-act-2">
+                <label><span class="required">Дата снятия с ДУ</span><input data-role="datepicker"
+                                                           data-format="dd.MM.yyyy"
+                                                           data-parse-formats='["dd/MM/yyyy","dd,MM,yyyy","dd.MM.yy","dd/MM/yy","dd,MM,yy"]'
+                                                           name="date_end"
+                />
+                    <span class="k-invalid-msg" data-for="date_end"></span>
+                </label>
+                <label><span class="required">Причина снятия с ДУ</span>
+                    <input name="end_type" style="width:370px;">
+                    <span class="k-invalid-msg" data-for="end_type"></span>
+                </label>
+            </div>
+        </form>
+
+    </div>
+</script>
+<!-- grid toolbar template -->
+<script type="text/x-kendo-template" id="template-monitor-tfoms-du1-grid-toolbar">
+    <div class="form-inline toolbar" id="pk_monitor_tfoms_du1_grid_toolbar">
+            <span>
+                <button id="doc-add" rel="tooltip" title="Создать новый документ"  class="k-button" type="button"
+                        data-bind="events:{click: onAddButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-plus-outline k-icon-24"></span>
+                            </span>
+                    Добавить мероприятие
+                </button>
+                &nbsp;
+                <button id="doc-edit" rel="tooltip" title="Открыть/изменить документ "  class="k-button" type="button"
+                        data-bind="events:{click: onEditButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-check-outline k-icon-24"></span>
+                            </span>
+                    Изменить мероприятие
+                </button>
+                &nbsp;
+                <button id="doc-delete" rel="tooltip" title="Удалить документ"  class="k-button" type="button"
+                        data-bind="events:{click: onDeleteButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-minus-outline k-icon-24"></span>
+                            </span>
+                    Удалить мероприятие
+                </button>
+
+            </span>
+        &nbsp;
+        &nbsp;
+        <span class="pull-right">
+                <button id="docs-refresh" rel="tooltip" title="Обновить список"  class="k-button" type="button"
+                        data-bind="events:{click: onRefreshButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-refresh k-icon-24"></span>
+                            </span>
+                </button>
+
+            </span>
+    </div>
+</script>
+
+
+
+</div>

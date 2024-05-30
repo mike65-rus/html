@@ -1,0 +1,184 @@
+<div id="gripp-donos-data">
+    <form>
+        <div style="height:550px;overflow-y:scroll">
+            <ul class="field-list">
+                <!--
+                <li>
+                    <label for="address">Адрес <span class="required-mark">*</span>
+                        <span class="k-invalid-msg" data-for="Адрес"></span>
+                        <textarea rows="2" class="k-textbox" id="address" name="Адрес" required="required"
+                                data-bind="value:model.address"
+                        ></textarea>
+                    </label>
+                </li>
+                -->
+                <li>
+                    <label for="virus_type">Тип вируса <span class="required-mark">*</span>
+                        <input id="virus_type" name="Тип вируса" required="required"
+                               data-role="dropdownlist" data-bind="value:model.virus_type,source:dsSpr.types"
+                               data-value-primitive="true"
+                        >
+                        <span class="k-invalid-msg" data-for="Тип вируса"></span>
+                    </label>
+                </li>
+                <li>
+                    <label for="virus_subtype">Субтип вируса <span class="required-mark">*</span>
+                        <input id="virus_subtype" name="Субтип вируса" required="required"
+                               data-role="combobox" data-bind="value:model.virus_subtype,source:dsSpr.subtypes"
+                               data-height="400"
+                               data-value-primitive="true"
+                        >
+                        <span class="k-invalid-msg" data-for="Субтип вируса"></span>
+                    </label>
+                </li>
+                <li>
+                    <label for="date_zabol">Дата заболевания <span class="required-mark">*</span>
+                        <input id="date_zabol" name="Дата заболевания" required="required"
+                               data-role="datepicker" data-bind="value:model.date_zabol"
+                               data-format="dd.MM.yyyy"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата заболевания"></span>
+                    </label>
+                </li>
+                <li>
+                    <label for="date_obr">Дата обращения &nbsp;&nbsp;&nbsp;<span class="required-mark">*</span>
+                        <input id="date_obr" name="Дата обращения" required="required"
+                               data-role="datepicker" data-bind="value:model.date_obr"
+                               data-format="dd.MM.yyyy"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата обращения"></span>
+                    </label>
+                </li>
+                <li>
+                    <label  for="diag_obr">Диагноз при обращении <span class="required-mark">*</span>
+                        <span class="k-invalid-msg" data-for="Диагноз при обращении"></span>
+                        <textarea  class="k-textbox" id="diag_obr" name="Диагноз при обращении" required="required"
+                                   data-bind="value:model.diag_obr"
+                        ></textarea>
+                    </label>
+                </li>
+                <li>
+                    <label for="date_hosp">Дата госпитализации <span class="required-mark">*</span>
+                        <input id="date_hosp" name="Дата госпитализации" required="required" readonly="readonly"
+                               data-role="datepicker" data-bind="value:model.date_hosp"
+                               data-format="dd.MM.yyyy"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата госпитализации"></span>
+                    </label>
+                </li>
+                <li>
+                    <div><span>Код по МКБ: &nbsp;&nbsp;</span>
+                        <span style="font-weight:bold" data-bind="text:model.mkb"></span></div>
+                </li>
+                <li>
+                    <label class="sub-label">Диагноз.Основной <span class="required-mark">*</span>
+                        <span class="k-invalid-msg" data-for="Основной диагноз"></span>
+                        <textarea  class="k-textbox" id="diag_osn" name="Основной диагноз" required="required"
+                                  data-bind="value:model.diag_osn"
+                        ></textarea>
+                    </label>
+                </li>
+                <li>
+                    <label for="diag_osl" class="sub-label" >Диагноз.Осложнение
+                        <span class="k-invalid-msg" data-for="Осложнение основного диагноза"></span>
+                        <textarea  class="k-textbox" id="diag_osl" name="Осложнение основного диагноза"
+                                   data-bind="value:model.diag_osl"
+                        ></textarea>
+                    </label>
+
+                </li>
+                <li>
+                    <label for="diag_soput" class="sub-label" >Диагноз.Сопутствующий
+                        <span class="k-invalid-msg" data-for="Сопутствующий диагноз"></span>
+                        <textarea  class="k-textbox" id="diag_soput" name="Сопутствующий диагноз"
+                                   data-bind="value:model.diag_soput"
+                        ></textarea>
+                    </label>
+                </li>
+                <li>
+                    <label for="ivl">ИВЛ <span class="required-mark">*</span>
+                        <input id="ivl" name="ИВЛ" required="required" style="width:300px;"
+                               data-role="combobox" data-bind="value:model.ivl,source:dsSpr.ivl"
+                               data-value-primitive="true"
+                        >
+                        <span class="k-invalid-msg" data-for="ИВЛ"></span>
+                    </label>
+                </li>
+                <li>
+                    <label for="method">Метод исследования<!--<span class="required-mark">*</span> -->
+                        <input id="method" name="Метод" required="required" style="width:300px;"
+                               data-role="combobox" data-bind="value:model.method,source:dsSpr.method"
+                               data-value-primitive="true"
+                        >
+                        <span class="k-invalid-msg" data-for="Метод"></span>
+                    </label>
+                </li>
+                <li>
+                    <label for="date_issl">Дата исследования материала<span class="required-mark">*</span>
+                        <input id="date_issl" name="Дата исследования" required="required"
+                               data-role="datepicker" data-bind="value:model.date_issl"
+                               data-format="dd.MM.yyyy"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата исследования"></span>
+                    </label>
+                </li>
+                <li>
+                    <label class="sub-label" for="laboratoria">Лаборатория<span class="required-mark">*</span>
+                        <span class="k-invalid-msg" data-for="Лаборатория"></span>
+                        <input data-role="combobox" required="required" style="width:550px;" id="laboratoria"
+                               name="Лаборатория"
+                               data-placeholder="Лаборатория, проводившая исследование"
+                               data-value-primitive="true" data-bind="value:model.laboratoria,source:dsSpr.labs">
+                        <!--
+                        <textarea  class="k-textbox" id="laboratoria" name="Лаборатория" required="required"
+                                   data-bind="value:model.laboratoria"
+                        ></textarea>
+                        -->
+                    </label>
+                </li>
+                <li>
+                    <label for="date_result">Дата получения результата<span class="required-mark">*</span>
+                        <input id="date_result" name="Дата результата" required="required"
+                               data-role="datepicker" data-bind="value:model.date_result"
+                               data-format="dd.MM.yyyy"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата результата"></span>
+                    </label>
+                </li>
+                <li>
+                    <label for="date_death">Дата смерти
+                        <input id="date_death" name="Дата смерти"
+                               data-role="datepicker" data-bind="value:model.date_death"
+                               data-format="dd.MM.yyyy"
+                        >
+                        <span class="k-invalid-msg" data-for="Дата смерти"></span>
+                    </label>
+                </li>
+                <li data-bind="visible:isDeath">
+                    <label for="diag_pat1" class="sub-label" >Диагноз.Патологоанатомический предварительный
+                        <span class="k-invalid-msg" data-for="Патологоанатомический основной"></span>
+                        <textarea  class="k-textbox" id="diag_pat1" name="Патологоанатомический основной"
+                                   data-bind="value:model.diag_pat1"
+                        ></textarea>
+                    </label>
+                </li>
+                <li data-bind="visible:isDeath">
+                    <label for="diag_pat2" class="sub-label" >Диагноз.Патологоанатомический окончательный
+                        <span class="k-invalid-msg" data-for="Патологоанатомический окончательный"></span>
+                        <textarea  class="k-textbox" id="diag_pat2" name="Патологоанатомический окончательный"
+                                   data-bind="value:model.diag_pat2"
+                        ></textarea>
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <div style="margin-top:15px;text-align:center">
+            <button type="button" class="k-button" data-bind="events:{click:save}">Сохранить</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" class="k-button" data-bind="events:{click:close}">Отказ</button>
+
+        </div>
+    </form>
+</div>
+
+

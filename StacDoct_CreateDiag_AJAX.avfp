@@ -1,0 +1,168 @@
+
+<%
+ IF !(oSession.VALUE("authenticated"))
+ 
+ 	lnUid=NVL(oSession.VALUE("uid"),0)
+	lcSesId=NVL(oRequest.oRequest.Cookies("ASP.Net_SessionId").Item(),"") 
+	=CompileIfNew('TimeLine')
+	oTL=NEWOBJECT("TimeLine","TimeLine.prg")
+	oTL.DelSession(0,lcSesId)
+	oTL=NULL
+	CLEAR CLASS TimeLine
+
+    oJSON=NEWOBJECT('json2','json2.prg')
+    AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response 
+    AddProperty(AjaxResponse,"error", "timeout")  &&Add a property that will indicate the number of matching zip codes
+*    AddProperty(AjaxResponse,"address", oProp.ScriptPath+[?action=login])  &&Add a property that will indicate the number of matching zip codes
+    lcStr=oJSON.stringify(AjaxResponse)
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE	
+	#INCLUDE STAC1C.H
+  
+	LOCAL AjaxResponse,lcAction
+	lcAction=oRequest.QueryString("action2")
+
+	lnUid=NVL(oSession.VALUE("uid"),0)
+	lcSesId=NVL(oRequest.oRequest.Cookies("ASP.Net_SessionId").Item(),"") 
+	=CompileIfNew('TimeLine')
+	oTL=NEWOBJECT("TimeLine","TimeLine.prg")
+	oTL.SetLastRequest(lnUid,lcSesId)
+	oTL=NULL
+	CLEAR CLASS TimeLine
+
+DO CASE 
+  CASE lcAction=='find_ib'
+    nIB=VAL(oRequest.QueryString("ib_no"))
+    nYear=VAL(oRequest.QueryString("ib_year"))
+    sCode=STRZERO(nYear,4,0)+"-"+STRZERO(nIB,6,0)+"-С"
+    oJSON=NEWOBJECT('json','json.prg')
+*    oJSON.TrimStrings=.F.
+
+    AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response 
+    ADDPROPERTY(AjaxResponse,"Code", sCode)  &&Add a property that will indicate whether the script returned search results
+    AddProperty(AjaxResponse,"HasResults", .F.)  &&Add a property that will indicate whether the script returned search results
+    AddProperty(AjaxResponse,"ResultsCount", 0)&&Add a property that will indicate the number of matching zip codes
+    AddProperty(AjaxResponse,"Error", "")  &&Add a property that will indicate the number of matching zip codes
+    
+    IF !EMPTY(nIB) and !EMPTY(nYear)
+      TRY
+        USE (oSession.Value("cnStac1C")+"1SCONST") ALIAS CONST SHARED NOUPDATE IN 0 && Константы
+        USE (oSession.Value("cnStac1C")+"SC147") SHARED NOUPDATE IN 0 && ИБ
+        USE (oSession.Value("cnStac1C")+"SC45") SHARED NOUPDATE IN 0 && Отделения
+        USE (oSession.Value("cnStac1C")+"SC131") SHARED NOUPDATE IN 0 && Пациенты
+      CATCH  
+      ENDTRY  
+      IF !USED("CONST")  
+        AjaxResponse.Error="Ошибка открытия базы данных Стационар. Повторите попытку позже."    
+*        lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('builds'))
+        lcStr=oJSON.stringify(AjaxResponse)
+*        =STRTOFILE("json="+lcStr,"c:\ActiveVFP\dummy.txt",1)
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+        oResponse.Write(lcStr)
+        oResponse.Flush
+        lcHTMLout=[]
+*        RETURN
+      ELSE
+      
+        SELECT sc147.*,SPACE(50) AS OTD1, SPACE(50) AS OTD2, SPACE(3) AS PALATA ;
+          FROM SC147 WHERE CODE=sCode ;
+          INTO CURSOR find_ib READWRITE
+        AjaxResponse.HasResults=.T.  
+        AjaxResponse.ResultsCount=RECCOUNT('find_ib')
+        IF RECCOUNT('find_ib')>0
+          =GetAllPeriodic(find_ib.ID,DATE(),"PERIOD")
+          SELECT PERIOD
+          LOCATE FOR ID==IB_OTDEL1
+          SELECT SC45
+          LOCATE FOR ALLTRIM(ID)=ALLTRIM(period.VALUE)
+          REPLACE OTD1 WITH sc45.CODE IN FIND_IB
+          SELECT PERIOD
+          LOCATE FOR ID==IB_OTDEL2
+          SELECT SC45
+          LOCATE FOR ALLTRIM(ID)=ALLTRIM(period.VALUE)
+          REPLACE OTD2 WITH sc45.CODE IN FIND_IB
+          SELECT PERIOD
+          LOCATE FOR ID==IB_PALATA
+          REPLACE PALATA WITH ALLTRIM(period.VALUE) IN FIND_IB
+          USE IN PERIOD
+        ENDIF  
+        TRY
+          USE IN CONST
+          USE IN SC147
+          USE IN SC45
+          USE IN SC131
+        CATCH  
+        ENDTRY        
+        oJSON.keyforcursors="find_ib"
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+        IF RECCOUNT('find_ib')=0
+          SELECT FIND_IB
+          APPEND BLANK
+        ENDIF
+        lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('find_ib'))
+ *     =STRTOFILE("json="+lcStr,"c:\ActiveVFP\dummy.txt",1)
+        oResponse.Write(lcStr)
+        oResponse.Flush
+        lcHTMLout=[]
+        USE IN find_ib
+      ENDIF
+    ENDIF 
+*
+  CASE lcAction=='ib_list'
+    oJSON=NEWOBJECT('json2','json2.prg')
+ *   oJSON.TrimStrings=.F.
+
+    AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response 
+    ADDPROPERTY(AjaxResponse,"total", 200)  &&Add a property that will indicate whether the script returned search results
+    AddProperty(AjaxResponse,"page", 1)  &&Add a property that will indicate whether the script returned search results
+    AddProperty(AjaxResponse,"records", 0)&&Add a property that will indicate the number of matching zip codes
+    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+    
+    IF .T.
+      TRY
+        USE (oSession.Value("cnStac1C")+"1SCONST") ALIAS CONST SHARED NOUPDATE IN 0 && Константы
+        USE (oSession.Value("cnStac1C")+"SC147") SHARED NOUPDATE IN 0 && ИБ
+        USE (oSession.Value("cnStac1C")+"SC45") SHARED NOUPDATE IN 0 && Отделения
+        USE (oSession.Value("cnStac1C")+"SC131") SHARED NOUPDATE IN 0 && Пациенты
+      CATCH  
+      ENDTRY  
+      IF !USED("CONST")  
+        AjaxResponse.error="Ошибка открытия базы данных Стационар. Повторите попытку позже."    
+        lcStr=oJSON.stringify(AjaxResponse)
+*        =STRTOFILE("json="+lcStr,"c:\ActiveVFP\dummy.txt",1)
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+        oResponse.Write(lcStr)
+        oResponse.Flush
+        lcHTMLout=[]
+*        RETURN
+      ELSE
+         sCursor="ib_list"
+         nRecs=getIbList(DATE()-5,sCursor)      
+         SELECT (sCursor)
+         IF nRecs=0
+            APPEND BLANK
+         ENDIF
+        AjaxResponse.records=RECCOUNT((sCursor))
+        TRY
+          USE IN CONST
+          USE IN SC147
+          USE IN SC45
+          USE IN SC131
+        CATCH  
+        ENDTRY        
+        oJSON.keyforcursors=sCursor
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+        lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify(sCursor))
+*        =STRTOFILE("json="+lcStr,"c:\ActiveVFP\dummy.txt")
+        oResponse.Write(lcStr)
+        oResponse.Flush
+        lcHTMLout=[]
+        USE IN (sCursor)
+      ENDIF
+    ENDIF 
+ENDCASE    
+ENDIF
+ %>

@@ -1,0 +1,82 @@
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="20%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=100% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+					<a href="<%=JustPath(oProp.ScriptPath)%>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    Debugging Variable Dump<font face><small><font face="arial,helvetica">&nbsp;&nbsp; <input type="button" value="Go Back" onClick="history.back()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					<font face size="4"><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></font></small></font></font></b></font></td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+
+                    <font SIZE="1" COLOR="#800000">
+<CENTER><table Border=1 BGCOLOR="#FFFFFF" STYLE="Font:normal normal 9pt 'verdana'" width="90%" cellspacing="5" cellpadding="5">                    
+<%  * Note the use of oRequest.oRequest to get these variables
+lcSTR=''
+lcSTR=lcSTR+[<TR BGCOLOR="#E5E5E5"><TH align="left">Query String</th><TH align="left">Value ---------oRequest.QueryString("<i>yourvariable</i>")</TH></TR>]
+FOR EACH lcFormVar IN oRequest.oRequest.QueryString
+	lcVar =   oRequest.oRequest.querystring(lcFormVar).ITEM()
+	lcSTR=lcSTR+[<TR><TD><b>]+ lcFormVar +[</b></TD><TD>] ;
+		+lcVar +[</TD></TR>] 
+NEXT
+lcSTR=lcSTR+[<TR BGCOLOR="#E5E5E5"><TH align="left">Form Variable</TH><TH align="left">Value ---------oRequest.FORM("<i>yourvariable</i>")</TH></TR>] 
+FOR EACH lcFormVar IN oRequest.oRequest.FORM
+	lcVar =   oRequest.oRequest.FORM(lcFormVar).ITEM()
+	lcSTR=lcSTR+[    <TR><TD><b> ]+ lcFormVar +[ </b></TD><TD> ] ;
+		+lcVar +[</TD></TR>] 
+NEXT
+
+lcSTR=lcSTR+[<TR BGCOLOR="#E5E5E5"><TH align="left">Session</TH><TH align="left">Value ---------oSession.VALUE("<i>yourvariable</i>")</TH></TR>]
+For Each lcFormVar IN oSession.oSession.Contents    
+    lcVar =  TRANSFORM(oSession.oSession.Value(lcFormVar))
+	lcSTR=lcSTR+[<TR><TD><b>]+ lcFormVar +[</b></TD><TD>] ;
+		+lcVar +[</TD></TR>]   
+Next 
+
+lcSTR=lcSTR+[<TR BGCOLOR="#E5E5E5"><TH align="left">Cookie</TH><TH align="left">Value ---------oRequest.cookies("<i>yourvariable</i>")</TH></TR>] 
+FOR EACH lcCookie IN oRequest.oRequest.Cookies
+	lcValue =   oRequest.oRequest.cookies(lcCookie).ITEM()
+	lcSTR=lcSTR+[<TR><TD><b>]+ lcCookie +[</b></TD><TD>] ;
+		+lcValue +[</TD></TR>] 
+NEXT
+lcSTR=lcSTR+[<TR BGCOLOR="#E5E5E5"><TH align="left">ServerVariable</TH><TH align="left">Value ---------oRequest.ServerVariables("<i>yourvariable</i>")</TH></TR>] 
+FOR EACH lcServerVar IN oRequest.oRequest.ServerVariables
+	lcServer =   oRequest.oRequest.servervariables(lcServerVar).ITEM()
+	IF LEN(lcServer) = 0
+		lcServer = "n/a"
+	ENDIF
+	lcSTR=lcSTR+[<TR><TD><b>]+ lcServerVar +[</b></TD><TD>] ;
+		+lcServer +[</TD></TR>] 
+NEXT
+%>
+<%=lcSTR%>
+</table></CENTER>             
+       </font>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+            <P>&nbsp;</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

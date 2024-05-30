@@ -1,0 +1,123 @@
+<div >
+    <div id="pk_monitor_tfoms_grid" class="pk-grid pk-grid-dblclick" style="width:100%;height:100%"
+         data-role="grid"
+         data-auto-bind="false"
+         data-toolbar='[{ template: kendo.template($("#template-monitor-tfoms-grid-toolbar").html()) }]'
+         data-selectable="row"
+         data-bind="source:gridDs"
+         data-groupable="false"
+         data-filterable="false"
+         data-pageable="false"
+         data-no-records="{template:'Нет доступных записей.'}"
+         data-columns='[
+            {field: "id", title: "id",hidden: true },
+            {field: "pin", title: "pin",hidden: true },
+            {field: "disp_code", title: "Код", template:$("#mon-prof-disp_code-template").html() },
+            {field: "date_beg", title: "Дата начала", format: "{0:dd.MM.yy}" },
+            {field: "date_end", title: "Дата окончания", format: "{0:dd.MM.yy}" },
+            {field: "user_fio", title: "Автор",template:$("#mon-prof-user_name-template").html()},
+            {field: "created", title: "Создан", format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "updated", title: "Изменен",  format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "send_dt", title: "Передан в СКФОМС",  format: "{0:dd.MM.yy - HH:mm}"}
+         ]'
+         data-editable='{mode:"popup",confirmation:false, createAt:"bottom",
+         window:{title:"Редактор",animation:false}, template: kendo.template($("#template-monitor-tfoms-popup-edit").html())}'
+    >
+    </div>
+</div>
+    <script type="text/x-kendo-template" id="mon-prof-user_name-template">
+        # var ssFio=function(userName) {
+        var sRet="";
+        if (userName) {
+            sRet=userName.fio();
+        }
+        return sRet;
+        } #
+        #= ssFio(user_name) #
+    </script>
+
+    <script type="text/x-kendo-template" id="mon-prof-disp_code-template">
+        # var ssCode=function(dispCode) {
+        var sRet="";
+        if (dispCode) {
+            if (dispCode=="ДВ4") {
+                sRet="ВД-1";
+            }
+            if (dispCode=="ДВ2") {
+                sRet="ВД-2";
+            }
+            if (dispCode=="ОПВ") {
+                sRet="Проф";
+            }
+        }
+        return sRet;
+        } #
+        #= ssCode(disp_code) #
+    </script>
+
+    <script type="text/x-kendo-template" id="template-monitor-tfoms-popup-edit">
+        <div style="margin-left:5px;margin-right:5px;margin-bottom:10px;" class="k-block">
+            <form class="monitor-tfoms-popup-form">
+                <label><span class="required">Вид мероприятия</span><input  name="disp_code"/>
+                    <span class="k-invalid-msg" data-for="disp_code"></span>
+                </label>
+                <label><span  class="required">Дата начала</span><input autofocus data-role="datepicker"
+                                           data-format="dd.MM.yyyy"
+                                           data-parse-formats='["dd/MM/yyyy","dd,MM,yyyy","dd.MM.yy","dd/MM/yy","dd,MM,yy"]'
+                                           name="date_beg"
+                />
+                    <span class="k-invalid-msg" data-for="date_beg"></span>
+                </label>
+                <label><span>Дата окончания</span><input data-role="datepicker" name="date_end"/>
+                    <span class="k-invalid-msg" data-for="date_end"></span>
+                </label>
+            </form>
+
+        </div>
+    </script>
+    <!-- grid toolbar template -->
+    <script type="text/x-kendo-template" id="template-monitor-tfoms-grid-toolbar">
+        <div class="form-inline toolbar" id="pk_monitor_tfoms_grid_toolbar">
+            <span>
+                <button id="doc-add" rel="tooltip" title="Создать новый документ"  class="k-button" type="button"
+                        data-bind="events:{click: onAddButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-plus-outline k-icon-24"></span>
+                            </span>
+                    Добавить мероприятие
+                </button>
+                &nbsp;
+                <button id="doc-edit" rel="tooltip" title="Открыть/изменить документ "  class="k-button" type="button"
+                        data-bind="events:{click: onEditButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-check-outline k-icon-24"></span>
+                            </span>
+                    Изменить мероприятие
+                </button>
+                &nbsp;
+                <button id="doc-delete" rel="tooltip" title="Удалить документ"  class="k-button" type="button"
+                        data-bind="events:{click: onDeleteButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-minus-outline k-icon-24"></span>
+                            </span>
+                    Удалить мероприятие
+                </button>
+
+            </span>
+            &nbsp;
+            &nbsp;
+            <span class="pull-right">
+                <button id="docs-refresh" rel="tooltip" title="Обновить список"  class="k-button" type="button"
+                                        data-bind="events:{click: onRefreshButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-refresh k-icon-24"></span>
+                            </span>
+                </button>
+
+            </span>
+        </div>
+    </script>
+
+
+
+</div>

@@ -1,0 +1,204 @@
+<%= include("header.avfp") %>
+</HEAD>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="12%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width="108%" bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath %>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    </font></b></font></td>
+                  <center>
+                 
+                  <tr>
+                    <td width="149%">
+<h1 align="left">
+<font size="3" face="Arial">Customer Listing</font><span style="font-weight: 400"><font size="4" face="Arial">&nbsp;&nbsp; 
+Date: &lt;%= date() %&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></font></span></h1>
+<% *Settings
+   lnTotPerPage  =10        && total records displayed per page
+   lnpagenumbers =5         && how many page numbers to show
+   lnStart=VAL(oRequest.querystring("page"))  && what page number are we on
+   lcButton=oRequest.querystring("nav")       && which way are we going: next, previous, first, last
+*sql
+   lcOrder=""
+   DO CASE
+   CASE oRequest.querystring("order")=="company"
+	lcOrder= "2" && company order
+   CASE oRequest.querystring("order")=="country"
+	lcOrder = "country" && country order
+   OTHERWISE
+ 	lcOrder=oSession.VALUE("thissort")
+ 	IF (ISNULL(lcOrder) .OR. EMPTY(lcOrder))
+ 	 lcOrder = "2"  && company order default
+ 	ENDIF
+   ENDCASE
+   * save order to session
+   oSession.VALUE("thissort",lcOrder)
+   
+   lcCompany = UPPER(NVL(oRequest.Form("txtCompany"),[]))
+   lcWhere = ""
+   IF !EMPTY(lcCompany)
+     lcWhere = "WHERE UPPER(company) = lcCompany"
+   ENDIF
+
+SELECT * FROM customer &lcWhere ;
+   INTO Cursor tCursor ;
+   ORDER BY &lcOrder
+   
+* start page navigation stuff (for illustrative purposes only - use pages.prg instead as in 'simplelist.avfp')
+lnTotPages = 0 
+lnRowCount = RECCOUNT()    
+START = NVL(lnStart,1)
+IF START = 0 
+	START= 1
+ENDIF
+lnPageMax = START * lnTotPerPage
+lnPageBegin = (lnPageMax - lnTotPerPage)+1
+IF lnRowCount < lnTotPerPage
+		lnTotPages = 1
+ELSE
+     IF MOD(lnRowCount, lnTotPerPage) > 0
+ 		lnTotPages = INT(lnRowCount / lnTotPerPage) + 1
+     ELSE
+		lnTotPages = INT(lnRowCount / lnTotPerPage)
+     ENDIF
+ENDIF	
+oSession.VALUE("totpages",lnTotPages)
+		DO CASE
+		CASE lcButton="First"
+			START=1
+			lnPageBegin=1
+			lnPageMax=lnTotPerPage
+		CASE lcButton="Prev"
+			IF lnPageBegin < 1 .OR. START -1 = 0
+				START=1
+				lnPageBegin=1
+				lnPageMax=lnTotPerPage
+			ELSE
+				START=START-1
+				lnPageBegin=lnPageBegin-lnTotPerPage
+				lnPageMax=lnPageMax-lnTotPerPage
+			ENDIF
+		CASE lcButton="Next"
+			START=START+1
+			IF START>lnTotPages
+				START = lnTotPages
+				lnPageMax =  START * lnTotPerPage
+				lnPageBegin = (lnPageMax - lnTotPerPage)+1
+				lnPageMax = lnRowCount
+			ELSE
+				lnPageBegin=lnPageBegin+lnTotPerPage
+				lnPageMax=lnPageMax+lnTotPerPage
+			ENDIF
+		CASE lcButton="Last"
+			START=lnTotPages
+			lnPageMax =  START * lnTotPerPage
+			lnPageBegin = (lnPageMax - lnTotPerPage)+1
+			lnPageMax = lnRowCount
+		OTHERWISE
+			IF EMPTY(START)
+				START=1
+				lnPageBegin=1
+				lnPageMax=lnTotPerPage
+			ENDIF
+		ENDCASE	
+		
+*Write Form, Table Headers, Table Records 
+%>
+
+<form method="POST" action="<%=oProp.ScriptPath+[?action=sessionlist]%>">
+<font face="Arial">Company:</font> 
+<input type="text" name="txtCompany" value="<%= lcCompany %>" size="20">
+<input type="Submit" value=" Get Customers">&nbsp;<input type="button" value="Reset" name="B1" onclick="window.location='<%=oProp.ScriptPath+[?action=sessionlist]%>';"> <input type="button" value="Go Back" onClick="window.location = '<%=oProp.ScriptPath%>';">
+</form>
+<font face="Arial">Selected </font>  <b><%= TRANSFORM(Reccount()) %></b> <font face="Arial">records.</font><p>
+
+					<i>* click heading to sort by that field&nbsp;</i>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<div align="center">
+  <center>
+<table border=1 width="100%" style="border-collapse: collapse" bordercolor="#C0C0C0" cellpadding="0" cellspacing="0">
+<tr bgcolor="#EEEEEE"><th><font face="Arial">
+	<a href="<%= oProp.ScriptPath+[?action=]+oProp.Action+[&order=company]+[&sid=]+oProp.SessID  %>">Company</a></font></th>
+	<th align="left"><font face="Arial">
+    City</font></th><th align="left"><font face="Arial">
+    <a href="<%= oProp.ScriptPath+[?action=]+oProp.Action+[&order=country]+[&sid=]+oProp.SessID  %>">
+	Country</a></font></th><th align="left"><font face="Arial">Phone</font></th></tr>
+
+<% FOR lnX = lnPageBegin TO lnPageMax 
+IF lnX <= lnRowCount
+			    GOTO lnX   && MOD() is for alternating color for rows%>
+<tr>
+	<td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> valign="top">
+	<a href="<%=oProp.ScriptPath +[?action=detail&cust_id=]+ALLTRIM(cust_id)%>"><font face="Arial"><%= tCursor.Company %></font>&nbsp;</a></td>
+    <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> ><font face="Arial">
+	<%= IIF(EMPTY(tCursor.City),[<br>],tCursor.City) %></font>&nbsp;</td>
+    <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> ><font face="Arial">
+	<%= IIF(EMPTY(tCursor.Country),[<br>],tCursor.Country) %></font></td>
+    <td <%=IIF(MOD(lnX,2)=0,[bgcolor="#E5E5E5"],[])%> ><font face="Arial"><%= IIF(EMPTY(tCursor.Phone),[<br>],tCursor.Phone) %></font>&nbsp;</td>
+</tr>
+
+<%		ENDIF
+	ENDFOR 
+%>  
+
+
+</table>
+                    </center>
+</div>
+                    </td>
+                  </tr>
+                </table>
+              
+            </div>
+<div align="center">
+      <table border="0" cellpadding="2" width="67%">
+        <tr>
+          <td width="100%">
+            <p align="center"><font color="#0000FF">
+<% * page numbers
+lcPages=''
+IF lnTotPages > 1
+   lngroupnumber = ceiling(START/lnpagenumbers) &&Returns the next highest number
+   FOR lnZ = lngroupnumber*lnpagenumbers-(lnpagenumbers-1) TO IIF(lnTotpages<lngroupnumber*lnpagenumbers,lnTotPages,lngroupnumber*lnpagenumbers) &&lnTotPages
+	IF lnZ=START
+	   lcPages=lcPages+[ <B>]+ALLTRIM(STR(lnZ))+[</B> ]
+	ELSE
+	   lcPages=lcPages+[ <a href="]+oProp.ScriptPath +[?action=];
+		+oProp.Action+[&sid=]+oProp.SessID+[&page=]+ALLTRIM(STR(lnZ))+[&nav=]+[">];
+		 +ALLTRIM(STR(lnZ))+[</a> ]
+	ENDIF
+   ENDFOR
+ENDIF
+%>
+<%=IIF(START=1,[],[<a href="]+oProp.ScriptPath+[?action=]+oProp.Action+[&nav=First"> < < </a> <a href="]+oProp.ScriptPath+[?action=]+oProp.Action+[&nav=Prev&page=]+ALLTRIM(STR(start))+[">Prev</a>])%> 
+<%= lcPages %>
+<%=IIF(START=oSession.VALUE("totpages"),[],[<a href="]+oProp.ScriptPath+[?action=]+oProp.Action+[&nav=Next&page=]+ALLTRIM(STR(START))+[">Next</a> <a href="]+oProp.ScriptPath+[?action=]+oProp.Action+[&nav=Last"> > >  </a>]) %>
+        </font> </td>
+        </tr>
+      </table>
+    </div>
+
+            <P class="style1">Number of Records: &lt;%= TRANSFORM(reccount( )) %&gt;</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

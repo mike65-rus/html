@@ -1,0 +1,29 @@
+
+table.width-100 {
+    width:100%;
+}
+td {
+    vertical-align: top;
+    word-break:break-all;
+}
+td.td-ol {
+    width:5%;
+}
+td.align-center {
+    text-align: center;
+}
+td.bottom-border {
+    border-bottom: 1px solid black;
+}
+div.width-100 {
+    width:100%;
+}
+div.official-blank {
+    text-align: right;
+    font-size: 7pt;
+}
+p.jad-header-p1 {
+    text-align: center;
+    font-size: 12pt;
+    font-weight: bold;
+}

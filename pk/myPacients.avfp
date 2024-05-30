@@ -1,0 +1,90 @@
+                <% * Мои пациенты поликлиника %>
+<div id="my_cases">
+    <ul id="my_cases_tabstrip">
+        <li>Открытые случаи</li>
+    </ul>
+    <div>
+        <div id="active_cases_toolbar"></div>
+        <div class="pk_case_div">
+            <div id="active_cases" class="pk-grid" style="width:100%;height:100%">
+        </div>
+        </div>  <!-- kendo grid -->
+    </div>
+</div>
+<!-- модальное окно создания нового случая -->
+<div id="new_case_window" style="display:none">
+        <table width="100%">
+            <tr>
+                <td class="form-inline">
+
+                    <label for="new_case_date">Дата открытия:
+                        <input class="k-input" type='input' data-role="datepicker"
+                        data-bind="value:datePart" id="new_case_date" style="width:120px"/>
+                    </label>
+                        <input class="k-input" type='input' data-role="timepicker"
+                        data-bind="value:timePart" id="new_case_time" style="width:100px"/>
+                    <label for="new_case_pin">ПИН-код или ФИО:
+                        <input class="k-input" type='input' data-bind="value:searchString" id="new_case_pin"/>
+                    </label>
+                     <button class="k-button" id="new_case_search_button" data-bind="click: doFindPersons">
+                        <i class="fa fa-search"></i>
+                     </button>
+                    <span>&nbsp;</span>
+                    <button id="new_case_window_save" rel="tooltip" title="Открыть случай"
+                    class="k-button" type="button" style="width:100px" data-bind="click:doSave">
+                    ОК
+                    </button>
+                    <span>&nbsp;</span>
+                    <button id="new_case_window_close" style="width:100px" rel="tooltip" title="Отказ" class="k-button" type="button"
+                    data-bind="click: doClose">
+                    Отказ
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="pac-data" data-bind="text: getPacData" style="font-weight: bold">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div>&nbsp;
+       </div>
+        <div id="new_case_grid" class="pk-grid" >
+
+        </div>
+</div>
+
+<script id="visit_editor" type="text/x-kendo-template">
+    <div class="styleform">
+        <form class="form" >
+        <label for="visit_date" class="visit-label">Дата:
+        </label>
+        <input  type="text" name="visit_date" data-type="date" data-role="datepicker" data-bind="value:d_start">
+        <div class="clear"></div>
+        <label for="visit_time" class="visit-label">Время:
+        </label>
+         <input  type="text" name="visit_time" data-type="date" data-role="timepicker" data-bind="value:d_start">
+        <div class="clear"></div>
+        <label for="visit_code"  class="visit-label">Код посещения:
+        </label>
+        <input type="text" name="visit_code" data-bind="value:visit_code" style="width:500px;"/>
+        <div class="clear"></div>
+        <div data-bind="text:visit_name()" class="form-field-no-caption"></div>
+        </form>
+    </div>
+</script>
+
+<script id="case_template_0" type="text/x-kendo-template">
+
+</script>
+<script id="case_template_1" type="text/x-kendo-template">
+    <div pid="splitter" style="height:97%">
+      <div>
+        <div pid="visits" style="height:98%"></div>
+      </div>
+      <div>
+        <div pid="usl" style="height:98%;margin-top:5px;" ></div>
+      </div>
+    </div>
+</script>

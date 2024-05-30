@@ -1,0 +1,103 @@
+/* css declaration for Выписка из ИБ */
+/* css declaration for Выписка из ИБ */
+/* content-editable */
+/* суицид */
+table.table-suicide {
+    border-collapse:collapse;
+}
+table.table-suicide tr td {
+    word-break: break-word;
+    padding-left:3px;
+}
+
+div.div-invisible {display:none;}
+div[contenteditable="true"] {background-color: Bisque  ; border-width: 3px; border-style:inset; min-height:1em;}
+span[contenteditable="true"] {background-color: Bisque  ; border-width: 3px; border-style:inset; min-height:1em;}
+div[contenteditable="true"] p {font-size: 1em; color: Black; margin-top: 0.1em; margin-bottom: 0em; line-height: 1em;}
+/* Логотип */
+div.gb2-logo-div {display:none}
+/* header */
+p.vyp-header-p {margin-top:0.4em; margin-bottom: 0em}
+p.vyp-header-p-1 {font-weight: bold; text-align: center}
+p.vyp-header-p-2 {font-size:0.8em}
+p.vyp-header-p-4 {font-size:0.8em}
+p.vyp-zag {font-weight:bold; margin-top:0.4em; margin-bottom:0em; font-size:0.9em}
+span.vyp-niib {font-size: 1.5em; font-weight: bold; text-decoration: underline }
+span.vyp-pac-fio {font-size:1.5em; font-weight:bold; text-decoration: underline}
+span.vyp-pac-birt {font-size:1.2em; font-weight:bold; text-decoration: underline}
+span.vyp-pac-age {font-size:1.2em; font-weight:bold; text-decoration: underline}
+span.vyp-pac-dateask {font-size:1.2em; font-weight:bold; text-decoration: underline}
+span.vyp-pac-dateout {font-size:1.2em; font-weight:bold; text-decoration: underline}
+div.diag-type { margin-top:0.1em; margin-bottom:0.1em; }
+/* Лаборатория */
+table.vyp-lab-table {width: 100%;  border-collapse: collapse; table-layout:fixed}
+td.vyp-lab-table-cell-pokaz-normal, td.vyp-lab-table-cell-pokaz-abnormal {width: 23%}
+td.vyp-lab-table-cell-value,td.vyp-lab-table-cell-value-normal,
+td.vyp-lab-table-cell-value2-normal,
+td.vyp-lab-table-cell-value-abnormal
+    {width: 10%; text-align: center }
+td.vyp-lab-table-cell-date {width: 4%; text-align:center;font-style:italic; }
+td.vyp-lab-table-cell-value-abnormal {background-color: LightGrey}
+td.vyp-table-header-cell { border: 1px solid black; width: 100% ; font-size: 0.9em; }
+table.vyp-lab-table td {padding-bottom: 0; padding-top: 0}
+table.vyp-lab-table td:not(.vyp-lab-table-cell-divider)
+    {overflow: hidden; color: black; border: 1px solid black; font-size: 0.8em}
+table.vyp-lab-table td:not(.vyp-lab-table-cell-divider):not(.vyp-table-header-cell ):not([rowspan="2"])
+    {white-space:nowrap;}
+table.vyp-lab-table td[rowspan="2"] {white-space:normal;}
+td.vyp-lab-table-cell-divider {width: 0.5%; border-bottom: 0; border-top: 0 }
+td.vyp-lab-table-cell-pokaz-abnormal {background-color: LightGray }
+p.vyp-lab-p-divider {  margin-top: 0.1em; margin-bottom: 0em; line-height: 0.1}
+.vyp-select {width:350px; margin-top: 6px}
+span.vyp-lab-italic {font-size:0.8em; font-style:italic; font-weight:normal}
+/* ЛДО */
+p.vyp-ldo-title { margin-top: 0.5em; margin-bottom: 0em; line-height: 1em; font-size: 1em; font-weight: bold }
+p.vyp-ldo-title-divider {  margin-top: 0.1em; margin-bottom: 0em; line-height: 0em }
+/*
+table.vyp-ldo-table, table.vyp-ldo-ekg-table {width: 100%; border-collapse: collapse; font-size:0.9em}
+
+td.vyp-ldo-ekg-td-1 {width: 10%}
+td.vyp-ldo-td-1 {width: 10%; word-break: break-all}
+td.vyp-ldo-td-2 {width: 15%; word-break: break-all}
+table.vyp-ldo-table td, table.vyp-ldo-ekg-table td {border:1px solid black}
+*/
+div.vyp-ldo-table, div.vyp-ldo-ekg-table {width: 100%; font-size:1em; margin-top:5px}
+div.vyp-ldo-td-1 {font-weight: bold; font-size: 0.9em}
+div.vyp-ldo-ekg-td-1 {font-weight: bold; font-size: 0.9em}
+div.vyp-ldo-ekg-td-2 {margin-left:10px}
+/* div.vyp-ldo-td-2 {margin-left:10px} */
+
+span.bold {font-weight:bold; }
+/* таблица вместо формы */
+table.vyp-form-table {width: 100%}
+td.vyp-form-td {font-size: 0.9em}
+td.underline {border-bottom: 1px solid black}
+/* k-editor */
+div.k-editor-widget:not(.no-my-classes) {
+    width: 500px !important;
+/*    height: 250px !important; */
+    opacity: 0.7 !important;
+    top: 0px !important;
+    left: 500px !important;
+}
+
+p.vyp-ldo-title-0 {display:none;}
+table.e-2 {margin-top: 5px;}
+
+/* for others docs */
+p.doc-p {font-size:1em !important;margin-top:0em !important;margin-bottom:0em !important;}
+div.doc-p {font-size:1em !important;}
+span.doc-p {font-size:1em !important;}
+p.doc-name {font-size:1.1em !important;font-weight: bold; text-align:center}
+.doc-razd0 {font-weight:bold !important; font-size:1em !important;
+    margin-top:0.5em  !important ;margin-bottom:0.3em !important;}
+.doc-razd {font-weight:bold !important; font-size:1em !important;
+    margin-top:0.5em  !important ;margin-bottom:0.3em !important;}
+
+/* анализы из базы GEtAnalyze.fdb */
+div.ext-anal2 {margin-top:3px;}
+table.ext-anal-table2 {word-break:normal; border-collapse:collapse; width: 100% ;  }
+table.ext-anal-sub2 {width: 100% ;   cellpadding: 0; border-collapse:collapse}
+td.ext-anal-table-td2 {color: black; border: 1px solid black; word-break:normal}
+td.ext-anal-table-td-left-right-border {color:black; border-left:1px solid black; border-right:1px solid black; word-break:normal}
+td.ext-anal-sub-table-td {color: black;  word-break:normal}

@@ -1,0 +1,56 @@
+<%= include("header.avfp") %>
+    <style type="text/css">
+    .main-menu {
+      padding-top: 40px;
+      }
+
+
+	</style>
+	<%
+      sUserAgent=NVL(oRequest.oRequest.ServerVariables("HTTP_USER_AGENT").Item(),"")
+      sDeviceType=GetPlatform(sUserAgent)
+    %>
+  </head>
+  <body>
+    <!-- автоматическое перенаправление на Login.avfp, если нет логина или таймаут -->
+    <% IF sDeviceType=="mobile"  %>
+        <%= include("loginInclude.avfp") %>
+    <% ELSE %>
+        <%= include("loginInclude.avfp") %>
+        <%= include("headerInfo.avfp") %>
+    <% ENDIF %>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+      	<div id="error"></div>
+        <div class="accordion" id="accordion1">
+    		  <!-- group 1 MainMenu -->
+		        <%= include("default\MainMenu.avfp") %>
+      		  <!-- group 2 -->
+		        <%= include("default\UserProfile.avfp") %>
+      			<!-- group 3 -->
+		        <%= include("default\UsersTimeLine.avfp") %>
+	     </div>
+	   </div>
+	
+	<%=include("footer.avfp")%>
+
+     <% sVer=SYS(2015)
+       sVer="?ver="+sVer
+     %>
+    <%
+        iUserId=oSession.Value("uid")
+    %>
+
+     <% IF INLIST(iUserId,1) %>
+    	<script src="<%=[html/]+NVL(oProp.action,[default])+[/adminScript.js]+sVer %>" ></script>
+    <% ELSE %>
+    	<script src="<%=[html/]+NVL(oProp.action,[default])+[/commonScript.js] %>" ></script>
+     <% ENDIF %>
+	<script src="<%=[html/]+NVL(oProp.action,[default])+[/UserProfile.js]+sVer %>" ></script>
+	
+	<script src="<%=[html/]+NVL(oProp.action,[default])+[/UsersTimeLine.js]+sVer %>" ></script>
+	
+	</body>
+</html>
+

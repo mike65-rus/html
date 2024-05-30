@@ -1,0 +1,931 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0044)  -->
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><title>ActiveVFP Documentation</title>
+<meta http-equiv="Content-Language" content="en-us">
+
+<meta content="Microsoft FrontPage 12.0" name="GENERATOR">
+<meta content="FrontPage.Editor.Document" name="ProgId">
+<style>DIV.Section1 {
+	page: Section1
+}
+H3 {
+	FONT-SIZE: 13pt; MARGIN: 12pt 0in 3pt; FONT-FAMILY: Verdana
+}
+.style1 {
+	font-family: Arial;
+}
+.style2 {
+	font-size: x-small;
+	font-family: Arial;
+}
+.style4 {
+	font-family: Arial;
+	font-weight: bold;
+}
+.style5 {
+	font-size: large;
+	font-family: Arial;
+}
+.style6 {
+	color: #000000;
+	font-size: x-small;
+	font-family: Arial;
+}
+.style7 {
+	font-size: large;
+}
+</style>
+</head>
+<body>
+<p><span style="font-family: Arial; font-size: x-large;">ActiveVFP Documentation<br></span><span style="font-family: Arial;"><b> 
+Version 6.03/5.53</b><br>Updated 1/28/2013<br><br>Introduction<br>&nbsp;&nbsp;&nbsp; <a href=" #requirements">Requirements</a><br>&nbsp;&nbsp;&nbsp; 
+<a href=" #support">Support</a><br>&nbsp;&nbsp;&nbsp; 
+<a href=" #support">Free Add-on 
+Downloads</a><a href=" #requirements"><br></a>&nbsp;&nbsp;&nbsp; 
+<a href=" #basics">Basics</a><br>&nbsp;&nbsp;&nbsp; 
+<a href=" #donations">Donations</a><br><a href=" #install">Setup</a><br>VFP 
+Scripting<br></span> <span class="style1">&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial;"><a href=" #expressions"> &lt;%= %&gt; 
+Expressions and Variables<br></a></span><span class="style1">&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial;"> <a href=" #tablename">&lt;% %&gt; Scripts</a><br> &nbsp;&nbsp;&nbsp; <a href=" #centralize">Centralizing FoxPro code - Custom or Existing Functions, Procedures, Libraries</a></span><span style="font-family: Arial;"><br><a href=" #install">Installation 
+and Distribution</a> <br> <a href=" #NETDBF">Networked DBFs</a><br> <a href=" #NETDBF">MS SQL, MySQL, 
+and other databases</a><br> <a href=" #NETDBF">Network Setup</a><br> <a href=" #report">Reporting/Printing</a><br> <a href=" #debug">Debugging</a><br> <a href=" #scriptmap">Changing the extension scriptmap</a><br> <a href=" #specchar">HTML: Special 
+Characters</a><br>Other 
+Tools<br></span><span class="style1">&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial;"> <a href=" #cdonts">SMTP E-Mail with 
+CDO</a><br></span><span class="style1">&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial;"> <a href=" #owc">Charts and Graphs with 
+OWC (Office Web Components)</a><br>&nbsp;&nbsp;&nbsp; <a href=" #ftp">FTP and other Internet 
+functions</a><br>&nbsp;&nbsp;&nbsp; <a href=" #fulltext">Full-text 
+search</a><br> &nbsp;&nbsp;&nbsp; <a href=" #timer">Timers</a><br> ActiveVFP Classes, Methods, and Properties<br>&nbsp;&nbsp;&nbsp; 
+<a href=" #avfpasync">AVFPasync 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CreateThread 
+Method<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Check 
+Method<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Count Property<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RecordError Method<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Err Property<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Err_txt Property<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Returnval Property<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StartWebEvent Method<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CompleteWebEvent Method<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StatusWebEvent Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfpcookies">AVFPcookie 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Write 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delete 
+Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfphtml">AVFPhtml 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HTMLtable 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MergeText 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MergeScript 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HTMLdropdown 
+Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfphttpupload">AVFPhttpupload 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SetMaxSize 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HTTPupload 
+Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfppdf">AVFPpdf 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Start 
+Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfproperties">AVFPproperties 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Action 
+Property<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HtmlPath 
+Property<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AppStartPath 
+Property<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ScriptPath 
+Property<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SessID 
+Property<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AppName 
+Property<br>&nbsp;&nbsp;&nbsp; <a href=" #avfprequest">AVFPrequest 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QueryString 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cookies 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ServerVariables 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DumpVars 
+Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfpresponse">AVFPresponse 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Redirect 
+Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfpsession">AVFPsession 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Value 
+Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfpsessiontable">AVFPsessiontable 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Value 
+Method<br>&nbsp;&nbsp;&nbsp; <a href=" #avfpsql">AVFPsql 
+Class</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Login 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Execute 
+Method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cSqlCursor 
+Property<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br><a name="requirements"></a><span style="font-size: large;">Requirements:</span></span></p>
+<ul>
+<li class="style1">Use ActiveVFP 6.03 for Windows VISTA or above </li>
+<li class="style1">Use ActiveVFP 5.53(for ASP.NET 2.0) for Windows 2003 
+	Server (can be used on all supported Windows versions)</li>
+<li class="style1">Use ActiveVFP 5.53(for ASP.NET 1.1) for GoDaddy (see 
+	separate instructions)<br>NOTE:&nbsp; IIS Express 7.5 allows AVFP to work 
+with Windows XP and all the Home Basic and Starter versions of Windows. </li>
+</ul>
+<p><span class="style1">Notepad or equivalent text editor(purchase of Visual Foxpro optional, WYSIWYG HTML editor like 
+Expression optional but recommended)</span><span id="ctl00_ctl00_MasterContent_Content_ReleasePanelOrderingContainer_ReleaseDescriptionLiteral"><span class="style1"><br> ASP.NET 
+and ASP enabled<br> Reg-Free requires IIS 6 or higher</span><span class="style4"><br> 64 Bit</span><span class="style1"> Windows OS/hardware requires enabling 32 Bit operation for IIS </span></span> <span class="style1">via IIS Manager (Application Pools/DefaultAppPool/Advanced 
+Settings/Set Enable 32-bit applications to True) or issue the following command 
+from Run or the CMD line(you must <b>Run as Administrator)</b>:&nbsp;</span><span id="x_ctl00_ctl00_MasterContent_Content_ReleasePanelOrderingContainer_ReleaseDescriptionLiteral0"><br class="style1"> <span class="style1">cscript %SYSTEMDRIVE%\inetpub\adminscripts\adsutil.vbs SET 
+W3SVC/AppPools/Enable32bitAppOnWin64 1</span></span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: Arial;"><a name="support"></a><span style="font-size: large;">Support:</span></span></p>
+<p class="style1"><a href="http://activevfp.codeplex.com/Thread/List.aspx"> http://activevfp.codeplex.com/Thread/List.aspx</a>&nbsp; (Discussion Forum)</p>
+<p><span style="font-family: Arial;"><a name="add-ons"></a><span style="font-size: large;">Downloads:</span></span></p>
+<p><span class="style1">jqGrid</span><br class="style1">
+<a href="http://jqgrid.com/http://jqgrid.com/"><span class="style1">
+http://jqgrid.com/</span><br class="style1"></a><br class="style1">
+<span class="style1">jQueryMobile</span><br class="style1">
+<a href="http://jquerymobile.com/http://jquerymobile.com/"><span class="style1">
+http://jquerymobile.com/</span><br></a>&nbsp;<br class="style1"><span style="font-family: Arial;">Office Web Components(OWC) for Web Charting -<br>
+<a href="http://www.microsoft.com/en-us/download/details.aspx?id=22276">
+http://www.microsoft.com/en-us/download/details.aspx?id=22276</a></span><br><br>
+<span class="style1">PocketFox - DBF Manager for those that don't have the 
+Microsoft FoxPro IDE</span><br class="style1">
+<a href="http://www.pocketfox.org/http://www.pocketfox.org/">
+<span class="style1">http://www.pocketfox.org/</span><br class="style1"></a>
+<br class="style1"><span class="style1">IIS Express 7.5 Web Server - works on 
+Windows XP and all Starter and Home Basic versions of Windows</span><br class="style1">
+<span class="style1">
+<a href="http://www.microsoft.com/en-us/download/details.aspx?id=1038http://www.microsoft.com/en-us/download/details.aspx?id=1038">
+http://www.microsoft.com/en-us/download/details.aspx?id=1038</a></span><br class="style1"> <span class="style1">&nbsp;</span></p>
+<p><span style="font-family: Arial;"><a name="basics"></a><span style="font-size: large;">Basics:</span></span></p>
+<div align="center"><center> 
+<table border="0" cellpadding="0" cellspacing="0" width="774">
+<tbody>
+<tr>
+<td width="84"><span class="style1">Browser&lt;--&gt;</span><br class="style1"> <span class="style2">(AJAX,JSON,etc)</span></td>
+<td width="41">
+<table style="height: 40px;" bordercolordark="#ffffff" bordercolorlight="#000000" border="1" cellpadding="0" cellspacing="0" width="1%">
+<tbody>
+<tr>
+<td valign="center">
+<p class="style2" align="center">IIS web server&nbsp;</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td width="52">
+<p class="style1" align="center">&lt;--&gt;</p>
+</td>
+<td width="69">
+<table style="height: 40px;" bordercolordark="#ffffff" bordercolorlight="#000000" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td height="38" valign="center">
+<p align="center"><span class="style1">ASP.NET</span><span style="font-size: x-small;"><br class="style1"> <span class="style1">(ISAPI 
+            dll)</span></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td class="style1" width="45">&lt;---&gt;</td>
+<td width="134">
+<div align="center">
+<table style="height: 48px;" bordercolordark="#ffffff" border="1" bordercolor="#000000" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td height="46" valign="center" width="100%">
+<p class="style2" align="center">ActiveVFP.dll (mtdll)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td style="width: 143px" valign="center"><span style="font-size: x-small;"> <span class="style1">&lt;---&gt;main.prg </span> <br class="style1"> <span class="style1">&lt;---&gt;HTML templates</span><br class="style1"> <span class="style1">&lt;---&gt;background threads</span></span></td>
+<td valign="center" width="245"><span style="font-size: x-small;"> <span class="style1">&lt;--&gt;images</span><br class="style1"> <span class="style1">&lt;---&gt;E-mail 
+      templates</span><br class="style1"><span class="style1">&lt;---&gt;DB</span></span></td>
+</tr>
+</tbody>
+</table>
+</center></div>
+<p class="style1">activevfp.dll (vfp mtdll) - this is where 
+the ActiveVFP framework resides.</p>
+<p class="style1">main.prg - this is where your application logic can go 
+including pre-processing and post-processing.&nbsp;Alternatively, you could place most of your application code within the AVFP 
+scripts/HTML 
+templates themselves.&nbsp;</p>
+<p class="style1">AVFP Scripts (.avfp), HTML and e-mail templates - this is where you control the look and feel of the application 
+(the "Views" in MVC speak).&nbsp; VFP variables and 
+expressions are contained between &lt;%= and %&gt; and are evaluated when the 
+application is run.&nbsp; AVFP&nbsp; also has the ability to include VFP code 
+blocks within the HTML template.</p>
+<p class="style5">AVFP scripts/HTML Templates:</p>
+<p><span style="font-family: Arial;"><b><a name="expressions"></a></b>&lt;%= %&gt; Expressions and 
+Variables<br>Within the HTML templates, place any VFP variable or expression 
+between the standard &lt;%= %&gt; delimiters.&nbsp; The variables and expressions will 
+be evaluated and replaced by their values at runtime.<br>For example,&nbsp; Total 
+Customers=&lt;%=reccount()%&gt;&nbsp; or&nbsp; </span><span class="style1">&lt;%=tCursor.Contact%&gt;</span></p>
+<p><span style="font-family: Arial;"><b><a name="tablename"></a></b>&lt;% %&gt; 
+Scripts<br>Place any VFP code within the HTML templates by putting it between 
+the standard &lt;% %&gt; (alligator) delimiters.&nbsp; The code here will be 
+dynamically compiled and executed at runtime.&nbsp; Here are some examples:<br> 
+<br>&lt;%IF reccount() &gt; 0 %&gt;<br>&lt;p&gt;there are records!&lt;/p&gt;<br>&lt;%else%&gt;<br>&lt;p&gt;there 
+are no records for you!&lt;/p&gt;<br>&lt;%endif%&gt;<br><br>&lt;% *sql<br>SELE * FROM Customer INTO CURSOR tCursor<br><br>*create page numbers<br> START=0<br>lnPageMax = 0<br>lnPageBegin = 0<br>lnRowCount = RECCOUNT()<br>SET 
+PROC to oProp.AppStartPath+'prg\pages' ADDITIVE &amp;&amp; Make sure you use ADDITIVE or 
+bad things happen!<br>lcPages= 
+pages(lnTotPerPage,lnpagenumbers,lnStart,lcButton,lnRowCount)<br>%&gt;<br><br>&lt;% 
+FOR lnX = lnPageBegin TO lnPageMax <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+IF lnX &lt;= lnRowCount<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+GOTO lnX %&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&lt;tr&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&lt;td width="40%"&gt;&lt;font face="helvetica, arial" size="2"&gt;&lt;a 
+href="&lt;%=oProp.ScriptPath +[?action=detail&amp;cust_id=]+ALLTRIM(cust_id)%&gt;"&gt;<br> &lt;%=tCursor.company%&gt;&lt;/a&gt;&lt;/font&gt;&lt;/td&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&lt;td width="36%"&gt;&lt;font face="helvetica, arial" size="2"&gt;<br> &lt;%=tCursor.Contact%&gt;&lt;/font&gt;&lt;/td&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&lt;td width="24%"&gt;&lt;font face="helvetica, arial" size="2" color="#000000"&gt;<br> &lt;%=tCursor.Title %&gt;&lt;/font&gt;&lt;/td&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&lt;/tr&gt;<br>&lt;% ENDIF<br>ENDFOR %&gt; <br><br>&lt;% IF 
+EMPTY(oRequest.servervariables("AUTH_USER")) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+oResponse.BUFFER = .T.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+oResponse.CLEAR<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+oResponse.STATUS = "401 Unauthorized"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+oResponse.AddHeader("WWW-Authenticate","BASIC")<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+oResponse.END %&gt;<br>&lt;% ELSE %&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Congratulations! You're authenticated.<br>&lt;%ENDIF %&gt; <br> <br> <br> Want even less code in your HTML?&nbsp;&nbsp; Use the following as an 
+alternative to producing tables:<br> From your code-behind .prg or main.prg:<br> SELE * FROM Customer INTO CURSOR tCursor<br> lcHTMLfile = 'custlist.htm' &amp;&amp; html template<br> lcHTMLout= FILETOSTR(oProp.HtmlPath+lcHTMLfile)<br> lcHTMLout= oHTML.htmlTable('customers',lcHTMLout,10,5,'#E5E5E5',.F.;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+,VAL(oRequest.querystring("page")),oRequest.querystring("nav"))<br> lcHTMLout= oHTML.mergetext(lcHTMLout)<br> <br> From your HTML template include the &lt;tablename&gt; &lt;/tablename&gt; 
+tags.<br> Each HTML table enclosed within table label brackets will be evaluated and 
+replaced with the records of the currently open table.&nbsp; The top row of the 
+table should include &lt;TH&gt; cells if you want to include headers.&nbsp; Do not 
+place headers in &lt;TD&gt; cells.&nbsp; Having no headers at all will work fine.&nbsp; 
+For example, the following will produce a table list of all customers selected 
+into tCursor:<br> </span><span class="style1">&lt;customers&gt;</span></p>
+<div align="left">
+<table border="0" cellpadding="2" width="89%">
+<tbody>
+<tr>
+<th bgcolor="#c0c0c0" width="40%">
+<p class="style1" align="left">Company</p>
+</th> <th bgcolor="#c0c0c0" width="36%">
+<p class="style1" align="left">Contact</p>
+</th> <th bgcolor="#c0c0c0" width="24%">
+<p class="style1" align="left">Title</p>
+</th>
+</tr>
+<tr>
+<td class="style2" width="40%"><a href="http://thetechconsult.com/AVFPdemo4r/%3C%25=THIS.cScriptPath%20+[?action=detail&cust_id=]+ALLTRIM%28cust_id%29%%3E"> &lt;%=tCursor.company%&gt;</a></td>
+<td class="style2" width="36%">&lt;%=tCursor.Contact%&gt;</td>
+<td class="style6" width="24%">&lt;%= 
+			tCursor.Title %&gt;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span class="style1">&lt;/customers&gt; </span> <br class="style1"> <span class="style1">You may place as many tables to be evaluated as desired on an 
+HTML page.</span></p>
+<p><span style="font-family: Arial; font-size: large;"><a name="centralize"></a>Centralizing Foxpro code 
+for re-use:</span></p>
+<p><!--[if gte mso 9]><xml> <o:OfficeDocumentSettings> <o:AllowPNG /> </o:OfficeDocumentSettings> </xml><![endif]--><!--[if gte mso 9]><xml> <w:WordDocument> <w:View>Normal</w:View> <w:Zoom>0</w:Zoom> <w:TrackMoves /> <w:TrackFormatting /> <w:PunctuationKerning /> <w:ValidateAgainstSchemas /> <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid> <w:IgnoreMixedContent>false</w:IgnoreMixedContent> <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText> <w:DoNotPromoteQF /> <w:LidThemeOther>EN-US</w:LidThemeOther> <w:LidThemeAsian>X-NONE</w:LidThemeAsian> <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript> <w:Compatibility> <w:BreakWrappedTables /> <w:SnapToGridInCell /> <w:WrapTextWithPunct /> <w:UseAsianBreakRules /> <w:DontGrowAutofit /> <w:SplitPgBreakAndParaMark /> <w:EnableOpenTypeKerning /> <w:DontFlipMirrorIndents /> <w:OverrideTableStyleHps /> </w:Compatibility> <m:mathPr> <m:mathFont m:val="Cambria Math" /> <m:brkBin m:val="before" /> <m:brkBinSub m:val="&#45;-" /> <m:smallFrac m:val="off" /> <m:dispDef /> <m:lMargin m:val="0" /> <m:rMargin m:val="0" /> <m:defJc m:val="centerGroup" /> <m:wrapIndent m:val="1440" /> <m:intLim m:val="subSup" /> <m:naryLim m:val="undOvr" /> </m:mathPr></w:WordDocument> </xml><![endif]--><!--[if gte mso 9]><xml> <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="267"> <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal" /> <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1" /> <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2" /> <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3" /> <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4" /> <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5" /> <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6" /> <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7" /> <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8" /> <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9" /> <w:LsdException Locked="false" Priority="39" Name="toc 1" /> <w:LsdException Locked="false" Priority="39" Name="toc 2" /> <w:LsdException Locked="false" Priority="39" Name="toc 3" /> <w:LsdException Locked="false" Priority="39" Name="toc 4" /> <w:LsdException Locked="false" Priority="39" Name="toc 5" /> <w:LsdException Locked="false" Priority="39" Name="toc 6" /> <w:LsdException Locked="false" Priority="39" Name="toc 7" /> <w:LsdException Locked="false" Priority="39" Name="toc 8" /> <w:LsdException Locked="false" Priority="39" Name="toc 9" /> <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption" /> <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title" /> <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font" /> <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle" /> <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong" /> <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis" /> <w:LsdException Locked="false" Priority="59" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid" /> <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text" /> <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing" /> <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading" /> <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List" /> <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid" /> <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1" /> <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2" /> <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1" /> <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2" /> <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1" /> <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2" /> <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3" /> <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List" /> <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading" /> <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List" /> <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid" /> <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1" /> <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1" /> <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1" /> <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1" /> <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1" /> <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1" /> <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision" /> <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph" /> <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote" /> <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote" /> <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1" /> <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1" /> <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1" /> <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1" /> <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1" /> <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1" /> <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1" /> <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1" /> <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2" /> <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2" /> <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2" /> <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2" /> <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2" /> <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2" /> <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2" /> <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2" /> <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2" /> <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2" /> <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2" /> <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2" /> <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2" /> <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2" /> <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3" /> <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3" /> <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3" /> <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3" /> <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3" /> <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3" /> <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3" /> <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3" /> <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3" /> <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3" /> <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3" /> <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3" /> <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3" /> <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3" /> <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4" /> <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4" /> <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4" /> <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4" /> <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4" /> <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4" /> <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4" /> <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4" /> <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4" /> <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4" /> <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4" /> <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4" /> <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4" /> <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4" /> <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5" /> <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5" /> <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5" /> <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5" /> <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5" /> <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5" /> <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5" /> <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5" /> <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5" /> <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5" /> <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5" /> <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5" /> <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5" /> <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5" /> <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6" /> <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6" /> <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6" /> <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6" /> <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6" /> <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6" /> <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6" /> <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6" /> <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6" /> <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6" /> <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6" /> <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6" /> <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6" /> <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6" /> <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis" /> <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis" /> <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference" /> <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference" /> <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title" /> <w:LsdException Locked="false" Priority="37" Name="Bibliography" /> <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading" /> </w:LatentStyles> </xml><![endif]--><!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin-top:0in;
+	mso-para-margin-right:0in;
+	mso-para-margin-bottom:10.0pt;
+	mso-para-margin-left:0in;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;}
+.style8 {
+	line-height: normal;
+	color: green;
+	font-family: Arial;
+	margin-bottom: 0.0001pt;
+}
+.style9 {
+	font-family: Arial;
+	font-size: small;
+}
+.style10 {
+	font-family: Arial;
+	font-size: smaller;
+}
+.style11 {
+	background-repeat: initial initial;
+}
+</style>
+<![endif]--></p>
+<p class="style1">Custom or existing VFP Functions, Procedures, Methods can use
+the traditional ways to centralize VFP code:</p>
+<p class="style1">SET PROC TO&nbsp; ... ADDITIVE, </p>
+<p class="style1">CREATEOBJECT,</p>
+<p class="style1">etc&nbsp; (see examples).&nbsp; These objects will be
+cached by IIS and perform very fast.&nbsp; If you will make changes to these
+libraries, you must release them from memory using their release commands.&nbsp; Otherwise, IIS won't let you change these
+objects unless you re-cycle the App or IIS. <br><br>Use CompileIfNew to automate 
+compilation of changes you've made to source.&nbsp; <br>SET PROC to 
+'c:\avfp6\prg\compileifnew' additive<br>RETURN compileifnew('avfputilities')</p>
+<p class="style1">Here are some examples:</p>
+<p class="style1">In any .avfp page (AVFP 6.0) or .htm page ( 5.53):</p>
+<p class="style1">&lt;%
+oAA=newOBJECT('schedbizobj','c:\avfp6.0Demo\prg\utiltest2.prg') %&gt;</p>
+<p class="style1">…</p>
+<p class="style1">&lt;%=oAA.test3('news')%&gt;</p>
+<p class="style1">…</p>
+<p class="style1">&lt;% oAA=null</p>
+<p class="style1">CLEAR CLASS ('schedbizobj')</p>
+<p class="style1">CLEAR PROGRAM ('prg\utiltest2.prg')</p>
+<p class="style1">%&gt;</p>
+<p class="style1">OR</p>
+<p><span class="style1">&lt;% </span><span style="color: blue; " class="style1">SET PROC to </span>
+<span style="color: black; " class="style1">'c:\avfp6.0Demo\prg\utiltest' </span>
+<span style="color: blue; " class="style1">ADDITIVE </span><span class="style1">%&gt;</span></p>
+<p class="style1">…</p>
+<p><span class="style1">&lt;%= </span>
+<span style="color: black; " class="style1">test3('new')</span><span class="style1">%&gt;</span></p>
+<p class="style1">…</p>
+<p><span class="style1">&lt;% </span><span style="color: blue; " class="style1">RELEASE PROCEDURE </span>
+<span style="color: black; " class="style1">'c:\avfp6.0Demo\prg\utiltest'</span><span class="style1">%&gt;</span></p>
+<p class="style1">&nbsp;</p>
+<p class="style1">Alternatively, in main.prg, at the top of the CASE statement:</p>
+<p class="style1">oAA=newOBJECT('schedbizobj','c:\avfp6.0Demo\prg\utiltest2.prg')</p>
+<p class="style1">OR</p>
+<p><span style="color: blue; " class="style1">SET PROC
+to </span><span style="color: black; " class="style1">'c:\avfp6.0Demo\prg\utiltest' </span>
+<span style="color: blue; " class="style1">ADDITIVE</span></p>
+<p class="style1">AND, at the bottom of the CASE statement:</p>
+<p class="style8">oAA=null</p>
+<p class="style8">CLEAR CLASS ('schedbizobj')</p>
+<p class="style8">CLEAR PROGRAM
+('prg\utiltest2.prg')</p>
+<p class="style8">&nbsp;</p>
+<p class="style1">OR</p>
+<p class="style8">RELEASE PROCEDURE
+'c:\avfp6.0Demo\prg\utiltest'</p>
+<p class="style1">Alternative Solution 1:&nbsp; Functions and Procedures that are
+in development or may change often can simply be placed at the bottom of
+Main.prg to be available to all scripts. (IOW, main.prg is your new
+Function/Procedure Library)</p>
+<p class="style1">Alternative Solution 2: &nbsp;If your Functions/Procedures are in their own
+files, containing only the one Function/Procedure, use ExecScript to run them
+on the fly from your scripts without caching in IIS and therefore not locking
+them: </p>
+<p class="style1">lcRetVal =
+EXECSCRIPT(FILETOSTR(oProp.AppStartPath+'\prg\myexternalfunc.prg'))</p>
+<p class="style1">You may change the Functions and Procedures used in
+these techniques as needed.</p>
+<p>&nbsp;<span style="font-family: Arial; font-size: large;"><a name="install"></a>Installation 
+and Distribution:</span></p>
+<p><span class="style1">Try AVFP at any cheap hosting site that provides Full-Trust.  No COM registration required. </span> <br class="style1">
+<span class="style9" style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">
+ActiveVFP 6.03 - Works on local IIS,<span class="Apple-converted-space">&nbsp;</span></span><a _mce_href="http://www.winhost.com/a/claudefox_l_1" class="style1" href="http://www.winhost.com/a/claudefox_l_1" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank" title="WinHost">WinHost</a><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', 'Microsoft Sans Serif', Arial, Geneva, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">,</span><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="style1">&nbsp;</span></span><a _mce_href="http://www.discountasp.net/a/omqhsd_l_2" class="style1" href="http://www.discountasp.net/a/omqhsd_l_2" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank" title="Discount ASP.NET">Discount 
+ASP.NET</a><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', 'Microsoft Sans Serif', Arial, Geneva, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">,</span><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="style1">&nbsp;</span></span><a _mce_href="http://www.arvixe.com/5013-3-3-3.html" class="style1" href="http://www.arvixe.com/5013-3-3-3.html" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank" title="Arvixe">Arvixe</a><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', 'Microsoft Sans Serif', Arial, Geneva, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">,</span><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="style1">&nbsp;</span></span><a _mce_href="http://members.softsyshosting.com/aff.php?aff=589" class="style1" href="http://members.softsyshosting.com/aff.php?aff=589" rel="nofollow" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank">SoftSys</a><span class="style1" style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">, 
+many others.</span><br class="style1" style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+<span class="style1">ActiveVFP 5.53 -</span><span class="style1" style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="Apple-converted-space"> 
+Works on local IIS,&nbsp;</span></span><a _mce_href="http://affiliate.godaddy.com/redirect/1C988AA57DB3CE2B0A389840E1415344611CFE49FC0CDAEFD3CE6CB8527370EAE5ED3C3C56ED0D4611E66614553C6913F85E23C3BA576CC68F59EBA371253883" class="style1" href="http://affiliate.godaddy.com/redirect/1C988AA57DB3CE2B0A389840E1415344611CFE49FC0CDAEFD3CE6CB8527370EAE5ED3C3C56ED0D4611E66614553C6913F85E23C3BA576CC68F59EBA371253883" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank" title="GoDaddy">GoDaddy</a><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', 'Microsoft Sans Serif', Arial, Geneva, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">,</span><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="style1">&nbsp;</span></span><a _mce_href="http://www.winhost.com/a/claudefox_l_1" class="style1" href="http://www.winhost.com/a/claudefox_l_1" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank" title="WinHost">WinHost</a><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', 'Microsoft Sans Serif', Arial, Geneva, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">,</span><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="style1">&nbsp;</span></span><a _mce_href="http://www.discountasp.net/a/omqhsd_l_2" class="style1" href="http://www.discountasp.net/a/omqhsd_l_2" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank" title="Discount ASP.NET">Discount 
+ASP.NET</a><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', 'Microsoft Sans Serif', Arial, Geneva, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">,</span><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="style1">&nbsp;</span></span><a _mce_href="http://www.arvixe.com/5013-3-3-3.html" class="style1" href="http://www.arvixe.com/5013-3-3-3.html" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank" title="Arvixe">Arvixe</a><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', 'Microsoft Sans Serif', Arial, Geneva, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">,</span><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="style1">&nbsp;</span></span><a _mce_href="http://members.softsyshosting.com/aff.php?aff=589" class="style1" href="http://members.softsyshosting.com/aff.php?aff=589" rel="nofollow" style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);" target="_blank">SoftSys,</a><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;"><span class="style1">&nbsp;</span></span><span class="style1" style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); display: inline !important; float: none;">many 
+others. &nbsp;</span><br class="style1"> <span class="style1">So, for $5/month you can host 
+vfp web apps on a shared web server!!!</span></p>
+<p class="style1"><b>Installing on your own IIS web server:</b></p>
+<p class="style1">1.) IIS 6 (Windows 2003 Server) or higher is supported unless 
+IIS Express is used (which works on Win XP and all Basic and Starter Windows 
+versions).&nbsp;</p>
+<ul>
+<li class="style1">Use ActiveVFP 6.0 for Windows VISTA or above </li>
+<li class="style1">Use ActiveVFP&nbsp; 5.53(for ASP.NET 2.0) for Windows 2003 
+	Server or above </li>
+<li class="style1">Use ActiveVFP&nbsp; 5.53(for ASP.NET 1.1) for GoDaddy (see 
+	separate instructions) </li>
+</ul>
+<p class="style1">2.) Unzip the ActiveVFP 6.0 zip file or the AVFP 5.53 (for 
+ASP.NET 2.0) zip file to its own folder.</p>
+<p class="style1">3.)&nbsp; IIS must be installed.&nbsp; If it's not or you're 
+not sure: From 'Control Panel\Install Programs', choose 'Turn Windows features 
+on or off'. Choose 'Internet Information Services'. Press OK.</p>
+<p class="style1">4.) ASP.NET <i>and</i> ASP<i> </i>must be enabled from 
+Control Panel\Install Programs\Turn Windows Features on.&nbsp; From Control 
+Panel, Expand <b>Internet Information Services</b>, then <b>World 
+Wide Web Services</b>, then <b>Application Development Features</b>.&nbsp; 
+Select <b>ASP.net </b>and<b> ASP </b>and then click <b> OK</b>.</p>
+<p class="style1">5.) If you're running a 64-bit version of Windows you must 
+enable 32 bit apps via IIS Manager (Application Pools/DefaultAppPool/Advanced 
+Settings/Set Enable 32-bit applications to True) or issue the following command 
+from Run or the CMD line(you must <b>Run as Administrator)</b>:&nbsp;</p>
+<p class="style1">%systemroot%\system32\inetsrv\APPCMD set apppool 
+/apppool.name: "DefaultAppPool" /enable32bitapponwin64:true</p>
+<p class="style1">OR</p>
+<p><span id="x_ctl00_ctl00_MasterContent_Content_ReleasePanelOrderingContainer_ReleaseDescriptionLiteral" class="style1"> cscript %SYSTEMDRIVE%\inetpub\adminscripts\adsutil.vbs SET 
+W3SVC/AppPools/Enable32bitAppOnWin64 1</span><span class="style1">&nbsp;</span><br class="style1"> <br class="style1"><span class="style1">6.) In IIS Manager create an Application 
+(Windows 7, Vista, or above)&nbsp; or Virtual Directory (Windows 2003 Server) 
+over the folder by right-clicking Default Web Site and taking the appropriate 
+option.&nbsp; If asked, give Write and Script permissions.&nbsp;&nbsp; </span> <br class="style1"><br class="style1"><span class="style1">7.) Optionally, apply 
+write privileges in IIS Manager to the Data directory and the Temp directory if 
+you intend to update data.</span><br class="style1"><br class="style1"> <span class="style1">
+8.) To test from a web browser: http://localhost/&lt;the virtual 
+directory&gt;/default.aspx (for example, http://localhost/regfreetest/default.aspx) 
+for AVFP version&nbsp; 5.53 or http://localhost/&lt;the virtual directory&gt;/default.avfp 
+for AVFP version 6.0</span></p>
+<p class="style1">9.) To develop a new ActiveVFP web application, just create a 
+file in Notepad or MS Expression saved with an .avfp extension (6.0) or as one 
+of the HTML templates ( 5.53).&nbsp; For example:</p>
+<p><span class="style1">hello world from</span><br class="style1">&nbsp;<span class="style1"><b>&lt;%=version()%&gt;</b></span><br class="style1"> <span class="style1">&lt;%=date()%&gt;</span></p>
+<p class="style1">Save as helloworld.avfp (6.0) and 
+call from any browser:</p>
+<p class="style1"><a href="http://localhost/http/helloworld.avfp"> http://localhost/demo/helloworld.avfp</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+(6.0)</p>
+<p class="style1"><a href="http://localhost/demo/default.aspx?action=helloworld"> http://localhost/demo/default.aspx?action=helloworld</a>&nbsp;&nbsp;&nbsp; 
+( 5.53)</p>
+<p class="style1">&nbsp;NOTE:&nbsp; /prg/main.prg is where pre-processing and post 
+processing occurs.&nbsp; It can optionally be used when needed.</p>
+<p class="style1">10.)&nbsp; See the demo code.</p>
+<p class="style1">&nbsp;</p>
+<p class="style1"><b>Requirements for ActiveVFP 6:</b><br>IIS 7.5, Windows Server 2008 R2 and Windows 7 (Home Premium, Professional, Enterprise and Ultimate editions)or above<br>IIS 7.0, Windows Server 2008 and Windows Vista (Home Premium, Business, Enterprise and Ultimate editions)<br>Use AVFP5.53(for ASP.NET 2.0) for 
+IIS 6<br>IIS Express 7.5 will work with ActiveVFP on Windows XP and Home and 
+Starter Versions of Windows.<br><br>ASP.NET 2.0 or above<br>Integrated pipeline mode(the default mode)<br>Full Trust<br><br><b>ActiveVFP 
+6 Notes:</b><br>Tested successfully on Windows 7 Pro 64-bit(IIS7.5) and <span class="style1">VISTA Home 
+	Premium 32-bit(IIS 7)</span><br>Some cheap web hosts that support Full Trust with ASP.NET 2.0: <a href="https://www.discountasp.net/signup/special/5dollar/" class="externalLink">Discount ASP.NET<span class="externalLinkIcon"></span></a>, <a href="http://www.winhost.com/" class="externalLink">WinHost<span class="externalLinkIcon"></span></a>,<a href="http://www.arvixe.com/asp_net_web_hosting" class="externalLink"> Arvixe<span class="externalLinkIcon"></span></a>&nbsp; (all are <span class="style1">$5/month)</span><br>I couldn't get this version to work with GoDaddy (use AVFP5.53(for ASP.NET 1.1) for GoDaddy).</p>
+<p class="style5"><span style="font-family: Arial;"><b><a name="NETDBF"></a></b> </span>Networked DBFs and SQL setup:</p>
+<p><span style="font-family: Arial;">To access dbf data across the network 
+(not on the local machine) or to use SQL Server, MySQL or other backend, you 
+must use <b>Impersonation</b> of an account that has the proper rights 
+to the network data.&nbsp; </span></p>
+<p><span style="font-family: Arial;">The preferred way to do this is to configure <b> IIS Application Pools in IIS 6 and above </b> to <b>impersonate</b> an account that has the proper rights 
+to the network data (alternatively , COM + could be used for the same purpose).</span></p>
+<p class="style5"><a name="report"></a>Reporting</p>
+<p><span style="font-family: Arial;">Reporting in AVFP or any vfp mtdll is 
+accomplished by putting the SET PRINTER and REPORT FORM statements in a VFP COM 
+EXE, creating that object in your vfp code, and calling the method that does 
+the REPORT FORM from your vfp code.</span></p>
+<p class="style1" style="border-style: none; border-color: inherit; border-width: 0px; margin: 0px 0px 20px; padding: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; font-style: normal; font-variant: normal; font-weight: normal; line-height: 1.462em; color: rgb(37, 51, 64); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-repeat: initial initial;">
+NOTE: The GhostScript &nbsp;file, gsdll32.dll, is now included with AVFP, as is the 
+project source&nbsp; for PDFRun.exe – all in the Reports directory.</p>
+<p class="style1" style="border-style: none; border-color: inherit; border-width: 0px; margin: 0px 0px 20px; padding: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; font-style: normal; font-variant: normal; font-weight: normal; line-height: 1.462em; color: rgb(37, 51, 64); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-repeat: initial initial;">
+<strong>1.)</strong>&nbsp; Register PDFRun.exe &lt;Full path of pdfrun.exe file&gt; 
+/RegServer <span class="style11"><br></span>(e.g. C:\Program 
+Files\dotComSolution\AVFPdemo6\pdfrun.exe /RegServer) <span class="style11"><br>
+</span>OR just compile the PDFRun project<span class="style11"><br><strong>2.)</strong>&nbsp;
+</span>Run DCOMCNFG (For Win 7 or above use mmc comexp.msc /32). Find 
+PDFrun.Print2PDF. Under the Security tab for PDFRun.Print2PDF, add Custom Access 
+and Custom Launch permissions for the IUSR, IWAM, and ASPNET accounts. Under the 
+Identity tab for PDFRun.Print2PDF, make sure the Interactive user is selected.<span class="style11"><br>
+<strong>3.)</strong>&nbsp; </span>Install one of these Printer Drivers from the 
+regular Windows ‘Add Printer’ panel according to OS version:
+<span class="style11"><br></span>Xerox Phaser 6120 PS (Win 7 or above)
+<span class="style11"><br></span>Xerox Phaser 1235 PS (Vista)
+<span class="style11"><br></span>Apple Color LW 12/660 PS (Win 2003 Server)<span class="style11"><br>
+<strong>4.)</strong>&nbsp; </span>In PDF.avfp (or PDF.htm), you'll need to add 
+this property to the oPDF object like:</p>
+<pre class="style10" style="margin: 0px 0px 20px; padding: 0px 0px 18px; border: 0.1em dashed rgb(62, 98, 166) !important; outline: 0px; vertical-align: baseline; background-color: rgb(236, 236, 236); overflow: hidden; white-space: pre-wrap; min-height: 2.3em; color: rgb(37, 51, 64); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 19.016666412353516px; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-repeat: initial initial;">&lt;%
+
+oPDF=CREATEOBJECT(&quot;pdfrun.print2pdf&quot;)
+
+if isnull(oPDF)
+
+       return .f.
+
+endif
+
+oPDF.cPSColorPrinter =&quot;Xerox Phaser 6120 PS&quot;         <strong style="border-style: none; border-color: inherit; border-width: 0px; margin: 0px; padding: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; background-repeat: initial initial;"><span style="border-style: none; border-color: inherit; border-width: 0px; margin: 0px; padding: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; color: rgb(37, 51, 64); background-repeat: initial initial;">&amp;&amp; or whichever driver installed</span></strong>
+
+...
+<br></pre>
+<p><a name="debug"></a></p>
+<p class="style5">Debugging</p>
+<p class="style1">There is a debugger utility in the included Demo app that 
+dumps all the ActiveVFP variables to the bottom of the screen.&nbsp; Just turn 
+it on on the default page (upper right-hand corner) or use this use this url:<br> <a href="http://localhost/5.6test/sessionlist.avfp?debug=on"> http://localhost/6.0test/sessionlist.avfp?debug=on</a><br>and<br> <a href="http://localhost/5.6test/sessionlist.avfp?debug=off"> http://localhost/6.0test/sessionlist.avfp?debug=off</a> to turn it off.<br>You can 
+also always use the handy STRTOFILE command to quickly 
+output variables to a text file for inspection like <br> STRTOFILE(myVar,'c:\temp\myVar.txt') 
+or simply output variables directly to the screen like &lt;%=myVariable%&gt;.</p>
+<p class="style1">For more robust debugging, use Visual Studio and the regular 
+FoxPro debugger as follows (only works for AVFP&nbsp; 5.53):<br>1.) Download the 
+source files from http://activevfp.codeplex.com <br><br>2.) Open Foxpro (Run 
+as Administrator) and cd to <a href="file:///C:/yourdirectory/prg">C:\<i>yourdirectory</i>\prg</a><br> <br>3.) Open Visual Studio (Run as Administrator) <br><br>4.) In Visual Studio, 
+from the File Menu, choose 'Open Web Site' and then 'File System'<br><br>5.) 
+Still in Visual Studio, open the ActiveVFP directory and click on debug.aspx .<br> <br>6.) Press F5 (which is Debug/Start Debugging)<br><br>7.) You should now see 
+the Foxpro debugger window open.<br>Now you can step into Foxpro to examine the 
+inner workings of ActiveVFP!</p>
+<p><a name="scriptmap"></a></p>
+<p class="style5"><br>Changing the extension scriptmap (AVFP6.0 only)</p>
+<p><span class="style1">1.) Rename all files with .avfp to the desired extension:&nbsp; 
+REN *.avfp *.mynewext</span><br class="style1"><br class="style1"> <span class="style1">2.) In Web.Config, find this section:</span><br class="style1"> <span class="style1">&lt;handlers&gt;</span><br class="style1"><span class="style1"> &lt;add verb="*" path="*.avfp"</span><br class="style1"><span class="style1"> name="AVFPHandler"</span><br class="style1"><span class="style1"> type="AVFPHandler"/&gt;</span><br class="style1"><span class="style1">&lt;/handlers&gt;</span><br class="style1"> <br class="style1"><span class="style1">3.) Rename .avfp to .mynewext as 
+follows:</span><br class="style1"><span class="style1">&lt;handlers&gt;</span><br class="style1"> <span class="style1">&lt;add verb="*" path="*.mynewext"</span><br class="style1"> <span class="style1">name="AVFPHandler"</span><br class="style1"> <span class="style1">type="AVFPHandler"/&gt;</span><br class="style1"> <span class="style1">&lt;/handlers&gt;</span><br class="style1"><br class="style1"> <span class="style1">4.) Now find this section:</span><br class="style1"> <span class="style1">&lt;defaultDocument&gt;</span><br class="style1"> <span class="style1">&lt;files&gt; </span><br class="style1"><span class="style1"> &lt;clear/&gt; </span><br class="style1"><span class="style1">&lt;add 
+value="default.avfp" /&gt;</span><br class="style1"><span class="style1">&lt;/files&gt;</span><br class="style1"> <span class="style1">&lt;/defaultDocument&gt;</span><br class="style1"> <br class="style1"><span class="style1">5.) Change to:</span><br class="style1"> <span class="style1">&lt;defaultDocument&gt;</span><br class="style1"> <span class="style1">&lt;files&gt; </span><br class="style1"><span class="style1"> &lt;clear/&gt; </span><br class="style1"><span class="style1">&lt;add 
+value="default.mynewext" /&gt;</span><br class="style1"><span class="style1"> &lt;/files&gt;</span><br class="style1"><span class="style1">&lt;/defaultDocument&gt;</span><br class="style1"> <br class="style1"><span class="style1">6.) Run the Demo starting with 
+Default.mynewext</span><br class="style1"><br><a name="specchar"></a><span class="style5">HTML: Special 
+Characters</span><br class="style1"><br class="style1"><span class="style1">* 
+thanks to "loadingpower"</span><br class="style1"><br class="style1"> <span class="style1">Using certain special characters from some non-English 
+languages may lead to problems. Here's a solution:</span><br class="style1"> <br class="style1"><span class="style1">&lt;head&gt;</span><br class="style1"> <span class="style1">&lt;meta http-equiv="Content-Type" content="text/html; 
+charset=windows-1252"&gt;</span><br class="style1"><span class="style1">&lt;/head&gt;</span><br class="style1"> <br class="style1"><span class="style1">Note that the charset must be the same 
+used on visual foxpro</span><br class="style1"><br class="style1"> <span class="style1">You can check on this way &lt;%= CPCURRENT() %&gt;&lt;br&gt;</span><br class="style1"> <br class="style1"><span class="style1">Using this all special chars will work, 
+case you don't put this metatag, all characters will be passed as iso-8859 and 
+the avfp will receive other chars than the ones you see on the page.</span><br class="style1"> <br class="style1"><span class="style1">Cedilha up &lt;%= 'Ç'+'a' %&gt;&lt;br&gt;</span><br class="style1"> <span class="style1">Cedilha low &lt;%= 'ç' %&gt;&lt;br&gt;</span><br class="style1"> <span class="style1">Code Page &lt;%= CPCURRENT() %&gt;&lt;br&gt;</span><br class="style1"> <span class="style1">Cedilha up &lt;%= ASC('Ç') %&gt;&lt;br&gt;</span><br class="style1"> <span class="style1">Cedilha low &lt;%= ASC('ç') %&gt;&lt;br&gt;</span><br class="style1"> <br class="style1"><br class="style1"><span class="style1">Everthing is solved 
+with the inclusion off the head tag, <br><br><br></span><span class="style5">ActiveVFP Classes, Methods, Properties:</span></p>
+<p><span style="font-family: Arial;"><a name="avfpasync"></a></span><span style="font-family: Arial; font-size: medium;"><b>AVFPasync Class (WebThreads.prg)</b></span><br class="style1"><span style="font-family: Arial;"><a name="createthread"></a>
+Note:&nbsp; WebThreads now uses CreateThreadObject from the vfp2c32.fll library 
+(project is at VFPX).<br>See the included DoCount.prg</span></p>
+<p>--------------------------------------------------</p>
+<p><span style="font-family: Arial;"><b>Properties<br></b>lSilent = .f. 
+(default) .t.= run the thread with no update page, defaults to having an update 
+page<br>nRecExpire = 5400 (default) how long to keep Event records<b>. </b>(An 
+Event table is created in the Temp folder).<b><br><br>CreateThread</b> - Start a thread running in the background and 
+monitor 
+it.<br><i>Syntax:</i><br>oAsync=CREATEOBJECT("ThreadManager")&nbsp; 
+&amp;&amp;create the thread manager<br>cID=oAsync.CreateThread(cProgram)&nbsp; 
+&amp;&amp;start the background thread<br> <i>Parameters:</i><br>&nbsp;cProgram - Whichever program is being launched in a 
+background thread.<br> <i>Returns:</i><br>&nbsp;cID - Unique thread ID to keep track 
+of.<br> <br> <a name="check"></a><b>Check</b> - Check to see if the background thread has finished or not.<br><i>Syntax:</i><br> oAsync.Check(cID)<br> <i>Parameters:</i><br>&nbsp;cID - Unique thread ID to keep track 
+of.<br> <i>Returns:</i><br>&nbsp;.T. if the thread has finished, otherwise .F.<br> <br> <a name="count"></a><b>Count </b>property - holds the current count for the background thread.<br> <i>Syntax:</i><br>oAsync.oEvent.count<br> <br> <b>RecordError</b> method - populate the error properties with error 
+info<br> <i>Syntax:<br> </i>oAsync.RecordError(larr[1],oex.message+[ LineNo: ] + STR(oex.LineNo))<br> <br> <b>Err </b>property - indicates whether an error occured<br> <i>Syntax:</i><br>oAsync.oEvent.err<br> <i>Returns:</i><br>&nbsp;.T. if error was encountered, otherwise .F<br> <br> <b>Err_txt </b>property - last error text <br> <i>Syntax:</i><br>oAsync.oEvent.err_txt<br> <i>Returns:</i><br>&nbsp;The text of the last error message received<br> <br> <a name="returnval"></a><b>ReturnVal </b>property - holds the name returned from the 
+background thread.<br> <i>Syntax:</i><br>oAsync.oEvent.returnval<br> <br><a name="startwebevent"></a><b>StartWebEvent </b>method - Mark the beginning of the background thread.<br> <i>Syntax:</i><br>oAsync.StartWebEvent(cID)<br> <i>Parameters:<br> </i>&nbsp;cID - Unique thread ID to keep track 
+of.<br><i>Returns:</i><br>&nbsp;Nothing.<br> Note: this method is used in the background thread code<br> <br> <a name="completewebevent"></a><b>CompleteWebEvent </b>method - Mark the completion of the background thread.<br> <i>Syntax:</i><br>oAsync.CompleteWebEvent(cID,cFile)<br> <i>Parameters:<br> </i>&nbsp;cID - Unique thread ID to keep track 
+of.<br> &nbsp;cFile - Name of any file that has been produced.<br><i>Returns:</i><br>&nbsp;Nothing.<br> Note: this method is used in the background thread code<br> <br> <a name="statuswebevent"></a><b>StatusWebEvent </b>method - Mark a status point of the background thread.<br> <i>Syntax:</i><br>oAsync.StatusWebEvent(cID,cStatus)<br> <i>Parameters:<br> </i>&nbsp;cID - Unique thread ID to keep track 
+of.<br> &nbsp;cStatus - Status of the background thread.<br><i>Returns:</i><br>&nbsp;Nothing.<br> Note: this method is used in the background thread code</span></p>
+<p class="style1">Other:&nbsp; Launch a thread with no HTML interface:<br>
+oAsync=CREATEOBJECT(&quot;ThreadManager&quot;) &amp;&amp;put your own code to run as a background 
+thread in whatever.prg <br>oAsync.lSilent = .t. &amp;&amp; just run the thread with no 
+update page, defaults to having an update page<br>oAsync.nRecExpire = 600 &amp;&amp; how 
+long to keep Event records<br>cEventID=oAsync.CreateThread(&quot;docount&quot;,&quot;----- 
+Hello! I am running VFP code,----- on a background thread,----- while sending 
+you status updates,...Your form value is: wee 555&quot;)<br></p>
+<p><span style="font-family: Arial;"><a name="avfpcookies"></a></span> <span style="font-size: medium;">AVFPcookie Class</span></p>
+<p><span class="style4">Value</span><span style="font-family: Arial;"> - Get the value of a 
+cookie.<br><i>Syntax:</i><br>(oCookie.value("counter")<i><br>Returns:</i><br>&nbsp;The 
+value of the cookie.<br><i>Parameters:</i><br>&nbsp;cName - Name of the 
+cookie.<br>&nbsp;<br><b>Write</b> - Write a value to a 
+cookie.<br><i>Syntax:</i><br>&nbsp;&nbsp;&nbsp; 
+oCookie.WRITE("counter",VAL(oRequest.cookies("counter"))+1,"January 1, 
+2035")<i><br>Returns:</i><br>&nbsp;&nbsp;&nbsp; 
+Nothing<i><br>Parameters:</i><br>&nbsp;cName - Name of the 
+cookie.<br>&nbsp;cValue - Value for the cookie.<br>&nbsp;cDate - Expiration date 
+for the cookie.<br><i>Note:&nbsp; </i>See the avfpdemo5 project for a complete 
+example<i>.</i></span></p>
+<p><span style="font-family: Arial;"><b>Delete</b> - Delete a 
+cookie.<br><i>Syntax:</i><br>oCookie.DELETE("counter")<i><br>Returns:</i><br>&nbsp;Nothing<i><br>Parameters:</i><br>&nbsp;cName 
+- name of the cookie.<br><i>Note:&nbsp; </i>See the avfpdemo5 project for a 
+complete example<i>.</i></span></p>
+<p><span style="font-family: Arial;"><a name="avfphtml"></a></span> <span style="font-size: medium;">AVFPhtml Class</span></p>
+<p><span style="font-family: Arial;"><b>HtmlTable</b> - Evaluate HTML table(s) in an HTML 
+template using the currently open VFP 
+table.<br><i>Syntax:</i><br>oHTML.&nbsp;HtmlTable(cTableTag,cHTMLTable,nTotPerPage,lPageNumbers,cBar,lTableRec,nStart,cButton)<br><i>Returns:</i><br>&nbsp;String 
+with evaluated table.<br><i>Parameters:</i><br>&nbsp;cTableTag -Name of the HTML 
+table (from &lt;htmltablename&gt; in HTML)<br>&nbsp;cHTMLtable -HTML table text 
+to be evaluated<br>&nbsp;nTotPerPage -Total number of records per 
+page<br>&nbsp;lpagenumbers-Include page numbers (need to include nStart and 
+cButton params)<br>&nbsp;cBar -Alternating color for HTML table records (for 
+example, #FFFFFF for white)<br>&nbsp;lTableRec -Make every record an HTML table 
+(faster writing of HTML tables)<br>&nbsp;nStart -Navigational - Page number to 
+start list from, from URL<br>&nbsp;cButton -Navigational - First, last, next, 
+previous, from URL<br><i>Example:</i><br></span>&nbsp;<span style="font-family: Arial;">lcHTMLout= 
+oHTML.htmlTable('customers',lcHTMLout,5,.F.,'#E5E5E5',.F.,0,'')<br><a name="examples"><br></a><b>MergeText</b> -Evaluate any variable or VFP expression 
+in any text that are contained within &lt;%= and 
+%&gt;<br><i>Syntax:&nbsp;</i><br>&nbsp;oHTML.MergeText(cStr)<br><i>Returns:</i><br>&nbsp;String 
+with evaluated variables and expressions.<br><i>Parameters:</i><br>&nbsp;cStr - 
+any character string having the delimeters &lt;%= %&gt; embedded within 
+it.<br><i>Example:</i><br>&nbsp;lcHTMLout= oHTML.mergetext(lcHTMLout)</span></p>
+<p><span style="font-family: Arial;"><a name="mergescript"></a><b>MergeScript</b> -Evaluate any 
+block of codes and expressions in any text that are contained within &lt;% and 
+%&gt; (code blocks) and &lt;%= and %&gt; 
+(expressions)<br><i>Example:&nbsp;</i><br>&nbsp;lcHTMLfile = 
+'vfpscript.htm'<br>&nbsp;lcHTMLout= 
+FILETOSTR(oProp.HtmlPath+lcHTMLfile)<br>&nbsp;lcHTMLout= 
+oHTML.mergescript(lcHTMLout) &amp;&amp; app logic is in HTML vfp 
+script<br><i>Returns:</i><br>&nbsp;String with evaluated variables and 
+expressions.<br><i>Parameters:</i><br>&nbsp;cStr - any character string having 
+the delimeters &lt;%= %&gt; and &lt;% and %&gt; (code blocks) embedded within 
+it.<br><i>Note:</i> Uses CodeBlock by Randy Pearson, Public Domain 
+software:&nbsp; http://www.cycla.com/software/codeblock.htm.</span></p>
+<p><span style="font-family: Arial;"><b>HtmlDropdown</b> - create an HTML dropdown list from the 
+currently open 
+table.<br><i>Syntax:</i><br>&nbsp;oHTML.HtmlDropDown(cKeyValue,cDisplay,cFormVar,cFirstItem,cSelectedVal,lComplete)<br><i>Returns:</i><br>&nbsp;String 
+with HTML dropdown list containing the records of the open 
+table.<br><i>Parameters:</i><br>&nbsp;cKeyValue - value that is passed when the 
+record is chosen.&nbsp; For example, a product code.&nbsp;<br>&nbsp;cDisplay - 
+value that is displayed in the dropdown list<br>&nbsp;cFormVar - name of the 
+dropdown variable that is passed when the form is submitted<br>&nbsp;cFirstItem 
+-&nbsp;first item that is seen.&nbsp; For example, 'Select a 
+State'.<br>&nbsp;cSelectedVal -&nbsp;name of variable that matches key value and 
+will be the selected value&nbsp;<br>&nbsp;lComplete -&nbsp;if true, include the 
+&lt;select&gt; &lt;/select&gt; tags, otherwise do 
+not.&nbsp;<br><i>Example:</i><br>&nbsp;oSession.VALUE("cStates",oHTML.HTMLdropDown('tCursor.stateid',;<br>&nbsp;'tCursor.statename','region','Select 
+State/Region',oSession.VALUE("region"),.F.))</span></p>
+<p><span style="font-family: Arial;"><b>GetString</b> - extract a string that exists between any 
+two delimiters&nbsp;<br><i>Syntax</i><br>&nbsp; 
+oHTML.GetString(cStr,cDelim1,cDelim2)<br><i>Returns:</i><br>&nbsp;String with 
+that was between the delimiters.<br><i>Parameters:</i><br>&nbsp;cStr - string 
+containing delimiters that were passed<br>&nbsp;cDelim1 - the first 
+delimiter<br>&nbsp;cDelim2 - the second 
+delimiter.<br><i>Example:</i><br>&nbsp;lcStr=oHTML.GetString(lcHTML,'&lt;','&gt;')</span></p>
+<p><span style="font-family: Arial;"><b>DumpVars</b> - create a listing of all available 
+intrinsic and 
+AVFP 
+variables.<br><i>Syntax:</i><br>&nbsp;oHTML.DumpVars()<br><i>Returns:</i><br>&nbsp;String 
+with listing of all 
+variables.<br><i>Parameters:</i><br>&nbsp;None<br><i>Example:</i><br>&nbsp;oSession.VALUE("cASPvars")=oHTML.DumpVars()&nbsp;</span></p>
+<p><span style="font-family: Arial;"><a name="avfphttpupload"></a></span> <span style="font-size: medium;">AVFPhttpupload Class</span></p>
+<p><span style="font-family: Arial;"><b>HttpUpload</b> - do RFC1867 file upload(s) from an HTML 
+form.&nbsp;&nbsp;<br><i>Syntax:</i><br>&nbsp;oUpload.Save(cDir)<br><i>Returns:</i><br>&nbsp;number 
+of files successfully uploaded.<br><i>Parameters:</i><br>&nbsp;cDir - directory 
+to save files to.<br><i>Example:</i><br>&nbsp;lnFiles = 
+oUpload.Save('c:\temp')&nbsp;<br>&nbsp;&nbsp;&nbsp; <i>Additional methods 
+related to HttpUpload:</i></span></p>
+<blockquote>
+<p class="style1">setchunksize - Set the chunk file transfer size property. 
+  Experimental - default (65000) seems to work best. Use before calling the save 
+  method.</p>
+<p class="style1">setcpusleep - Set the cpu sleep number property. 
+  Experimental - default (0) seems to work best. Use before calling the save 
+  method.</p>
+<p><span style="font-family: Arial;">setmaxsize - Set the maximum file transfer size property. 
+  Use this method to limit the size of files uploaded from clients.&nbsp; Use 
+  before calling the save method.<br>oUpload.setmaxsize(5000000)</span></p>
+<p class="style1">getelapsedtime - Get the elapsed time of the file 
+  transfer.</p>
+<p class="style1">getfileex - Get the file extension of the uploaded 
+  file.</p>
+<p class="style1">getfilename - Get the name of the uploaded 
+file.</p>
+<p class="style1">&nbsp;&nbsp;&nbsp; oUpload.getfilename('FILE1')</p>
+<p><span class="style1">&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial;"> Pass the name of the file variable from 
+  the HTML form.<br>&nbsp;&nbsp;&nbsp; Returns the file name and extension of 
+  the uploaded file.</span></p>
+<p class="style1">getfileorig - Get the name of the original file uploaded 
+  as named on the client pc.</p>
+<p class="style1">getfilesize - Get the size of the uploaded 
+file.</p>
+<p class="style1">getfilestem - Get the file stem of the uploaded 
+  file.</p>
+<p><span style="font-family: Arial;">getmform<b> </b>- Get a multipart form value. </span></p>
+<p><span style="font-family: Arial;">getpercent<b> </b>-&nbsp; Get what the current percentage 
+  of the upload has been done.</span></p>
+<p class="style1">getpid - Get a unique id to be used with the progress 
+  indicator feature.</p>
+<p class="style1">gettotal - Get the total bytes transferred as reported by 
+  the multipart form..</p>
+<p class="style1">gettransfered - Get the total actually transferred from 
+  the upload process.</p>
+</blockquote>
+<p><span style="font-family: Arial;"><a name="avfppdf"></a></span> <span style="font-size: medium;">AVFPpdf Class</span></p>
+<p class="style4">INSTRUCTIONS:</p>
+<p class="style1" style="border-style: none; border-color: inherit; border-width: 0px; margin: 0px 0px 20px; padding: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; font-style: normal; font-variant: normal; font-weight: normal; line-height: 1.462em; color: rgb(37, 51, 64); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-repeat: initial initial;">
+NOTE: The GhostScript &nbsp;file, gsdll32.dll, is now included with AVFP, as is the 
+project source&nbsp; for PDFRun.exe – all in the Reports directory.</p>
+<p class="style1" style="border-style: none; border-color: inherit; border-width: 0px; margin: 0px 0px 20px; padding: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; font-style: normal; font-variant: normal; font-weight: normal; line-height: 1.462em; color: rgb(37, 51, 64); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-repeat: initial initial;">
+<strong>1.)</strong>&nbsp; Register PDFRun.exe &lt;Full path of pdfrun.exe file&gt; 
+/RegServer <span class="style11"><br></span>(e.g. C:\Program 
+Files\dotComSolution\AVFPdemo6\pdfrun.exe /RegServer) <span class="style11"><br>
+</span>OR just compile the PDFRun project<span class="style11"><br><strong>2.)</strong>&nbsp;
+</span>Run DCOMCNFG (For Win 7 or above use mmc comexp.msc /32). Find 
+PDFrun.Print2PDF. Under the Security tab for PDFRun.Print2PDF, add Custom Access 
+and Custom Launch permissions for the IUSR, IWAM, and ASPNET accounts. Under the 
+Identity tab for PDFRun.Print2PDF, make sure the Interactive user is selected.<span class="style11"><br>
+<strong>3.)</strong>&nbsp; </span>Install one of these Printer Drivers from the 
+regular Windows ‘Add Printer’ panel according to OS version:
+<span class="style11"><br></span>Xerox Phaser 6120 PS (Win 7 or above)
+<span class="style11"><br></span>Xerox Phaser 1235 PS (Vista)
+<span class="style11"><br></span>Apple Color LW 12/660 PS (Win 2003 Server)<span class="style11"><br>
+<strong>4.)</strong>&nbsp; </span>In PDF.avfp (or PDF.htm), you'll need to add 
+this property to the oPDF object like:</p>
+<pre class="style10" style="margin: 0px 0px 20px; padding: 0px 0px 18px; border: 0.1em dashed rgb(62, 98, 166) !important; outline: 0px; vertical-align: baseline; background-color: rgb(236, 236, 236); overflow: hidden; white-space: pre-wrap; min-height: 2.3em; color: rgb(37, 51, 64); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 19.016666412353516px; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-repeat: initial initial;">&lt;%
+
+oPDF=CREATEOBJECT(&quot;pdfrun.print2pdf&quot;)
+
+if isnull(oPDF)
+
+       return .f.
+
+endif
+
+oPDF.cPSColorPrinter =&quot;Xerox Phaser 6120 PS&quot;         <strong style="border-style: none; border-color: inherit; border-width: 0px; margin: 0px; padding: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; background-repeat: initial initial;"><span style="border-style: none; border-color: inherit; border-width: 0px; margin: 0px; padding: 0px; outline: 0px; vertical-align: baseline; background-color: transparent; color: rgb(37, 51, 64); background-repeat: initial initial;">&amp;&amp; or whichever driver installed</span></strong>
+
+...
+<br></pre>
+<p><span class="style1"><strong>Method<br>Start</strong></span><span style="font-family: Arial;"> - Output a VFP report to PDF using 
+GhostScript.<br><i>Syntax:</i><br>oPDF=CREATEOBJECT("PDFrun.Print2PDF")&nbsp; 
+&amp;&amp; Create the EXE 
+server<br>oPDF.start(lcFile,NVL(oRequest.Form("Company"),""))<i><br>Returns:</i><br>&nbsp;A 
+PDF version of the VFP report suitable for displaying on the 
+web.<br><i>Parameters:</i><br>&nbsp;cFile - Full path to the VFP 
+report.<br>&nbsp;cQuery - Optional parameter to extract specific 
+data.<br></span></p>
+<p><span style="font-family: Arial;"><a name="avfproperties"></a></span> 
+<span style="font-size: medium;" class="style1"><strong>AVFPproperties Class</strong></span></p>
+<p><span style="font-family: Arial;">Save values to this object to be used throughout the entire 
+application.<br><i>Example:</i><br>* process the request from the 
+URL<br>oProp.Action=oRequest.querystring("action")</span></p>
+<p><span class="style4">Action</span><span class="style1"> - Store the value from 
+the 'action=' on the query string.</span></p>
+<p><span class="style4">AppName</span><span class="style1"> - Store the 
+application's name like 'avfpdemo5'.</span></p>
+<p><span style="font-family: Arial;"><b>AppStartPath</b> - Store the full path of where the 
+application started.</span></p>
+<p><span style="font-family: Arial;"><b>HTMLpath</b> - Store the full path of where the HTML 
+files for the app can be found..</span></p>
+<p><span style="font-family: Arial;"><b>ScriptPath</b> - Store the URL for the application such 
+as 'http://localhost/avfpdemo5'.</span></p>
+<p><span style="font-family: Arial;"><b>SessID</b> - Store the value from the 'sid=' on the query 
+string.</span></p>
+<p><span style="font-family: Arial;"><a name="avfprequest"></a></span><span style="font-family: Arial; font-size: medium;"><b>AVFPrequest Class<br></b></span> <span class="style1">This class is based 
+on the Request object.&nbsp; Here are some of it's methods:</span></p>
+<p><span style="font-family: Arial;">QueryString - obtain a value from the 
+URL.<br>oProp.Action=oRequest.querystring("action")</span></p>
+<p><span style="font-family: Arial;">Form - obtain a value from the HTML form.<br>IF 
+!EMPTY(oRequest.FORM("txtMailFrom"))</span></p>
+<p><span style="font-family: Arial;">Servervariables - obtain one of the Server variables passed 
+on every request.&nbsp; Run oHTML.DumpVars() to get a complete 
+listing.<br>oProp.ScriptPath=oRequest.servervariables("SCRIPT_NAME")</span></p>
+<p><span style="font-family: Arial;">Cookies - obtain a value from a cookie<br>IF 
+EMPTY(oRequest.cookies("ActiveVFP"))</span></p>
+<p><span style="font-family: Arial;"><a name="avfpresponse"></a></span><span style="font-family: Arial; font-size: medium;"><b>AVFPresponse Class<br></b></span> <span class="style1">This class is based 
+on the Response object.&nbsp; Here are some of it's methods:</span></p>
+<p><span style="font-family: Arial;">Redirect - go to a different 
+URL<br>oResponse.Redirect(lcNewPath)</span></p>
+<p><span style="font-family: Arial;">Authenticate - pop up an authentication box so a user can 
+login using NT or Win2K accounts.&nbsp; Once properly authenticated, there will 
+be a value in orequest.servervariables("AUTH_USER") that you can check on 
+subsequent hits to decide whether to allow access or not.<br>oResponse.Buffer = 
+.T.<br>oResponse.Clear<br>oResponse.Status = "401 
+Unauthorized"<br>oResponse.AddHeader("WWW-Authenticate","BASIC")<br>oResponse.End</span></p>
+<p><span style="font-family: Arial;"><a name="avfpsession"></a></span><span style="font-family: Arial; font-size: medium;"><b>AVFPsession Class<br></b></span> <span class="style1">This wrapper class is 
+based on the Session object. </span></p>
+<p><span style="font-family: Arial;"><b>Value</b> - use the Session 
+object<br><i>Syntax:&nbsp;</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;oSession.Value(cVariable,Value)<br><i>Returns:</i><br>&nbsp;If 
+only the Variable name is passed, the Value that was stored is returned, 
+otherwise the second value that's passed is 
+stored.<br><i>Parameters:</i><br>cVariable - any variable<br>Value - any 
+value<br><i>Example:</i><br>&nbsp;ldDate=oSession.Value("Date")&nbsp; &amp;&amp; 
+retrieve<br>oSession.Value("Date", DateTime())&nbsp; &amp;&amp; set</span></p>
+<p><span style="font-family: Arial;"><a name="avfpsessiontable"></a></span> <span style="font-size: medium;">AVFPsessiontable Class</span></p>
+<p><span style="font-family: Arial;"><b>Value</b> - mimic the Session object, but, use a DBF 
+for 
+storage<br><i>Syntax:&nbsp;</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;oSessionTable.Value(cVariable,Value)<br><i>Returns:</i><br>&nbsp;If 
+only the Variable name is passed, the Value that was stored is returned, 
+otherwise the second value that's passed is 
+stored.<br><i>Parameters:</i><br>cVariable - any variable<br>Value - any 
+value<br><i>Example:</i><br>&nbsp;ldDate=oSessionTable.Value("Date")&nbsp; 
+&amp;&amp; retrieve<br>oSessionTable.Value("Date", DateTime())&nbsp; &amp;&amp; 
+set<br><i>Note:</i><br>&nbsp;Useful to overcome limitations of regular sessions 
+that use cookies.&nbsp; If you encounter any problems with AVFPsessiontable, you may 
+want to use the AVFPsession class which is just a wrapper for the regular 
+version.&nbsp; </span></p>
+<p><span style="font-family: Arial;"><b>SetSessPersist</b> - set how long table sessions will 
+remain on 
+disk.<br><i>Syntax:&nbsp;</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;oSessionTable.SetSessPersist(nLength)<br><i>Returns:</i><br>&nbsp;Nothing<br><i>Parameters:</i><br>&nbsp;nLength 
+- number of seconds that sessions should 
+persist<br><i>Example:</i><br>&nbsp;oSessionTable.SetSessPersist(86400)&nbsp; 
+&amp;&amp; 1 day (default)<br><i>Note:</i><br>&nbsp;For busy sites that use the 
+Value method extensively, you probably want to have a lower timeout value.&nbsp; 
+For example, oSessionTable.SetSessPersist(5400) &amp;&amp; 90 minutes.&nbsp; 
+Issue this method before Value.&nbsp;&nbsp;</span></p>
+<p><span style="font-family: Arial;"><a name="avfpsql"></a></span> <span style="font-size: medium;">AVFPsql Class</span></p>
+<p><span class="style4">cSQLCursor</span><span style="font-family: Arial;"> - Property 
+contining the name of the local cursor.<br><b>Login - </b><br><i>Parameters:</i><br>&nbsp;cLoginStr - The string containing 
+authorization to access the SQL database&nbsp;<b><br>Execute - </b><br><i>Parameters:</i><br>&nbsp;cSQL - The Sql Server SQL 
+statement.<br><i>Example:<br></i>oSQL = 
+CREATEOBJECT("AVFPsql")<br>lcLast=NVL(oRequest.Form("lastname"),"")<br>oSQL.LogIn(['server=AMW\NetSDK;driver={SQL 
+Server};database=pubs;Trusted_Connection=Yes']) &amp;&amp; or connect string 
+['pubs','sa']<br>oSQL.cSQLCursor = "tCursor"<br>oSQL.Execute([SELECT Au_fname as 
+First,Au_lname as Last,City,Contract ]+;<br>[ FROM Authors ]+;<br>[ WHERE 
+au_lname like '] +lcLast +[%' order by au_lname] )<br>&nbsp;</span></p>
+<p class="style5">Other Tools:</p>
+<p><span style="font-family: Arial;"><b><a name="cdonts"></a></b><a name="gettransfered">SMTP E-Mail 
+with </a>CDO<br>Send SMTP E-mail using the built-in CDOSYS.dll.&nbsp; Requires an available SMTP server that you're authorized to 
+use or that the Microsoft IIS SMTP service be installed and running.&nbsp;  See the included 
+avfpdemo5 project 
+for a complete example.</span></p>
+<p><span style="font-family: Arial;"><b><a name="owc"></a></b><a name="gettransfered">Charts and 
+Graphs with </a>OWC (Office Web Components)<br>Create dynamic graphs and charts 
+with the free Office Web Components.&nbsp; OWC is included with Microsoft Office 
+and FrontPage.&nbsp; You can also obtain it for free from this link: <a href="http://office.microsoft.com/downloads/2002/owc10.aspx">http://office.microsoft.com/downloads/2002/owc10.aspx</a> . This is a high performance way to create charts form a variety of 
+sources.&nbsp; See the included avfpdemo5 project for an example.&nbsp; </span></p>
+<p><span style="font-family: Arial;"><b><a name="ftp"></a></b>FTP and other Internet 
+functions<br>See <a style="COLOR: blue; TEXT-DECORATION: none" href="http://www.news2news.com/vfp?group=92&=0">Using Win32 functions in 
+Visual FoxPro</a> and<br>this free
+<a href="http://gorila.netlab.cz/_ftpc20.html">FTP 
+class</a> .</span></p>
+<p><span style="font-family: Arial;"><b><a name="fulltext"></a></b>Full-text searching and indexing<br> Check out
+<a href="http://www.foxweb.com/fwFullText/">this class</a>.</span></p>
+<p><span style="font-family: Arial;"><b><a name="timer"></a></b>Timer that works in a VFP mtdll
+(thanks to turiya36)<br> 1) go get this .ZIP file from here: <br> <a href="http://download.com.com/3000-2401-889219.html?tag=lst-0-1"> http://download.com.com/3000-2401-889219.html?tag=lst-0-1</a><br> 2) unzip the .EXE and regsvr32 the associated .DLL <br> regsvr32.exe ccrpTmr.dll<br> 3) Build the following code as a MTDLL:<br> DEFINE CLASS TimerTest AS CUSTOM OLEPUBLIC<br> &nbsp;&nbsp;&nbsp;&nbsp; oTimerControl = .NULL.<br> &nbsp;&nbsp;&nbsp;&nbsp; oTimerEventHandler = .NULL.<br> &nbsp;&nbsp;&nbsp;&nbsp; PROCEDURE INIT<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** Create the timer object<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THIS.oTimerControl = CREATEOBJECT( "ccrpTimers.ccrpTimer" )<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** Create the event handler<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THIS.oTimerEventHandler = CREATEOBJECT( "TimerEventHandler" )<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** Attach the eventhandler to the timer control<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EVENTHANDLER( THIS.oTimerControl, THIS.oTimerEventHandler )<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** Set the timer properties<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** As soon as your set enabled to .T., the timer will begin 
+functioning<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** Event type, 0 - one shot timer event, 1 - Periodic timer events<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THIS.oTimerControl.EventType = 1<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THIS.oTimerControl.INTERVAL = 1000<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THIS.oTimerControl.ENABLED = .T.<br> &nbsp;&nbsp;&nbsp;&nbsp; ENDPROC<br> ENDDEFINE<br> ** Replace the path in the IMPLEMENTS line with the path where you&nbsp; installed 
+ccrptmr.dll<br> DEFINE CLASS TimerEventHandler AS SESSION<br> &nbsp;&nbsp;&nbsp;&nbsp; IMPLEMENTS __ccrpTimer IN "c:\ccrp\ccrptmr.dll"<br> &nbsp;&nbsp;&nbsp;&nbsp; PROCEDURE __ccrpTimer_Timer( Milliseconds AS NUMBER ) AS VOID ;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HELPSTRING "Event that fires whenever [Interval] milliseconds 
+elapses."<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** Your timer event code goes here<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IF !DIRECTORY( "c:\temp\" )<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MD c:\temp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENDIF<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =STRTOFILE( "", "c:\temp\" + ALLTRIM( STR( SECONDS(), 12, 2 )) + 
+".txt" )<br> &nbsp;&nbsp;&nbsp;&nbsp; ENDPROC<br> ENDDEFINE<br> 4) Instantiate the class:<br> oCom = CREATEOBJECT( "TimerTest.TimerTest" )<br> That's it!&nbsp; Your timer events will now function correctly in a VFP MTDLL.&nbsp; <br> One final thing to remember.&nbsp; Before you release the object (in the case of 
+above, oCom) you must set the enabled property of the timer control to .F. like 
+this:<br> oCom.oTimerControl.Enabled = .F.<br> Otherwise VFP will crash with a C00005 error.<br> </span></p>
+<p><span style="font-family: Arial;"> <br> <span class="style7">A Note of 
+Thanks</span></span><span style="font-size: large;">:</span></p>
+<p><span style="font-family: Arial;">ActiveVFP has <i>always</i> been a 
+community effort.<br>Thanks to the following FoxPro giants for code and/or ideas 
+that has made AVFP what it is today:<br><br>Calvin Hsia<br>Brian Marquis<br> Pandelis Tiritas<br>Rick Strahl<br>Craig Boyd<br>Randy Pearson <br>Maurice De 
+Beijer<br>Paul James<br>Ed Rauh<br>Victor Espina<br>Christian Ehlscheid<br><br>If you examine the source code for 
+ActiveVFP or visit <a href="http://activevfp.codeplex.com/"> http://activevfp.codeplex.com</a> you're bound to come across some of their code 
+or influences. </span></p>
+<p><span style="font-family: Arial;"> <br> <a name="donations"></a> </span> <span style="font-size: large;">Donations:</span><span style="font-family: Arial;"><br> <br> Donations are accepted. <br> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LASP8A3ETDEJN">Click here to donate to help support ActiveVFP and Open Source VFP 
+projects.</a><br> <br> <br> Thank you for your support!<br> &nbsp;</span></p>
+<p><span style="color: #000000; font-size: xx-small;"> Copyright </span>©<span style="color: #000000; font-size: xx-small;"> 2013 theTechConsult.com<a href="http://activevfp.codeplex.com/">.</a>&nbsp; All Rights 
+Reserved.<b>&nbsp;</b></span></p>
+<center> </center>
+</body></html>

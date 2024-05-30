@@ -1,0 +1,107 @@
+<div class="pk_exams_div" id="ldo-napr-tab">
+    <div style="height:550px">
+        <div id="ibRisOrders" class="pk-grid"
+             data-role="grid"
+             data-sortable="false"
+             data-pageable="true"
+             data-filterable="false"
+             data-auto-bind="false"
+             data-resizable="true"
+             data-selectable="false"
+             data-height="100%"
+             data-toolbar='[ { template: kendo.template($("#toolbar-ib-ris_orders").html()) } ]'
+             data-columns='[
+                {field: "ask_id", title: "ask_id",hidden: true },
+                { field: "plandatetime", title: "Д/план", width: "13%", format: "{0:dd.MM.yy HH:mm}"},
+                { field: "datetime", title: "Д/исслед", width: "13%", format: "{0:dd.MM.yy HH:mm}"},
+                { field: "user_name", title: "Направитель", width: "15%"},
+                { field: "name_issl", title: "Исследование",
+                    template:kendo.template($("#ris-issl-name-template").html())},
+                { field: "comment", title: "Цель исследования",
+                    template:kendo.template($("#ris-comment-template").html())},
+                { field: "status", title: "Статус",  width: "15%",
+                    template: kendo.template($("#ris-status-template").html()) },
+				{ field: "del_order", title: "",  width: "4%",
+                    template: kendo.template($("#ris-delete-template").html()) }
+                ]'
+             data-bind="source:gridDs"
+
+        ></div>  <!-- kendo grid -->
+    </div>
+
+    <script type="text/x-kendo-template" id="toolbar-ib-ris_orders">
+        <div>
+            <div class="toolbar">
+            <span class="pull-left">
+                <p><strong>Направления в RIS <span style="font-size:smaller">
+                    &nbsp;(радиологическая информационная система)</span></strong>
+                </p>
+             </span>
+                <div class="form-inline toolbar pull-left" id="GridRisToolbar">
+                    &nbsp;
+                    <span>
+                    <button class="k-button" data-bind="events:{click:doNaprLdo},visible:isNaprLdoVisible"
+                            title="Создать новое направление">
+                        <img src="html/images/xray-human.png">
+                        &nbsp;Новое направление
+                    </button>
+                </span>
+                    &nbsp;
+                    <span class="pull-right">
+                    <button rel="tooltip" title="Обновить" id="btnRefreshRis" class="k-button" title="Обновить список направлений"
+                            type="button" data-bind="events:{click: ibRisQuery}" style="height:33px;"
+                    ><i class="icon-refresh"></i></button>
+                </span>
+                </div>
+            </div>
+        </div>
+    </script>
+
+	<script type="text/x-kendo-template" id="ris-delete-template">
+		# if (status==1) { #
+		 <button data-bind="click:cancelNaprLdo" title="Удалить"><i class="fa fa-times" ></i></button>
+		# } #
+	</script>
+    <script type="text/x-kendo-template" id="ris-status-template">
+        # if (status==0) { #
+            Создано
+        # } #
+        # if (status==1) { #
+            Отправлено в RIS
+        # } #
+        # if (status==11) { #
+            Обновлено лаборантом
+        # } #
+        # if (status==12) { #
+        <a href="https://pgb2.ris-x.com:443/share/image/#=idpacs#/?popup=1" target="_blank"
+           title="Показать исследование в RIS">
+            <strong>Выполнено в RIS</strong></a>
+        # } #
+        # if (status==2) { #
+        <a href="https://pgb2.ris-x.com:443/share/image/#=idpacs#/?popup=1" target="_blank"
+           title="Показать исследование в RIS">
+            <strong>Описано в RIS</strong></a>
+        # } #
+		# if (status==31) { #
+		В процессе отмены
+		# } #
+        # if (status==3) { #
+            Отменено
+        # } #
+        # if (status==4) { #
+            Ошибка отправки
+        # } #
+    </script>
+    <script type="text/x-kendo-template" id="ris-comment-template">
+        <div style="font-size:smaller;">
+            <div>#=reason || ""#</div>
+            <!-- <div><em>#=comment || ""#&nbsp;</em></div> -->
+        </div>
+    </script>
+    <script type="text/x-kendo-template" id="ris-issl-name-template">
+        <div style="font-size:smaller;">
+            <div>#=service# #=name_issl#</div>
+        </div>
+    </script>
+
+</div>

@@ -1,0 +1,266 @@
+<%
+LOCAL AjaxResponse,lcAction
+*IF !(oSession.VALUE("authenticated"))
+IF .F.
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+	DO CASE
+	    CASE lcAction=='include_to_ib'
+	        lcAct=oRequest.QueryString("action3")
+	        lcAskId=oRequest.QueryString("ask_id")
+	        lcAnalId=oRequest.QueryString("anal_id")
+            oLab=NEWOBJECT("LAB","Lab.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+       		oJSON.AppendBlank=.F.
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+       		IF lcAct=="get"
+       		    lnRet=oLab.GetIncluded(lcAskId,lcAnalId)
+       		ENDIF
+       		IF lcAct=="set"
+       		    nIncl=VAL(oRequest.QueryString("included"))
+       		    lnRet=oLab.SetIncluded(lcAskId,lcAnalId,nIncl)
+       		ENDIF
+   		    oLab=NULL
+   		    CLEAR CLASS lab
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('labi')
+                oJSON.keyforcursors='labi'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('labi'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='list'
+	        lcAskId=oRequest.QueryString("ask_id")
+        	lcData1=oRequest.QueryString("d1")
+        	lcData2=NVL(oRequest.QueryString("d2"),"")
+          	sFio=NVL(oRequest.QueryString("fio"),"")
+            sSex=NVL(oRequest.QueryString("sex"),"")
+            sBirt=NVL(oRequest.QueryString("birt"),"")
+
+            oLab=NEWOBJECT("LAB","Lab.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+       		oJSON.AppendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    IF !EMPTY(lcData2)
+   		        ldData2=STOD(lcData2)
+   		    ELSE
+   		        ldData2=DATE()
+   		    ENDIF
+            IF EMPTY(sBirt) OR EMPTY(sSex)
+   		        lnRet=oLab.GetAnalList(lcAskId,STOD(lcData1),ldData2)
+   		    ELSE
+   		        lnRet=oLab.GetAnalList(lcAskId,STOD(lcData1),ldData2,"",sFio,sBirt,sSex)
+   		    ENDIF
+   		    oLab=NULL
+   		    CLEAR CLASS lab
+   		    IF lnRet!=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        SELECT *,0 AS IS_NEW,SPACE(20) AS LASt_VIEW FROM LABDATA ORDER BY DATA_A DESC, TIME DESC INTO CURSOR anlist READWRITE
+                oIb=NEWOBJECT("IB","IB.prg")
+   		        =oIb.CreateIbIssl(1,"anlist")   && запись всех id исследований (для возможности "Новое")
+   		        oIb=NULL
+   		        CLEAR CLASS IB
+                AjaxResponse.records=RECCOUNT('anlist')
+                oJSON.keyforcursors='anlist'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('anlist'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+        CASE lcAction=='make_lab_report'
+  	        lcAskId=oRequest.QueryString("ask_id")
+          	lcData1=oRequest.QueryString("d1")
+        	lcData2=NVL(oRequest.QueryString("d2"),"")
+			
+          	lcBnName=oRequest.QueryString("bm_name")
+
+          	nNiib=oRequest.QueryString("niib")
+          	sFio=oRequest.QueryString("fio")
+          	sOtd1=oRequest.QueryString("otd1")
+            nPalata=oRequest.QueryString("palata")
+            sSex=NVL(oRequest.QueryString("sex"),"")
+            sBirt=NVL(oRequest.QueryString("birt"),"")
+
+            sPrefix=[<div class="lab-pac-header"><table width="100%"></tr><td width="90% align="left">]
+            sPrefix=sPrefix+sFio+ [ (№ ] +nNiib+ [, ]+ sOtd1+ [ / ] +nPalata+ [)</td>]
+*            sPrefix=sPrefix+[<td width="50%" align="right">]+sOtd1+" / "+nPalata+[</td>]
+            sPrefix=sPrefix+[<td></td></tr></table></div>]
+
+            oLab=NEWOBJECT("LAB","Lab.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+            oLab.retCursor="AnList"
+   		    IF !EMPTY(lcData2)
+   		        ldData2=STOD(lcData2)
+				IF LEN(lcAskId)==26
+					ldData2 = ldData2 + 10
+				ENDIF
+   		    ELSE
+   		        ldData2=DATE()
+   		    ENDIF
+            IF EMPTY(sBirt) OR EMPTY(sSex)
+   		        lnRet=oLab.GetAnalList(lcAskId,STOD(lcData1),ldData2)
+   		    ELSE
+   		        lnRet=oLab.GetAnalList(lcAskId,STOD(lcData1),ldData2,"",sFio,sBirt,sSex)
+   		    ENDIF
+
+    	    IF lnRet!=0
+   	            oLab=NULL
+   	            CLEAR CLASS LAB
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+				SELECT AnList
+				sIdsCovid=""
+				SCAN
+					IF LEFT(IdDOC,1)=="*"
+						sIdsCovid=sIdsCovid+ALLTRIM(SUBSTR(IdDoc,2))+","
+					ENDIF
+				ENDSCAN
+				IF LEN(sIdsCovid)>0
+					sIdsCovid=LEFT(sIdsCovid,LEN(sIdsCovid)-1)
+				ENDIF
+				SELECT AnLIST
+				DELETE FOR LEFT(IdDOC,1)=="*"
+                oCol=oLab.GetDynam('AnList')
+				SELECT AnLIST
+				RECALL FOR LEFT(IdDOC,1)=="*"				                
+                oJson.AppendBlank=.F.
+                oJSON.keyForCursors="anlist"
+                sDynamJSON=oJSON.stringify('anList')
+                sHtml=olab.DynamToHtml(oCol,"",.F.,sPrefix)
+                IF .F.
+                    oUtil=NEWOBJECT('AVFPutilities')
+                    * files older than 20 Minutes(1200 ms.), erase.  3rd param is path - can be hardcoded
+                    TRY
+                        oUtil.DeleteFiles('html',1200,oProp.AppStartPath+[Temp\])
+                    CATCH
+                    ENDTRY
+                    oUtil=NULL
+                ENDIF
+                lcPhysicalPath=oProp.AppStartPath+[Temp\]
+                lcLogicalPath=[http://]+oRequest.ServerVariables("HTTP_HOST") +JustPath(oRequest.ServerVariables("URL"))+[/Temp/]
+                sTmpFile=SYS(2015)+".html"
+*                =STRTOFILE(sHtml,lcPhysicalPath+sTmpFile)
+                lcNewPath=lcLogicalPath+sTmpFile
+                CREATE CURSOR ALINKS (ASK_ID C(26),ATYPE C(50),ALINK C(240), IS_EMPTY L, AHTML M,AnList M)
+                sLink=lcNewPath
+                oJSON.keyforcursors='alinks'
+                SELECT ALINKS
+                APPEND BLANK
+                REPLACE ALINK WITH sLink,;
+                    ATYPE WITH "Все",;
+                    IS_EMPTY WITH IIF(EMPTY(sHtml),.T.,.F.),;
+                    AHTML WITH sHtml,;
+                    ANLIST WITH sDynamJSON
+                FOR k=1 TO 5
+                    DO CASE
+                        CASE k==1
+                            sRa='Клиника'
+                        CASE k==2
+                            sRa='Биохимия'
+                        CASE k==3
+                            sRa='Моча'
+                        CASE k==4
+                            sRa='Кал'
+                        CASE k==5
+                            sRa='Прочее'
+                    ENDCASE
+                    sHtml=olab.DynamToHtml(oCol,sRa,.F.,sPrefix)
+                    sTmpFile=SYS(2015)+".html"
+ *                   =STRTOFILE(sHtml,lcPhysicalPath+sTmpFile)
+                    lcNewPath=lcLogicalPath+sTmpFile
+                    sLink=lcNewPath
+                    SELECT ALINKS
+                    APPEND BLANK
+                    REPLACE ALINK WITH sLink,;
+                        ATYPE WITH sRa,;
+                        IS_EMPTY WITH IIF(EMPTY(sHtml),.T.,.F.),;
+                        AHTML WITH sHtml
+                ENDFOR
+                sHtml=oLab.GetExtAnalyzeHtml(lcAskId)
+                IF !EMPTY(sIdsCovid)
+                	sHtmlCovid=oLab.GetCovidAnalyzeHtml(sIdsCovid)
+                ELSE
+                	sHtmlCovid=""	
+                ENDIF
+                oLab=NULL
+                CLEAR CLASS LAB
+                IF !EMPTY(sHtmlCovid)
+                    SELECT ALINKS
+                    LOCATE FOR ALLTRIM(ATYPE)=="Ext"
+                    IF !FOUND()
+                        APPEND BLANK
+                        REPLACE ALINK WITH "",;
+                            ATYPE WITH "Ext",;
+                            IS_EMPTY WITH .F.
+                    ENDIF
+                    REPLACE AHTML WITH aHTML+sHtmlCovid
+                    LOCATE FOR ALLTRIM(ATYPE)=="Все"
+                    REPLACE AHTML WITH aHTML+sHtmlCovid
+                ENDIF
+                IF !EMPTY(sHtml)
+                    SELECT ALINKS
+                    LOCATE FOR ALLTRIM(ATYPE)=="Ext"
+                    IF !FOUND()
+                        APPEND BLANK
+                        REPLACE ALINK WITH "",;
+                            ATYPE WITH "Ext",;
+                            IS_EMPTY WITH .F.
+                    ENDIF
+                    REPLACE AHTML WITH aHTML+sHtml
+                    LOCATE FOR ALLTRIM(ATYPE)=="Все"
+                    REPLACE AHTML WITH aHTML+sHtml
+
+                ENDIF
+                REPLACE ALL ASK_ID WITH lcAskId IN ALINKS
+                AjaxResponse.records=RECCOUNT('alinks')
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('alinks'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+ 		    ENDIF
+	ENDCASE
+ENDIF
+%>

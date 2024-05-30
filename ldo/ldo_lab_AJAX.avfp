@@ -1,0 +1,88 @@
+<%
+LOCAL AjaxResponse,lcAction
+IF !(oSession.VALUE("authenticated"))
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+	DO CASE
+	    CASE lcAction=='list'
+	        lcAskId=oRequest.QueryString("ask_id")
+        	lcData1=oRequest.QueryString("d1")
+            oLab=NEWOBJECT("LAB","Lab.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oLab.GetAnalList(lcAskId,STOD(lcData1),DATE())
+   		    oLab=NULL
+   		    CLEAR CLASS lab
+   		    IF lnRet!=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        SELECT * FROM LABDATA ORDER BY DATA_A DESC, TIME DESC INTO CURSOR anlist
+                AjaxResponse.records=RECCOUNT('anlist')
+                oJSON.keyforcursors='anlist'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('anlist'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='show'
+*	        lcAskId=oRequest.QueryString("ask_id")
+*        	lcData1=oRequest.QueryString("d1")
+            lcIds=oRequest.QueryString("ids")
+            lcPacient=NVL(oRequest.QueryString("patient"),"")
+            oLab=NEWOBJECT("LAB","Lab.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+
+            oLab.retCursor="AnList"
+   		    lnRet=oLab.GetByIds(lcIds)
+   		    IF lnRet!=0
+   		        oLab=NULL
+   		        CLEAR CLASS lab
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                oCol=oLab.GetDynam('AnList')
+                sHtml=oLab.DynamToHtml(oCol,"",.F.,lcPacient)
+   		        oLab=NULL
+   		        CLEAR CLASS lab
+                CREATE CURSOR IDS (HTML M)
+                INSERT INTO IDS (HTML) VALUES (sHtml)
+                AjaxResponse.records=RECCOUNT('ids')
+                oJSON.keyforcursors='ids'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ids'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	ENDCASE
+ENDIF
+%>

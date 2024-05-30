@@ -1,0 +1,25 @@
+<%*getemployee.avfp
+
+theEmployee=oRequest.QueryString("id")
+oJSON=NEWOBJECT('json','json.prg')
+
+select e.emp_id as id, e.first_Name as firstname, e.last_Name as lastname,e.Reports_to as managerid, e.title as title,e.department as department,e.city as city,e.officphone as officephone,;
+e.cellphone as cellphone,e.email as email, [images/Emps/]+e.picture as picture, m.first_Name as managerfirstname, m.last_Name as managerlastname, count(r.emp_id) as reportcount ;
+from employee e left join employee r on VAL(r.reports_to) = VAL(e.emp_id) left join employee m on VAL(e.Reports_to) = VAL(m.emp_id);
+where VAL(e.emp_id)= &theEmployee;
+INTO Cursor SearchResults;
+group by e.last_Name,e.emp_id, e.first_Name,e.title, e.picture,e.Reports_to, e.department,e.city,e.officphone,e.cellphone,e.email,m.first_Name,m.last_Name;
+order by e.last_name, e.first_name
+
+    
+
+oJSON.keyforcursors="item"
+
+
+* send JSON data and properties back
+oResponse.ContentType = "application/json;charset=utf-8"  
+oResponse.Write(oJSON.stringify('SearchResults'))
+oResponse.Flush
+lcHTMLout=[]
+
+%>  

@@ -1,0 +1,72 @@
+input[type="checkbox"].big-checkbox {
+    margin: 0 !important;
+    width:20px !important;
+    height:20px !important;
+}
+body { margin-top: 50px; margin-bottom: 50px; font-size: 0.9em;}
+.faa:before{
+    font: 1em/1em 'FontAwesome';
+}
+.ib-recom-table {
+    width:100%;
+    margin-bottom: 1px  !important;
+
+}
+.ib-recom-tr-warn {
+    background-color: Thistle !important;
+}
+.ib-recom-tr-info {
+    background-color: PapayaWhip !important;
+}
+.faa.faa-print:before {
+    content: "\f02f";
+}
+.faa.faa-download:before {
+    content: "\f019";
+}
+.faa.faa-close:before {
+    content: "\f00d";
+}
+.faa.faa-tasks:before {
+    content: "\f0ae";
+}
+.faa.faa-refresh:before {
+    content: "\f021";
+}
+.faa.faa-rub:before {
+    content: "\f158";
+}
+.faa.faa-flask:before {
+    content: "\f0c3";
+}
+.faa.faa-desktop:before {
+    content: "\f108";
+}
+.faa.faa-magic:before {
+    content: "\f0d0";
+}
+.faa.faa-pencil:before {
+    content: "\f040";
+}
+.faa.faa-search:before {
+    content: "\f002";
+}
+.faa.faa-filter:before {
+    content: "\f0b0";
+}
+.faa.faa-toggle-off:before {
+    content: "\f204";
+}
+.faa.faa-toggle-on:before {
+    content: "\f205";
+}
+.faa.faa-times:before {
+    content: "\f00d";
+}
+.faa.faa-copy:before {
+    content: "\f0c5";
+}
+.faa.faa-file-text-o:before {
+    content: "\f0f6";
+}
+

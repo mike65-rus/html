@@ -1,0 +1,48 @@
+<% *UsersTimeLine
+%>
+			<div class="accordion-group">	 
+				<div class="accordion-heading">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#users">Активные пользователи</a>
+				</div>
+				<div id="users" class="accordion-body collapse">
+					<div class="accordion-inner">
+						<div class="tabbable">
+							<ul class="nav nav-tabs" >
+								<li class="active"> <a href="#ulist0" data-toggle="tab">Сейчас</a></li>
+								<li> <a href="#ulist1" data-toggle="tab">Журнал</a></li>
+								<li> <a href="#ulist2" data-toggle="tab" >Архив</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active " id="ulist0">
+									<div id="grid0"></div>	<!-- kendo grid -->
+								</div>
+								<div class="tab-pane  " id="ulist1">
+									<div class="k-content">
+									<div id="grid1"></div>	<!-- kendo grid -->
+										<script type="text/x-kendo-template" id="toolbar1">
+											<div class="form-inline toolbar" id="Grid1Toolbar">
+												<label for="start" class="control-label">Начальная дата:</label>
+												<input id="start" data-role="datepicker" data-bind="value: startDate, events: {change: onstartChange}" type="date" required/>
+												<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+												<label for="end" class="control-label">Конечная дата:</label>
+												<input id="end" data-role="datepicker" data-bind="value: endDate, events: {change: onendChange}" type="date" required/>
+                                                <button rel="tooltip" title="Обновить" id="btnRefresh" class="k-button " type="button" data-bind="events:{click: onRefreshButton}"><i class="icon-refresh"></i></button>
+											</div>
+										</script>
+										 <style scoped>
+											.toolbar {
+												float: right;
+												vertical-align: middle;
+											}
+										</style>
+									</div>
+								</div>
+								<div class="tab-pane  " id="ulist2">
+									<p>Архив</p>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+	

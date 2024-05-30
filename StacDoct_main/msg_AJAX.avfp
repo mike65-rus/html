@@ -1,0 +1,259 @@
+<%
+LOCAL AjaxResponse,lcAction
+*IF !(oSession.VALUE("authenticated"))
+IF .F.
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+	DO CASE
+	    CASE lcAction=='get_tree_list'
+       		oJSON=NEWOBJECT('json2','json2.prg')
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+	    	oMsg=NEWOBJECT("msg","msg.prg")
+            oRet=oMsg.getUsersTree()
+            oMsg=NULL
+            CLEAR CLASS msg
+            IF oRet.Count<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=oRet.Count
+                oJSON.keyForItems="list"
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify(oRet,"id,title,is_folder,sprite,items"))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='get_new_messages'
+   	        lnUserId=oSession.Value("uid")
+
+	        oMsg=NewObject("MSG","msg.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+            lnRet=oMsg.getNewMsg(lnUserId,"newMes")
+            oMsg=NULL
+            CLEAR CLASS MSG
+            IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='new_msg'
+                oJSON.appendBlank=.F.
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('newMes'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='get_in_messages'
+   	        lnUserId=oSession.Value("uid")
+
+	        oMsg=NewObject("MSG","msg.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+            lnRet=oMsg.getInMsg(lnUserId,"InMes")
+            oMsg=NULL
+            CLEAR CLASS MSG
+            IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='in_msg'
+                oJSON.appendBlank=.F.
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('InMes'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='get_out_messages'
+   	        lnUserId=oSession.Value("uid")
+
+	        oMsg=NewObject("MSG","msg.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+            lnRet=oMsg.getOutMsg(lnUserId,"OutMes")
+            oMsg=NULL
+            CLEAR CLASS MSG
+            IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=lnRet
+                oJSON.keyforcursors='out_msg'
+                oJSON.appendBlank=.F.
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('OutMes'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='update_new_messages'
+   	        lnUserId=oSession.Value("uid")
+
+            sIds=oRequest.FORM("ids")
+            iChecked=VAL(oRequest.FORM("check"))
+
+	        oMsg=NewObject("MSG","msg.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+            lnRet=oMsg.UpdateNewMsg(lnUserId,sIds,iChecked)
+            oMsg=NULL
+            CLEAR CLASS MSG
+            IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=lnRet
+*                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse))
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='update_message'
+   	        lnUserId=oSession.Value("uid")
+            lcMsgId=NVL(oRequest.FORM("msg_id"),"")
+            lcMsgTitle=NVL(oRequest.FORM("msg_title"),"")
+            lcMsgBody=NVL(oRequest.FORM("msg_body"),"")
+            lcStart=NVL(oRequest.FORM("msg_start"),"")
+            lcEnd=NVL(oRequest.FORM("msg_end"),"")
+            iPublish=oRequest.FORM("published")
+
+            lcTo=oRequest.FORM("to_ids")
+
+	        oMsg=NewObject("MSG","msg.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+
+            lnRet=oMsg.UpdateMsg(lcMsgId,lnUserId,lcMsgTitle,lcMsgBody,lcStart,lcEnd,iPublish,lcTo)
+
+            oMsg=NULL
+            CLEAR CLASS MSG
+            IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=1
+*                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse))
+                oJSON.keyforcursors='msg'
+                oJSON.appendBlank=.F.
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('OutMsg'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+	    CASE lcAction=='delete_message'
+   	        lnUserId=oSession.Value("uid")
+
+            lcMsgId=oRequest.FORM("msg_id")
+
+	        oMsg=NewObject("MSG","msg.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+            lnRet=oMsg.DeleteMsg(lcMsgId)
+            oMsg=NULL
+            CLEAR CLASS MSG
+            IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                AjaxResponse.records=lnRet
+*                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse))
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ENDIF
+
+	ENDCASE
+
+ENDIF
+%>

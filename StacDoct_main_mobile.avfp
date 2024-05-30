@@ -1,0 +1,69 @@
+  <%= include("loginInclude.avfp") %>
+
+    <!-- mobile  -->
+     <% sVer=SYS(2015)
+*        sVer="?ver="+sVer
+        sVer=""
+     %>
+
+    <link rel="manifest" href="/gb2/mobile-manifest.json">
+
+<!--      <link href="javascript/css/bootstrap.min.css<%=sVer%>" rel="stylesheet"> -->
+<!--      <link href="javascript/css/bootstrap-responsive.min.css<%=sVer%>" rel="stylesheet"> -->
+
+      <link rel="stylesheet" href="javascript/css/font-awesome.min.css<%=sVer%>">
+
+
+      <link href="html/pk/app/libs/kendo/styles/kendo.common.min.css<%=sVer%>" rel="stylesheet">
+<!--      <link href="html/pk/app/libs/kendo/styles/kendo.<%=NVL(oSession.Value("theme"),"default")%>.min.css<%=sVer%>" rel="stylesheet"> -->
+      <link href="html/pk/app/libs/kendo/styles/kendo.mobile.all.min.css<%=sVer%>" rel="stylesheet">
+      <link href="html/pk/app/libs/kendo/styles/kendo.default.min.css<%=sVer%>" rel="stylesheet">
+
+
+
+    <link rel="stylesheet" type="text/css" href="html/css/lab-screen.css<%=sVer%>" media="screen">
+<!--    <link rel="stylesheet" type="text/css" href="html/css/lab-print.css<%=sVer%>" media="print"> -->
+
+    <link rel="stylesheet" type="text/css" href="html/css/ldo-screen.css<%=sVer%>" media="screen">
+<!--    <link rel="stylesheet" type="text/css" href="html/css/ldo-print.css<%=sVer%>" media="print"> -->
+
+    <link rel="stylesheet" type="text/css" href="html/css/vyp-screen.css<%=sVer%>" media="screen">
+<!--    <link rel="stylesheet" type="text/css" href="html/css/vyp-print.css<%=sVer%>" media="print"> -->
+
+    <link rel="stylesheet" type="text/css" href="html/css/mobile-app.css<%=sVer%>" media="screen">
+
+    <script>
+        var currentSkin=localStorage.getItem("mobile_skin");
+        if (!currentSkin) {
+            localStorage.setItem("mobile_skin","nova");
+        }
+        sessionStorage.setItem("mobile_user_uid",<%=oSession.value("uid")%>);
+        sessionStorage.setItem("mobile_user_name","<%=oSession.value("uname")%>");
+        localStorage.setItem("last_user","<%=oSession.value("uid")%>");
+        var aRoles=[];
+        var aRolesCode=("<%=oSession.value("rolescode")%>").split(";");
+        var aRolesId=("<%=oSession.value("rolesid")%>").split(";");
+        var aRolesName=("<%=oSession.value("rolesname")%>").split(";");
+        for (var i=0;i<aRolesCode.length;i++) {
+            var aRole={
+                code: aRolesCode[i],
+                name: aRolesName[i],
+                id: aRolesId[i]
+            }
+            aRoles.push(aRole);
+        }
+        sessionStorage.setItem("mobile_user_roles",JSON.stringify(aRoles));
+    </script>
+    </HEAD>
+    <BODY >
+    </body>
+<% lcBuild=""
+    IF FILE(oProp.AppStartPath+"html\StacDoct_main\app\production-mobile.txt")
+        lcBuild="-build"
+    ENDIF
+%>
+
+
+<script src="html/StacDoct_main/app/libs/require-min.js" data-main="html/StacDoct_main/app/main-mobile<%=lcBuild%>"></script>
+
+</html>

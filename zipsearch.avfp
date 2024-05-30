@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>ActiveVFP :: <%=IIF(ISNULL(oProp.Action),[Default],oProp.Action)%></TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<STYLE TYPE="text/css">
+	<!--
+	:link	 {
+			color=blue     ;
+			Text-Decoration : None
+		}
+	:active	 {
+			Text-Decoration : Underline
+		}
+	:visited	 {
+			color=blue     ;
+			Text-Decoration : None
+		}
+	A:hover	 {
+			Text-Decoration : Underline
+		}
+	-->
+</STYLE>
+<script language="javascript"  type="text/javascript">
+// Global variables
+var SearchUrl = "<%= oProp.ScriptPath+[?action=ajaxzip]%>"; // The server-side script
+var LastZip = "";		// The last search term that we displayed
+var IncrementalSearchTimer;
+var ZipSearchHttp;
+var ZipSearchResults = null;
+
+// Event handler that gets called whenever the search term is changed
+function SearchTermChanged() {
+	if (! ZipSearchHttp) {
+		// Browser does not support XMLHttpRequest object
+		return;
+	}
+	window.clearTimeout(IncrementalSearchTimer);
+	// Use a timer to reduce the number of AJAX requests for fast typists
+	IncrementalSearchTimer = window.setTimeout("DoSearch()", 300);
+}
+
+// Makes an AJAX request to the ActiveVFP server that performs the search
+function DoSearch() {
+	var Zip = document.getElementById("ZipSearch").value;
+	// Make sure the the search string is different from the last search and that it's a valid zip code
+	var RegExpZip = /^\d+$/;
+	if (LastZip != Zip && RegExpZip.test(Zip)) {
+		if ((ZipSearchHttp.readyState == 2 || ZipSearchHttp.readyState == 3) && LastZip != '' && Zip.indexOf(LastZip) == 0) {
+			// A search with a more generic search term than the current term is currently in progress via AJAX
+			// We should be able to filter the result set of the search in progress
+			// Keep trying until the server responds
+			IncrementalSearchTimer = window.setTimeout("DoSearch()", 100);
+		} else if (ZipSearchHttp.readyState != 2 && ZipSearchHttp.readyState != 3 && ZipSearchResults != null && Zip.indexOf(ZipSearchResults.zip) == 0 && ZipSearchResults.hasresults) {
+			// The current search term is a more specific term of the last search
+			// Filter the previously received result set
+			ResultHtml = getZipList(ZipSearchResults.zipcodes, Zip)
+			document.getElementById('SearchResults').innerHTML = ResultHtml;
+			LastZip = Zip;
+		} else {
+			// The result set for the current search term is not a sub-set of what we already have
+			// Send a new AJAX request to the server
+			if ( ZipSearchHttp.readyState == 2 || ZipSearchHttp.readyState == 3 ) {
+				// Abort previous AJAX request currently in progress
+				ZipSearchHttp.abort();
+			}
+			if (Zip.length > 1) {
+				// Include the search string in the query string portion of the URL
+				ZipSearchHttp.open("POST", SearchUrl + "&zip=" + escape(Zip), true);
+				ZipSearchHttp.onreadystatechange = handleHttpResponse;
+				ZipSearchHttp.send("");
+			}
+			LastZip = Zip;
+		}
+	}
+}
+
+// Handles the AJAX results returned by the ActiveVFP server
+function handleHttpResponse() {
+	if (ZipSearchHttp.readyState == 4) {
+		var ResultHtml = '';
+		ZipSearchResults = null;
+		if (ZipSearchHttp.status == 200 && ZipSearchHttp.responseText != '') {
+			// Use eval to parse the JSON string.  Note that this is not the safest technique
+			// A much better approach is to use one of the many JSON libraries available
+			// For details, refer to http://www.json.org/js.html
+
+			try {
+				ZipSearchResults = eval("(" + ZipSearchHttp.responseText + ")");
+			} catch(e) {
+				ResultHtml = '<p style=\"color: red\">Could not parse the following response from the server:</p>' + ZipSearchHttp.responseText;
+			}
+			if (ZipSearchResults != null) {
+				ResultHtml = getZipList(ZipSearchResults.zipcodes, '')
+			}
+		}
+		document.getElementById('SearchResults').innerHTML = ResultHtml;
+	}
+}
+
+// Creates html table with zip codes returned from the server
+function getZipList(ZipCodes, filter) {
+	var ResultHtml = '';
+	if (! ZipSearchResults.hasresults) {
+		if (ZipSearchResults.resultscount > 0) {
+			ResultHtml = ZipSearchResults.resultscount.toString() + " results.  Please narrow your search.";
+		} else {
+			ResultHtml = "No zip codes match the search string";
+		}
+	} else if (ZipSearchResults.zipcodes != undefined) {
+		// The server returned a result set
+		for (i = 0; i < ZipCodes.rows.length; i++) {
+			if (ZipCodes.rows[i].zip.indexOf(filter) == 0) {
+				ResultHtml += '<tr><td>' + ZipCodes.rows[i].zip + '</td>' + 
+					'<td>' + ZipCodes.rows[i].city + '</td>' +
+					'<td>' + ZipCodes.rows[i].state + '</td></tr>';
+			}
+		}
+		if (ResultHtml != '') {
+			ResultHtml = '<table><tr><th>ZIP</th><th>City</th><th>State</th></tr>' + ResultHtml + '</table>';
+		} else {
+			ResultHtml = "No zip codes match the search string";
+		}
+	}
+	return ResultHtml;
+}
+
+// Returns an the appropriate XMLHTTP object, depending on the browser
+function getHTTPObject() {
+	var xmlhttp;
+	/*@cc_on
+	@if (@_jscript_version >= 5)
+		try {
+			xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			try {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (E) {
+				xmlhttp = false;
+			}
+		}
+	@else
+		xmlhttp = false;
+	@end @*/
+	if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+		try {
+			xmlhttp = new XMLHttpRequest();
+		} catch (e) {
+			xmlhttp = false;
+		}
+	}
+	return xmlhttp;
+}
+
+// Initialization
+function PageOnLoad() {
+	document.getElementById("ZipSearch").focus();
+	ZipSearchHttp = getHTTPObject();
+	if (!ZipSearchHttp) {
+		alert("Your browser does not support AJAX calls");
+	}
+}
+
+</script>
+</HEAD>
+<body OnLoad="PageOnLoad();" bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0 class="style2">
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="20%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=100% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><font size="4">
+                    <b>
+                    <a href="<%=oProp.ScriptPath %>">
+                    <img border="0" src="images/activeVFP.gif" width="166" height="28"></a>&nbsp;&nbsp;&nbsp;&nbsp; <font face><small><font face="arial,helvetica"> <input type="button" value="Go Back" onClick="history.back()"></font></small></font><br>
+                    <br>
+                    </b>Incremental ZIP Code Search with AJAX/JSON/ActiveVFP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><br><font size="4">
+					<b> <font face><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+					Show Code: 
+					<a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=ajaxzip]%>">ajaxzip.avfp</a>&nbsp;&nbsp;<a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">zipsearch.avfp</a></font></span></font></small></font></b></font><p class="style1">
+					Type at least the first two or three digits of a zip code 
+					(like '201') in the search box. Once the result set is 
+					smaller than 100 zip codes, it will be displayed in a table 
+					at the bottom of the page.</p>
+					<p class="style1">&nbsp;</p>
+					</font></td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+                    <form action="post" name="SearchForm" id="SearchForm">
+<table><tr><th>
+	Zip Code Search:
+	<input type="text" size="5" maxlength="5" name="ZipSearch" id="ZipSearch" OnKeyDown="SearchTermChanged();" autocomplete="off">
+</th></tr></table>
+</form>
+
+<div id="SearchResults"><!-- Placeholder for search results --></div>
+
+</td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+            <P>&nbsp;</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%= include("footer.avfp") %>

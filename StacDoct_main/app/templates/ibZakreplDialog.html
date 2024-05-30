@@ -1,0 +1,23 @@
+<div id="ib-zakrepl-window" class="k-content">
+    <h6>Текущий врач</h6>
+    <h5 id="currentDoctorName" data-bind="text:currentDoctorName"></h5>
+    <h6>Новый врач</h6>
+    <input id="doctors" style="width: 350px"
+           data-role="dropdownlist" data-auto-bind="false"
+           data-text-field="user_name"
+           data-value-field="user_id"
+           data-bind="source:doctors,value:selectedDoctor" >
+    <p>&nbsp;</p>
+    <p>
+    <div class="pull-right">
+        <button rel="tooltip" title="Выполнить действие" class="k-button" type="button" id="okButton"
+                data-bind="{events:{click:doCommand}}">
+            <i class="fa fa-gear"></i> Выполнить</button>
+        <span>&nbsp;</span>
+        <button rel="tooltip" title="Отказ" class="k-button" type="button" id="cancelButton"
+                data-bind="{events:{click:cancelCommand}}">
+            <i class="fa fa-ban"></i> Отказ</button>
+    </div>
+    </p>
+
+</div>

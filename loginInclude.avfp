@@ -1,0 +1,59 @@
+<%
+* Use this code in each page you want to protect  (CookieLogin and TableAuth routines are in main.prg)
+*=CookieLogin(ALLTRIM(oRequest.FORM("Password")))  && checks for cookie to authenticate
+IF !(oSession.VALUE("authenticated"))   or ISNULL(oSession.Value("uname"))      && or !ISNULL(oRequest.FORM("Login"))
+    sDeviceType=NVL(oRequest.FORM("device_type"),"desktop")
+    IF EMPTY(sDeviceType)
+        sDeviceType="desktop"
+    ENDIF
+    iSysUser=NVL(oRequest.FORM("sys_user"),0)
+    IF !EMPTY(iSysUser)
+        oSession.Value("sys_user",1)
+    ENDIF
+    bIsFormRegistered=.F.
+    sFormGuid=NVL(oRequest.FORM("form_id"),"")
+    IF !EMPTY(iSysUser)
+        sFormGuid="ABRACADABRA"
+    ENDIF
+     && check dbf authentication if no cookie or cookie fails
+     IF !EMPTY(sFormGuid)
+        IF EMPTY(iSysUser)
+            bIsFormRegistered=CheckIfFormRegistered(sFormGuid,sDeviceType)
+            IF !(bIsFormRegistered)
+                oResponse.Redirect(oProp.ScriptPath+[?action=login])
+            ENDIF
+        ELSE
+            bIsFormRegistered=.T.
+        ENDIF
+     ELSE
+          oResponse.Redirect(oProp.ScriptPath+[?action=login])  && if still not authenticated goto login
+     ENDIF
+*   IF (!ISNULL(oRequest.FORM("Login")) and !EMPTY(oRequest.FORM("Login")) )
+    IF !EMPTY(sFormGuid)
+*        sStr="Login="+NVL(oRequest.FORM("Login"),"")+CHR(13)+CHR(10)
+*        sStr=sStr+"Password="+NVL(oRequest.FORM("Password"),"")+CHR(13)+CHR(10)
+*        sStr=sStr+"LoginType="+NVL(oRequest.FORM("loginType"),"pass")+CHR(13)+CHR(10)
+*        sStr=sStr+"DeviceType="+sDeviceType+CHR(13)+CHR(10)
+*        =StrToFile(sStr,"c:\sites\gb2\requ3.txt")
+
+	 =CheckUser(NVL(oRequest.FORM("Login"),""),ALLTRIM(oRequest.FORM("Password")),oRequest.FORM("C1"),NVL(oRequest.FORM("loginType"),"pass"),sDeviceType)
+	 *values from form
+    IF !(oSession.VALUE("authenticated")) 
+      oSession.VALUE("previous",oProp.Action)  && save target
+      oResponse.Redirect(oProp.ScriptPath+[?action=login])  && if still not authenticated goto login
+    ENDIF   
+   ELSE
+      oSession.VALUE("previous",oProp.Action)  && save target
+      oResponse.Redirect(oProp.ScriptPath+[?action=login])  && if still not authenticated goto login
+   ENDIF
+ELSE
+	lnUid=NVL(oSession.VALUE("uid"),0)
+	lcSesId=NVL(oRequest.oRequest.Cookies("ASP.Net_SessionId").Item(),"") 
+	=CompileIfNew('TimeLine')
+	oTL=NEWOBJECT("TimeLine","TimeLine.prg")
+	oTL.SetLastRequest(lnUid,lcSesId)
+	oTL=NULL
+	CLEAR CLASS TimeLine
+ENDIF
+
+%>

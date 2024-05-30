@@ -1,0 +1,11 @@
+/* for two-side printing with margin for staple */
+@page :right
+{
+    margin-left: 2.5cm;
+    margin-right: 1cm;
+}
+@page :left
+{
+    margin-right: 2.5cm;
+    margin-left: 1cm;
+}

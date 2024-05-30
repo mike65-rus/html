@@ -1,0 +1,63 @@
+<%=include("header.avfp")%>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="8%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=112% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="15" width="100%" cellspacing="15">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath %>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    </font></b></font></td>
+                  <center>
+                  </tr>
+<%
+UPDATE Customer SET ;
+	company=oSession.VALUE("company"),;
+	contact=oSession.VALUE("contact"),;
+	TITLE=oSession.VALUE("title"),;
+	address=oSession.VALUE("address"),;
+	city=oSession.VALUE("city"),;
+	REGION=oSession.VALUE("region"),;
+	postalcode=oSession.VALUE("postalcode"),;
+	country=oSession.VALUE("country"),;
+	phone=oSession.VALUE("phone"),;
+	fax=oSession.VALUE("fax"),;
+	email=oSession.VALUE("email");
+	WHERE cust_id=PADR(oSession.VALUE("cust_id"),LEN(Customer.cust_id),' ')
+%>
+                  <tr>
+                    <td width="149%" colspan="3" rowspan="3">
+                    <p align="center"><font face="Arial" size="5">Thank You!&nbsp;&nbsp;&nbsp; <font face="Arial"><b> 
+					<font face size="4"><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></b></font></font></p>
+                    <p align="center">&nbsp;&nbsp;</p>
+                    <form method="POST" action="<%= oRequest.ServerVariables("SCRIPT_NAME") %>">
+                      <p align="center"><input type="submit" value="Back to the Demo Page" name="B1"></p>
+                    </form>
+                    <p align="center">&nbsp;</p>
+                    <p>&nbsp;
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+            <P>&nbsp;</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

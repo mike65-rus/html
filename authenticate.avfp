@@ -1,0 +1,63 @@
+<%= include("header.avfp") %>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="16%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=104% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath%>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    Authenticate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: 400"> <font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></b></font></td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+                    <table bgColor="#ffffff" border="0" cellPadding="9" cellSpacing="0" width="100%" marginheight="0" marginwidth="0" topmargin="0" leftmargin="0">
+  <tr>
+    <td><font face="Arial"><font face><small>
+     
+          <p class="style1"><font face><small>
+      	<font face="arial,helvetica">
+      	&nbsp;
+      	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="button" value="Go Back" onClick="history.back()"></font></small></font></p>
+     
+      <small><font face="Arial">
+      </font></small>
+<% IF EMPTY(oRequest.servervariables("AUTH_USER")) 
+		oResponse.BUFFER = .T.
+		oResponse.CLEAR
+		oResponse.STATUS = "401 Unauthorized"
+		oResponse.AddHeader("WWW-Authenticate","BASIC")
+		oResponse.END  %>
+<% ELSE %>
+  Congratulations! You're authenticated.
+<%ENDIF %>       
+ 		     </td>
+  </tr>
+</table>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

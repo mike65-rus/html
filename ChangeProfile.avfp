@@ -1,0 +1,7 @@
+<%= include("loginInclude.avfp") %>
+<%
+IF !ISNULL(oRequest.FORM("theme")) and !IsNull(oRequest.FORM("email"))
+	=ChangeProfile(oRequest.FORM("theme"),oRequest.FORM("email"))
+ENDIF
+oResponse.Redirect(oProp.ScriptPath+[?action=default]) 
+%>

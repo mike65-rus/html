@@ -1,0 +1,7 @@
+# if (sRet && data.user2_name) { #
+		   # sRet=sRet+" / "; #
+		# } #
+
+# if (data.user2_name) { #
+		#    sRet=sRet+data.user2_name.fio(); #
+		# } #

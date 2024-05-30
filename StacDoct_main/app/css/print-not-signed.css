@@ -1,0 +1,23 @@
+/* background for chernovik */
+.not-signed-background {
+    position:absolute;
+    z-index:0;
+    background:transparent;
+    opacity: 0.7;
+    display:block;
+    height:100%;
+    width:100%;
+    color:yellow;
+}
+.not-signed-background-text {
+    color: grey;
+    opacity: 0.7;
+    font-size: 120px;
+    transform: rotate(300deg);
+    -webkit-transform: rotate(300deg);
+    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+.print-content {
+/*    position:absolute; */
+    z-index:999;
+}

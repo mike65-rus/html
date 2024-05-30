@@ -1,0 +1,38 @@
+<%
+LOCAL AjaxResponse,lcAction
+lcAction=oRequest.QueryString("action2")
+=SetLastRequest()
+DO CASE
+    CASE lcAction=='check_print_enabled'
+        lcAskId=oRequest.QueryString("ask_id")
+        iUser=VAL(oRequest.QueryString("uid"))
+        oIb=NEWOBJECT("IB","IB.prg")
+		oJSON=NEWOBJECT('json2','json2.prg')
+        oJSON.AppendBlank=.F.
+	    AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+		lnRet=oIb.IsVypPrintEnabled(lcAskId,iUser,"print")
+		oIb=NULL
+		CLEAR CLASS IB
+		IF lnRet<0
+            AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+            lcStr=oJSON.stringify(AjaxResponse)
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+		ELSE
+            AjaxResponse.records=RECCOUNT("print")
+            oJSON.keyforcursors='print'
+            lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('print'))
+            oJSON=NULL
+            oResponse.ContentType = "text/json"  &&  charset=windows-1251
+            oResponse.Write(lcStr)
+            oResponse.Flush
+            lcHTMLout=[]
+		 ENDIF
+ENDCASE
+%>
+

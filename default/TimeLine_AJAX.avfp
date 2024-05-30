@@ -1,0 +1,83 @@
+<%
+LOCAL AjaxResponse,lcAction
+IF !(oSession.VALUE("authenticated"))
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE	
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+
+	DO CASE
+	  CASE lcAction=='set_emul_mode'
+        	nUser=VAL(oRequest.QueryString("user_id"))
+        	nOldUser=NVL(oSession.Value("uid"),0)
+        	IF !(nUser==nOldUser)
+                sUserName=ALLTRIM(oRequest.QueryString("user_name"))
+                oSession.Value("uid",nUser)
+        	    oSession.VALUE("uname",sUserName)
+        	    oSession.VALUE("emul",1)
+        	ELSE
+        	    oSession.VALUE("emul",0)
+        	ENDIF
+
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+        lcStr=oJSON.stringify(AjaxResponse)
+		oJSON=NULL
+        CLEAR CLASS JSON2
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		oResponse.Write(lcStr)
+   		oResponse.Flush
+   		lcHTMLout=[]
+
+	  CASE lcAction=='current'
+		oJSON=NEWOBJECT('json2','json2.prg')
+
+		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response 
+		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+		
+		oTL=NEWOBJECT("TimeLine","TimeLine.prg")
+		oTL.SetTimeout(getSesTimeout())
+		? oTl.GetCurrentUsers("Current")
+		oTl=NULL
+		CLEAR CLASS TimeLine
+		AjaxResponse.records=RECCOUNT('CURRENT')
+        oJSON.keyforcursors='current'
+		lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('current'))
+	 *     =STRTOFILE("json="+lcStr,"c:\ActiveVFP\dummy.txt",1)
+		oJSON=NULL
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+		oResponse.Write(lcStr)
+		oResponse.Flush
+		lcHTMLout=[]
+     CASE lcAction=='journal'
+   		oJSON=NEWOBJECT('json2','json2.prg')
+
+   		AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the number of matching zip codes
+    	lcData1=oRequest.QueryString("d1")
+    	lcData2=oRequest.QueryString("d2")
+   		oTL=NEWOBJECT("TimeLine","TimeLine.prg")
+   		? oTl.GetJournal(STOD(lcData1),STOD(lcData2),"Journal")
+   		oTl=NULL
+   		CLEAR CLASS TimeLine
+   		AjaxResponse.records=RECCOUNT('JOURNAL')
+           oJSON.keyforcursors='journal'
+   		lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('journal'))
+   	 *     =STRTOFILE("json="+lcStr,"c:\ActiveVFP\dummy.txt",1)
+   		oJSON=NULL
+        oResponse.ContentType = "text/json"  &&  charset=windows-1251
+   		oResponse.Write(lcStr)
+   		oResponse.Flush
+   		lcHTMLout=[]
+	ENDCASE
+ENDIF
+ %>

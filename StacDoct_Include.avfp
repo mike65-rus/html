@@ -1,0 +1,5 @@
+<%
+   IF !IsDoctor()
+      oResponse.Redirect(oProp.ScriptPath+[?action=default])  && if still not authenticated goto login
+   ENDIF
+%>

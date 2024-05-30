@@ -1,0 +1,71 @@
+<div class="pk_exams_div" id="ldo-tab">
+    <!-- <strong>КДЛ</strong> -->
+    <div id="exams_ldo_grid" class="pk-grid  pk-grid-dblclick" style="width:100%;height:100%"
+         data-role="grid"
+         data-auto-bind="false"
+         data-toolbar='[{ template: kendo.template($("#template-exams-ldo-toolbar").html()) }]'
+         data-selectable="cell"
+         data-bind="source:gridDs"
+         data-groupable="false"
+         data-filterable="false"
+         data-pageable="false"
+         data-columns='[
+            { field: "check_row", title: " ", width: 30, filterable:false, sortable: false,
+                headerTemplate: "<input class=check_row type=checkbox \>" ,
+                template: "<input class=check_row type=checkbox \>"
+            },
+            {field: "iddoc", title: "iddoc",hidden: true },
+            { field: "curdate", title: "Дата", width: "10%", format: "{0:dd.MM.yyyy}"},
+            { field: "curtime", title: "Время", width: "8%", format: "{0:HH:mm}", filterable:false, sortable: false},
+            { field: "namearm", title: "Раздел" },
+            { field: "title", title: "Исследование", width: "15%" },
+            { field: "pk_doctor", title: "Назначил", width: "15%",template: "#= pk_doctor.fio() #" },
+            { field: "pk_doctor", title: "Назначил", width: "15%",hidden:true },
+            { field: "namedoct", title: "Исполнил",template: "#= namedoct.fio() #" },
+            { field: "namedoct", title: "Исполнил",hidden:true },
+            { field: "diag", title: "Диагноз", width: "25%",hidden:true,filterable:false, sortable: false  },
+            { field: "otd", title: "Отд", width: "8%"}
+         ]'
+    >
+    </div>
+    <!-- grid toolbar template -->
+    <script type="text/x-kendo-template" id="template-exams-ldo-toolbar">
+        <div class="form-inline toolbar pull-left" id="exams-ldo-toolbar">
+            <label for='exams-ldo-period'>Период:</label>
+            <input id='exams-ldo-period' style='width: 150px;'
+                   data-role="dropdownlist"
+                   data-text-field="text"
+                   data-value-field="value"
+                   data-bind="value: selectedPeriod,
+                    source:periodDs"
+            />
+            &nbsp;
+            &nbsp;
+            <button rel="tooltip" title="Просмотр выбранных исследований" class="k-button" type="button"
+                    data-bind="events:{click: onPrintButtonClick}">
+                <span>
+                    <span class="k-icon k-i-file-txt k-icon-24"></span>
+                </span>
+            </button>
+            &nbsp;
+            &nbsp;
+            <button id="exams-ldo-funnel-button" rel="tooltip" title="Установить фильтр по значению выделенной ячейки"
+                    class="k-button" type="button"
+                    data-bind="events:{click: onFilterButtonClick},attr:{title:filterButtonTitle}">
+                        <span data-bind="html:filterButtonIconHtml">
+                            <span class="k-icon k-i-filter k-icon-24"></span>
+                        </span>
+            </button>
+            <!--
+            &nbsp;
+            &nbsp;
+            <button id="exams-ldo-napr-button" rel="tooltip" title="Направить на исследование в ЛДО"
+                    class="k-button" type="button"
+                    data-bind="events:{click: doNaprLdo}">
+                <img src="html/images/xray-human.png">
+            </button>
+            -->
+        </div>
+    </script>
+
+</div>

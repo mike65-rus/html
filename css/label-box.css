@@ -1,0 +1,59 @@
+/*
+.form-checkBox {
+    display: none !important;
+}
+.label-box {
+    background:url("checkbox_no.png") no-repeat;
+    padding-left: 30px;
+    padding-top: 3px;
+    margin: 5px;
+    height: 28px;
+    width: 150px;
+    display: block;
+}
+.label-box:hover {
+    text-decoration: underline;
+}
+.label-box-selected {
+    background: url("checkbox_yes.png") no-repeat;
+}
+*/
+/*
+input[type="radio"] {
+    -webkit-appearance: checkbox;
+    -moz-appearance: checkbox;
+//    -ms-appearance: checkbox;
+//    -o-appearance: checkbox;
+}
+*/
+/*
+input[type=radio] {content:url("checkbox_no.png")}
+input[type=radio]:checked {content:url("checkbox_yes.png")}
+*/
+
+
+/*
+.label-box:hover {
+    text-decoration: underline;
+}
+input.jad-checkBox{
+    width: 12px;
+    height:12px;
+    border: solid 1px;
+    border-width: 1px ;
+    color:black;
+    background-color:white;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    -o-appearance:none;
+    padding: 0px 0px 0px 0px;
+
+}
+input.jad-checkBox:checked {
+    background: url("cross4.png") no-repeat center !important;
+    background-size: contain;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+}
+*/

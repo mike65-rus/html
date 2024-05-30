@@ -1,0 +1,152 @@
+<div id="ib" class="k-content well well-small well-ib-header">
+    <div id="ib-container">
+        <div class="demo-section product-info" data-bind="visible: showForm">
+            <table style="width:100%;">
+                <tr>
+                    <td>
+                <i id="ib_icon" data-bind="{attr:{class:maleFemale}}"></i>
+                <span> <strong data-bind="text:selectedIb.niib"></strong> </span>
+                <span>/</span>
+                <span> <strong data-bind="text:selectedIb.pin,visible:isPk"></strong></span>
+                <span data-bind="visible:isPk">/</span>
+
+                <span> <strong data-bind="text:selectedIb.fio"></strong></span>
+                /
+                <span> <strong data-bind="text:selectedIb.otd1"></strong></span>
+                <span data-bind="visible:isSt">-</span>
+
+                <span> <strong data-bind="text:getPalataStr,visible:isSt"></strong></span>
+                <span>/</span>
+                <span> <strong data-bind="text:getPeriodStr"></strong></span>
+                 <span data-bind="visible:isImtInHeaderVisible">
+                     <span>/</span>
+                     <span>ИМТ=</span>
+                     <span data-bind="text:imt"></span>
+                     <!-- &nbsp;
+                     <span style='font-size:small' data-bind="text:imtDescr"></span> -->
+                 </span>
+<!--                 <span style="padding:5px; background-color: greenyellow; text-align: center"> -->
+                 <span data-bind="visible:selectedIb.cancer_num,click:cancerClick"
+                       class="label label-info" style="padding:5px; cursor:pointer"
+                       title="В краевом CANCER-регистре зарегистрирован пациент с аналогичными ФИО и датой рождения"
+                    >см. Cancer-регистр
+                 </span>
+                <br>
+                        </td>
+
+                <td style="text-align: right">
+<!--                    <div class="pull-right"> -->
+                    <!--
+                    <input id="ib-selector-ib" placeholder="Поиск по фамилии..." />
+                    -->
+                    <button rel="tooltip" title="Открыть для редактирования" data-bind="click: openForEdit, visible: isOpenForEditVisible" class="k-button open-close-ib"><i class="fa fa-edit" title="Открыть для редактирования"></i></button>
+                    <button rel="tooltip" title="Биометрические данные" data-bind="click: showBioData " class="k-button open-close-ib"><i class="fa fa-id-card-o" title="Биометрические данные"></i></button>
+                    <button rel="tooltip" data-bind="attr:{title:openCloseTitle},click: changeOpen, visible: isChangeOpenVisible" class="k-button open-close-ib"><i data-bind="{attr:{class:openCloseIcon,title:openCloseTitle}}" ></i></button>
+                    <button rel="tooltip" data-bind="attr:{title:recomButtonTitle},click: changeRecomVisability, visible: isChangeOpenVisible" class="k-button open-close-ib"><i data-bind="{attr:{class:recomButtonIcon,title:recomButtonTitle}}" ></i></button>
+                    <button rel="tooltip" title="Закрепить за мной" data-bind="click: zakr_ib_me, visible: isZakrMeVisible" class="k-button"><i class="fa fa-magnet"></i></button>
+                    <button rel="tooltip" title="Закрепить за другим врачом" data-bind="click: zakr_ib_other, visible: isZakrOtherVisible" class="k-button"><i class="fa fa-retweet"></i></button>
+                    <button rel="tooltip" title="Перевести в другое отделение" data-bind="click: perevod_ib, visible: isPerevodVisible" class="k-button"><i class="fa fa-sign-out"></i></button>
+					<button rel="tooltip" title="Оставить под наблюдение" data-bind="click: observation, visible: isObservationVisible" class="k-button"><i class="fa fa-medkit"></i></button>	
+                    <button rel="tooltip" title="Направить пациента на исследование в RIS-ЛДО" data-bind="click: gotoNaprLdo, visible: isNaprLdoVisible" class="k-button">
+                        <img src="html/images/xray-human.png">
+
+                    </button>
+                    <button rel="tooltip" title="Особые отметки" id="ib-notes-btn" data-bind="click: openNotes" class="k-button"><i class="fa fa-comment-o"></i></button>
+                    <button rel="tooltip" id="btnMoreInfo" class="k-button open-close-more" type="button" data-bind="{attr:{title:showHide},events:{click: changeShowMore}"><i data-bind="{attr:{class:plusMinus,title:showHide}}"></i></button>
+<!--                    </div> -->
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- <div id="ibRecom" data-bind="html:recomsHtml">
+        </div> -->
+        <div id="ibRecom" data-role="listview" data-template="templates-recomList" data-selectable="true"
+             data-bind="source:recomDs,visible:isRecomVisible,events:{change:onListViewChange}" data-auto-bind="true">
+
+         </div>
+        <div data-bind="visible: isMoreVisible">
+            <table class="table table-condensed table-bordered table-striped">
+                <tbody>
+                <caption>&nbsp;</caption>
+                <tr>
+                    <td>Лечащий врач</td>
+                    <td colspan="5"><strong data-bind="text:getDoctStr"></strong></td>
+                </tr>
+                <tr>
+                    <td>Поступление</td>
+                    <td><strong data-bind="text:getDateAsk"></strong></td>
+                    <td>Направитель</td>
+                    <td><strong data-bind="text:selectedIb.napravit"></strong></td>
+                    <td>План/Экстр</td>
+                    <td><strong data-bind="text:selectedIb.pl_ek"></strong></td>
+                </tr>
+                <tr>
+                    <td>Диагноз направителя</td>
+                    <td colspan="4"><strong data-bind="text:selectedIb.diag_napr"></strong></td>
+                    <td ><strong data-bind="text:selectedIb.mkb_napr"></strong></td>
+                </tr>
+                <tr>
+                    <td>Диагноз приемного отделения</td>
+                    <td colspan="4"><strong data-bind="text:selectedIb.diag_post"></strong></td>
+                    <td ><strong data-bind="text:selectedIb.mkb_post"></strong></td>
+                </tr>
+                <tr>
+                    <td>Выбытие</td>
+                    <td> <strong data-bind="text:getDateOut"></strong></td>
+                    <td>Результат</td>
+                    <td> <strong data-bind="text:selectedIb.rezult1"></strong></td>
+                    <td>Доп. Рез</td>
+                    <td> <strong data-bind="text:selectedIb.rezult2"></strong></td>
+                </tr>
+                <tr>
+                    <td>Дата рождения</td>
+                    <td> <strong data-bind="text:getBirt"></strong></td>
+                    <td>Возраст</td>
+                    <td><strong data-bind="text:selectedIb.age"></strong></td>
+                    <td>Пол</td>
+                    <td><strong data-bind="text:selectedIb.sex"></strong></td>
+                </tr>
+                <tr>
+                    <td>Метрика</td>
+                    <td colspan="5"><strong data-bind="html:imtHtml"></strong></td>
+                </tr>
+                <tr>
+                    <td>Адрес</td>
+                    <td colspan="5"><strong data-bind="text:selectedIb.address"></strong></td>
+                </tr>
+                <tr>
+                    <td>Телефон</td>
+                    <td> <strong data-bind="text:selectedIb.phone"></strong></td>
+                    <td>Паспорт</td>
+                    <td><strong data-bind="text:selectedIb.pasp"></strong></td>
+                    <td>Полис</td>
+                    <td><strong data-bind="text:selectedIb.polis"></strong></td>
+                </tr>
+                <tr>
+                    <td>Соц.статус</td>
+                    <td> <strong data-bind="text:selectedIb.soc_stat"></strong></td>
+                    <td>Место работы</td>
+                    <td><strong data-bind="text:selectedIb.work1"></strong></td>
+                    <td>Профессия</td>
+                    <td><strong data-bind="text:selectedIb.profes"></strong></td>
+                </tr>
+                <tr>
+                    <td>Инвалидность</td>
+                    <td colspan="2"> <strong data-bind="text:selectedIb.inv_stat"></strong></td>
+                    <td>Группа</td>
+                    <td colspan="2"><strong data-bind="text:getInvGr"></strong></td>
+                </tr>
+                <tr>
+                    <td>Особые отметки</td>
+                    <td colspan="5"><strong data-bind="text:getNotesStr"></strong></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Движение по отделениям</td>
+                    <td colspan="4"><div data-bind="html:getOtdelsHistory"></div></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

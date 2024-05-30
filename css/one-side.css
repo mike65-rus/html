@@ -1,0 +1,9 @@
+/* for normal one-side printing */
+@page {
+    size: A4;
+    margin-left: 2cm;
+    margin-right: 1cm;
+    margin-top: 1cm;
+    margin-bottom: 1cm
+
+}

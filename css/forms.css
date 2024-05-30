@@ -1,0 +1,50 @@
+ .i-edit {
+     font-family:inherit;
+     font-size:inherit;
+     font-weight:inherit;
+     background:AliceBlue !important; border:1px solid black !important;
+     padding: 2px 4px !important;
+     display:inline-block;
+     min-width: 75px;
+ }
+.my-sel::before {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+    background:AntiqueWhite; border:1px solid black;
+    padding: 2px 4px;
+    display:inline-block;
+    min-width:150px;
+}
+.my-sel.sel1::before {
+    content:attr(data-sel)
+}
+.doc-head-1 {
+    font-weight:bolder;
+}
+.doc-head-2 {
+    font-weight:bold;
+}
+.doc-invisible {
+    display:none;
+}
+.doc-razdel {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.forma {
+    margin-top:5px;
+}
+.no-forma {
+    margin-top:5px;
+}
+.new-line {
+    display:block;
+    margin-top:3px;
+}
+hr.doc-hr {
+    margin-top:3px;
+    margin-bottom:3px;
+}
+
+

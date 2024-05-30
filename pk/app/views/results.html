@@ -1,0 +1,24 @@
+<div id="html_div" style="margin-top: -50px;">
+    <div class="no-print navbar navbar-fixed-top pull-left k-block" style="width:100%">
+        <button rel="tooltip" title="Назад"  class="k-button" type="button"
+                data-bind="click:goBack"><span><span class="k-icon k-i-arrow-left k-icon-24"></span></span></button>
+        <button rel="tooltip" title="Печать"  class="k-button" type="button"
+                data-bind="click:print"><span><span class="k-icon k-i-print k-icon-24"></span></span></button>
+        <button rel='tooltip' title='Переключиться в режим выделения таблиц'
+                class='k-button word-selectable-button' type='button'
+                data-bind=visible:wordHtml,events:{click:changeMode},attr:{title:switchTitle}">
+            <span data-bind="html:switchHtml"></span>
+            </button>
+    </div>
+    <p class="no-print">&nbsp;</p>
+    <div id="html_results" data-bind="html:resultHtml,visible:isHtmlVisible" style="margin-top:50px">
+
+    </div>
+
+    <div id="word_results" class="no-print"  style="margin-top:50px" data-bind="html:wordHtml,visible:isWordVisible">
+
+    </div>
+    <div id="tmp-result" class="div-invisible no-print">
+
+    </div>
+</div>

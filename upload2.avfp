@@ -1,0 +1,78 @@
+
+<head>
+<style type="text/css">
+		body { font-size: 62.5%; }
+		</style>
+</head>
+
+<%= include("header.avfp") %>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="20%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          	<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<p align="left">&nbsp;<a href="http://affiliate.godaddy.com/redirect/C536501AFDED7217700477046BECCF905134E0194DAC0E300443444C140BE50D7B401880AAC3CA99E8FE89874EE4A708" title="GoDaddy.com Hosting Plans">Cloud Web Hosting</a><img src="http://affiliate.godaddy.com/content/spacer.png?q=C536501AFDED7217700477046BECCF905134E0194DAC0E300443444C140BE50D7B401880AAC3CA99E8FE89874EE4A708" width="0" height="0" alt=""/><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/D637B91824E8AB208DC5C3E9A6BCF12201CEBDB2337B4868D946B171E5E0293C6C53D6B9E76954936DA60A9103F1EEEB" title="Go Daddy $12.99 SSL Sale!">SSL Certificates</a><br>
+<img src="http://affiliate.godaddy.com/content/spacer.png?q=D637B91824E8AB208DC5C3E9A6BCF12201CEBDB2337B4868D946B171E5E0293C6C53D6B9E76954936DA60A9103F1EEEB" width="0" height="0" alt=""/>
+<a href="http://affiliate.godaddy.com/redirect/FBF30519EF2549A6C7FD931E0110F4A3A6AD0C0B4185ED53B4B4A35A82155280BD1BE7FFBC72914B5D13DD5286A24C63" title="Domain Sale! $7.49 .com at GoDaddy">Domains</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/5D4E84FDB824DA1BF2EBEAA8AEC031477920D18EEF3CE5E303D9A14761A0E673CFD6EFAA251C2F64D3FB278DB2D84E29" title="Group Email from GoDaddy.com">Email Plans</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/5346D2E3C84B6485D98715FC579DA88FEFD87AB00CA25E07F1404C0CF93CB820DB40455B834BBF241E7A77AD17F788FE" title="GoDaddy.com Virtual Dedicated Servers">Virtual Dedicated Servers</a><br>
+&nbsp;<a href="http://affiliate.godaddy.com/redirect/E724A54E4B99D26CE0DED191029B609A5F8405C2B213A4317114CC5CA04116DF5BEC8D942CB954A47E9D1AEEF5C3F97D" title="Dedicated Servers at GoDaddy.com">Dedicated Servers</a></TD>
+          <TD vAlign=top width=100% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4">
+                    <a href="<%=oProp.ScriptPath %>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+                    <br>
+                    Upload Results&nbsp; <font face><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="history.back()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+					<font face size="4"><small><font face="arial,helvetica">
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span></font></small></font></font></small></font></font></b></font></td>
+                  <center>
+                  </tr>
+<%
+    oUpload=NEWOBJECT('AVFPhttpUpload')
+ *set the maximum file size to allow for uploads
+	oUpload.setmaxsize(999999999)
+ * do the upload 	
+	lnFiles = oUpload.HttpUpload(oProp.AppStartPath+'temp')
+%>                  
+                  <tr>
+                    <td width="149%">
+                    &lt;%= oUpload.lnfCount %&gt; File(s) Uploaded!
+                    <p>The first file is &lt;%=oUpload.getfilename('FILE1')%&gt;,
+                    Size: &lt;%=oUpload.getfilesize('FILE1')%&gt;, Original Name:
+                    &lt;%=oUpload.getfileorig('FILE1')%&gt;</p>
+                    <p>The second file is &lt;%=oUpload.getfilename('FILE2')%&gt;,
+                    Size: &lt;%=oUpload.getfilesize('FILE2')%&gt;, Original Name:
+                    &lt;%=oUpload.getfileorig('FILE2')%&gt;</p>
+                    <p>The third file is &lt;%=oUpload.getfilename('FILE3')%&gt; ,
+                    Size: &lt;%=oUpload.getfilesize('FILE3')%&gt;, Original Name:
+                    &lt;%=oUpload.getfileorig('FILE3') %&gt;</p>
+                    <p>The 1st value you entered is: &lt;%=oUpload.getmform('test')%&gt;</p>
+                    <p>The 2nd value you entered is: &lt;%=oUpload.getmform('test2')%&gt;</p>
+                    <p>The 3rd value you entered is: &lt;%=oUpload.getmform('test3')%&gt;</p>
+                    <p>File1 extension and stem are: &lt;%=oUpload.getfileex('FILE1')+[ and ]+oUpload.getfilestem('FILE1')%&gt;</p>
+                    <p>File1 elapsed time for upload:&lt;%=oUpload.getelapsedtime('FILE1')%&gt;</p>
+                    <p>File2 elapsed time for upload:&lt;%=oUpload.getelapsedtime('FILE2')%&gt;
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%= include("footer.avfp") %>

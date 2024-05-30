@@ -1,0 +1,66 @@
+<%
+* Send a JSON response back to JQgrid from Foxpro
+ 
+LOCAL AjaxResponse, page, limit, sidx, sord,limit,total_pages,count
+
+page = VAL(oRequest.QueryString("page"))  
+limit = VAL(oRequest.QueryString("rows")) 
+sidx = oRequest.QueryString("sidx")  
+sord = oRequest.QueryString("sord")  
+oJSON=NEWOBJECT('json','json.prg')
+AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response 
+ADDPROPERTY(AjaxResponse,"page", page)  
+AddProperty(AjaxResponse,"total", 0)  
+AddProperty(AjaxResponse,"records", 0)
+
+
+*if we did not pass index use the first column for the index
+
+IF (EMPTY(sidx) .OR. ISNULL(sidx))
+   sidx =1
+ENDIF
+
+ *calculate the number of rows for the query. We need this for paging the result
+USE customer 
+
+count=reccount('customer')
+
+
+* calculation of total pages for the query
+if count >0  
+	total_pages = ceiling(count/limit)
+else 
+	total_pages = 0
+ENDIF
+
+*if for some reasons the requested page is greater than the total
+* set the requested page to total page
+if (page > total_pages) 
+   page=total_pages
+ENDIF
+
+*calculate the starting position of the rows
+start = limit*page - limit && do not put $limit*($page - 1)
+* if for some reasons start position is negative set it to 0
+* typical case is that the user type 0 for the requested page
+if start <0
+  start = 0
+ENDIF
+
+ *the actual query for the grid data         
+SELECT cust_id as a_id,company,country,phone,trans(maxordamt) as maxordamt,email FROM customer where recno() >= start and recno() <= start+limit ;
+   INTO Cursor SearchResults ;   
+   ORDER BY &sidx &sord 
+
+AjaxResponse.total = trans(total_pages)
+AjaxResponse.page = trans(page)
+AjaxResponse.records = trans(count)
+oJSON.keyforcursors="customers"
+
+
+* send JSON data and properties back
+oResponse.ContentType = "application/json;charset=utf-8"  &&text/plain
+oResponse.Write(oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('SearchResults')))
+oResponse.Flush
+lcHTMLout=[]
+%>             

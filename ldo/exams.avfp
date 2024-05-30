@@ -1,0 +1,210 @@
+                <% * Исследования поликлиника %>
+                <div id="exams_header">
+                    <strong>
+                        <!-- Исследования:&nbsp; -->
+                        <span id="exams_patient_label" data-bind="text:patientLabel">
+                        </span>
+                    </strong>
+                    <span class="pull-right" style="background-color:black;color:white"><strong data-bind="text:txtOuted"></strong></span>
+
+                </div>
+<div id="exams_div">
+    <div id="exams_toolbar"></div>
+    <div id="exams_tabstrip">
+        <ul>
+            <li>КДЛ</li>
+            <li>ЛДО</li>
+            <li>ИБ</li>
+            <li>PACS</li>
+        </ul>
+        <div class="pk_exams_div">
+            <!-- <strong>КДЛ</strong> -->
+            <div id="exams_kdl_grid" class="pk-grid" style="width:100%;height:100%">
+
+            </div>
+            <!-- grid toolbar template -->
+             <script type="text/x-kendo-template" id="template-exams-kdl-toolbar">
+                <div class="form-inline toolbar pull-left" id="exams-kdl-toolbar">
+                    <button rel="tooltip" title="Просмотр выбранных анализов"  class="k-button" type="button"
+                        data-bind="events:{click: onPrintKdlButton}"><i class="fa fa-file-text-o fa-lg"></i></button>
+                    &nbsp;
+                    &nbsp;
+                    <button id="exams-kdl-funnel-button" rel="tooltip" title="Установить фильтр по значению выделенной ячейки"  class="k-button" type="button"
+                        data-bind="events:{click: onFilterKdlButton}">
+                        <span>
+                            <span class="k-icon k-i-funnel"></span>
+                        </span>
+                    </button>
+                    <span id="exams-kdl-p" data-bind="visible:isPeriodVisible">
+                        &nbsp;
+                        &nbsp;
+                        <label for='exams-kdl-period'>Период:</label>
+                        <input id='exams-kdl-period' style='width: 150px;' />
+                    </span>
+                    <!--
+                    <button rel="tooltip" title="Отменить фильтр"  class="k-button" type="button"
+                        data-bind="events:{click: onUnFilterKdlButton}, enabled:kdlQuickFilter">
+                        <span class="k-icon k-i-funnel-clear"></span>
+
+                    </button>
+                    -->
+                    <!--
+                    &nbsp;
+
+                    <button rel="tooltip" title="Отметить все"  class="k-button" type="button"
+                        data-bind="events:{click: onCheckAllKdlButton}"><i class="fa fa-check-square-o"></i></button>
+                    <button rel="tooltip" title="Снять все отметки"  class="k-button" type="button"
+                        data-bind="events:{click: onUnCheckAllKdlButton}"><i class="fa fa-square-o"></i></button>
+                    <button rel="tooltip" title="Инвертировать отметки"  class="k-button" type="button"
+                        data-bind="events:{click: onInvertChecksKdlButton}"><i class="fa fa-exchange"></i></button>
+                    &nbsp;
+                    -->
+                </div>
+             </script>
+
+        </div>  <!-- kendo grid -->
+        <div class="pk_exams_div">
+<!--            <strong>ЛДО</strong> -->
+            <div id="exams_ldo_grid" class="pk-grid" style="width:100%;height:100%">
+            </div>
+        </div>  <!-- kendo grid -->
+        <!-- patient info -->
+        <div class="pk_exams_div">
+             <div  id="stac_info" data-bind="visible: isStacVisible">
+                <table class="table table-condensed table-bordered table-striped">
+                    <tbody>
+                        <caption>
+                            <span style="font-weight:bold"><span data-bind="text:selectedIb.fio"></span>
+                                &nbsp;
+                                <span>№</span>
+                                <span data-bind="text:selectedIb.niib"></span>
+                            </span>
+                        </caption>
+                        <tr>
+                            <td>Лечащий врач</td>
+                            <td colspan="5"><strong data-bind="text:getDoctStr"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Поступление</td>
+                            <td><strong data-bind="text:getDateAsk"></strong></td>
+                            <td>Направитель</td>
+                            <td><strong data-bind="text:selectedIb.napravit"></strong></td>
+                            <td>План/Экстр</td>
+                            <td><strong data-bind="text:selectedIb.pl_ek"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Диагноз направителя</td>
+                            <td colspan="4"><strong data-bind="text:selectedIb.diag_napr"></strong></td>
+                            <td ><strong data-bind="text:selectedIb.mkb_napr"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Диагноз приемного отделения</td>
+                            <td colspan="4"><strong data-bind="text:selectedIb.diag_post"></strong></td>
+                            <td ><strong data-bind="text:selectedIb.mkb_post"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Выбытие</td>
+                            <td> <strong data-bind="text:getDateOut"></strong></td>
+                            <td>Результат</td>
+                            <td> <strong data-bind="text:selectedIb.rezult1"></strong></td>
+                            <td>Доп. Рез</td>
+                            <td> <strong data-bind="text:selectedIb.rezult2"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Дата рождения</td>
+                            <td> <strong data-bind="text:getBirt"></strong></td>
+                            <td>Возраст</td>
+                            <td><strong data-bind="text:selectedIb.age"></strong></td>
+                            <td>Пол</td>
+                            <td><strong data-bind="text:selectedIb.sex"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Адрес</td>
+                            <td colspan="5"><strong data-bind="text:selectedIb.address"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Телефон</td>
+                            <td> <strong data-bind="text:selectedIb.phone"></strong></td>
+                            <td>Паспорт</td>
+                            <td><strong data-bind="text:selectedIb.pasp"></strong></td>
+                            <td>Полис</td>
+                            <td><strong data-bind="text:selectedIb.polis"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Соц.статус</td>
+                            <td> <strong data-bind="text:selectedIb.soc_stat"></strong></td>
+                            <td>Место работы</td>
+                            <td><strong data-bind="text:selectedIb.work1"></strong></td>
+                            <td>Профессия</td>
+                            <td><strong data-bind="text:selectedIb.profes"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Инвалидность</td>
+                            <td colspan="2"> <strong data-bind="text:selectedIb.inv_stat"></strong></td>
+                            <td>Группа</td>
+                            <td colspan="2"><strong data-bind="text:getInvGr"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Особые отметки</td>
+                            <td colspan="5"><strong data-bind="text:getNotesStr"></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+        </div>
+         <!-- PACS -->
+        <div id="pacs">
+            <div data-bind="visible:isPacsVisible">
+                Запросить данные из госпитальной PACS-системы:
+                <button class="k-button" data-bind="click:pacsQuery2">по всем случаям пациента</button>
+                &nbsp;
+                <button class="k-button" data-bind="click:pacsQuery1,visible:isPacs1QueryVisible">по этому случаю</button>
+                <hr>
+            </div>
+            <div id="pacs-data" class="divldo"></div>
+        </div>
+
+            <!-- grid toolbar template -->
+             <script type="text/x-kendo-template" id="template-exams-ldo-toolbar">
+                <div class="form-inline toolbar pull-left" id="exams-ldo-toolbar">
+                    <button rel="tooltip" title="Просмотр выбранных исследований"  class="k-button" type="button"
+                        data-bind="events:{click: onPrintLdoButton}"><i class="fa fa-file-text-o fa-lg"></i></button>
+                    &nbsp;
+                    &nbsp;
+                    <button id="exams-ldo-funnel-button" rel="tooltip" title="Установить фильтр по значению выделенной ячейки"  class="k-button" type="button"
+                        data-bind="events:{click: onFilterLdoButton}">
+                        <span>
+                            <span class="k-icon k-i-funnel"></span>
+                        </span>
+                    </button>
+                    <span id="exams-ldo-p" data-bind="visible:isPeriodVisible">
+                        &nbsp;
+                        &nbsp;
+                        <label for='exams-ldo-period'>Период:</label>
+                        <input id='exams-ldo-period' style='width: 150px;' />
+                    </span>
+                    <!--
+                    <button rel="tooltip" title="Фильтр по значению выделенной ячейки"  class="k-button" type="button"
+                        data-bind="events:{click: onFilterLdoButton}">
+                        <i class="fa fa-filter"></i>
+                     </button>
+                    <button rel="tooltip" title="Отменить фильтр"  class="k-button" type="button"
+                        data-bind="events:{click: onUnFilterLdoButton}, enabled:ldoQuickFilter">
+                          <i class="fa fa-filter fa-rotate-180"></i>
+                    </button>
+                    -->
+                     <!--
+                    <button rel="tooltip" title="Отметить все"  class="k-button" type="button"
+                        data-bind="events:{click: onCheckAllLdoButton}"><i class="fa fa-check-square-o"></i></button>
+                    <button rel="tooltip" title="Снять все отметки"  class="k-button" type="button"
+                        data-bind="events:{click: onUnCheckAllLdoButton}"><i class="fa fa-square-o"></i></button>
+                    <button rel="tooltip" title="Инвертировать отметки"  class="k-button" type="button"
+                        data-bind="events:{click: onInvertChecksLdoButton}"><i class="fa fa-exchange"></i></button>
+                    &nbsp;
+                    -->
+                </div>
+
+             </script>
+    </div>
+</div>
+

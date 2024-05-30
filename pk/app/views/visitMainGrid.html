@@ -1,0 +1,34 @@
+<div>
+    <div>
+        <strong data-bind="text:notClosedVisitsGridTitle"></strong>
+    </div>
+    <div style="font-size: 0.9em">
+        <div id="not_closed_visits_grid-main" class="pk-grid" style="width:98%;"
+             data-role="grid"
+             data-auto-bind="true"
+             data-selectable="row"
+             data-bind="source:gridDs"
+             data-groupable="false"
+             data-filterable="false"
+             data-pageable="false"
+             data-columns='[
+            {field: "visit_id", title: "visit_id",hidden: true },
+            { field: "visit_date", title: "Дата", width: "80px", format: "{0:dd.MM.yy}"},
+            { field: "visit_time", title: "Время", width: "8%", format: "{0:HH:mm}", filterable:false, sortable: false, hidden:true},
+            { field: "visit_type", values:appData.visitsListsLookups.aVisitTypes, title: "Посещение"},
+            { field: "visit_type", title: "visit_type", hidden: true },
+            { field: "user_id", values:appData.visitsListsLookups.aUsers, title: "Врач"},
+            { field: "user_id", title: "user_id",hidden: true },
+            { field: "spec_id", values:appData.visitsListsLookups.aSpec, title: "Специальность"},
+            { field: "spec_id", title: "spec_id", hidden: true  },
+            { field: "mkb", title: "МКБ",width:"70px" },
+            { field: "pay_type", values:appData.visitsListsLookups.aPayTypes, title: "Оплата", width:"10%"},
+            { field: "pay_type", title: "pay_type",hidden: true },
+            { field: "otd_id", values:appData.visitsListsLookups.aOtdels, title: "Отд" , hidden:true },
+            { field: "otd_id", title: "otd_id", hidden: true  }
+         ]'
+        >
+        </div>
+
+    </div>
+</div>

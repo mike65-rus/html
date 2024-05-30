@@ -1,0 +1,42 @@
+<div class="notifications-item">
+<table class="table ib-notifications-table">
+    <tr  class="k-block">
+        <td width="10%">
+            <i data-bind="attr:{class:subSystemIcon}"></i>
+            <i data-bind="attr:{class:importantIcon}"></i>
+            <i data-bind="attr:{class:viewIcon}"></i>
+        </td>
+        <td width="5%">
+            Дата:
+        </td>
+        <td width="15%" style="font-weight:bold">
+            #:kendo.toString(curdatetime,"dd.MM.yyyy HH:mm")#
+        </td>
+        <td width="8%">
+            Пациент:
+        </td>
+        <td style="font-weight:bold">
+            <button class="k-button" id="b1-#:id#" data-bind="events:{click:openIb}">#:patient_name# № #:niib#</button>
+           <!-- <a href="\\#/ib/#:ask_id#">#:patient_name# № #:niib#</a> -->
+        </td>
+        <td width="10%">
+            Отправитель:
+        </td>
+        <td style="font-weight:bold">
+            #:sender#
+        </td>
+
+
+    </tr>
+    <tr class="k-block">
+        <td colspan="6">
+<!--            <pre style="font-size:large">#:text#</pre> -->
+            <div style="white-space:pre-wrap;font-size:large">#:text#</div>
+        </td>
+        <td>
+            <button class="k-button" data-bind="enabled:isCheckReadedEnabled,events:{click:markAsReaded},html:markButtonHtml" id="b2-#:id#">
+            </button>
+        </td>
+    </tr>
+</table>
+</div>

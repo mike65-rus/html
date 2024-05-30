@@ -1,0 +1,54 @@
+<%
+LOCAL AjaxResponse,lcAction
+*IF !(oSession.VALUE("authenticated"))
+IF .F.
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+    DO CASE
+	    CASE lcAction=='list'
+	        lcAskId=oRequest.QueryString("ask_id")
+	        lcSortOrder=oRequest.QueryString("sort_order")
+	        IF ISNULL(lcSortOrder)
+	            lcSortOrder="desc"
+	        ENDIF
+        	lcData1=oRequest.QueryString("d1")
+            oLdo=NEWOBJECT("LDO","LDO.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+   		    oJSON.AppendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oLdo.GetIsslList(lcAskId,"LdoDAT",.T.,lcSortOrder,STOD(lcData1))
+   		    oLdo=NULL
+   		    CLEAR CLASS ldo
+   		    IF lnRet<0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        SELECT ldoDat.* FROM ldoDAT INTO CURSOR LDODATA
+                AjaxResponse.records=RECCOUNT('ldoDATA')
+                oJSON.keyforcursors='ldodata'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ldodata'))
+                oJSON=NULL
+                CLEAR CLASS json2
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+    ENDCASE
+ENDIF
+%>

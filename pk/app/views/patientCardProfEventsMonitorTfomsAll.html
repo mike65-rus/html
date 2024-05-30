@@ -1,0 +1,90 @@
+<div >
+    <div id="pk_monitor_tfoms_grid_all" class="pk-grid pk-grid-dblclick" style="width:100%;height:100%"
+         data-role="grid"
+         data-auto-bind="true"
+         data-toolbar='[{ template: kendo.template($("#template-monitor-tfoms-grid-toolbar-all").html()) }]'
+         data-selectable="row"
+         data-bind="source:gridDs"
+         data-groupable="false"
+         data-filterable="false"
+         data-pageable="false"
+         data-no-records="{template:'Нет доступных записей.'}"
+         data-columns='[
+            {field: "id", title: "id",hidden: true },
+            {field: "evn", title: "evn",hidden: true },
+            {field: "pin", title: "ПИН" },
+            {field: "fa", title: "Пациент",width:"20%", template:$("#mon-prof-pat_name-template").html()},
+            {field: "disp_code", title: "Код", template:$("#mon-prof-disp_code-template-all").html() },
+            {field: "date_beg", title: "Дата начала", format: "{0:dd.MM.yy}" },
+            {field: "date_end", title: "Дата окончания", format: "{0:dd.MM.yy}" },
+            {field: "created", title: "Создан", format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "updated", title: "Изменен",  format: "{0:dd.MM.yy - HH:mm}"},
+            {field: "send_dt", title: "Передан в СКФОМС",  format: "{0:dd.MM.yy - HH:mm}"}
+         ]'
+    >
+    </div>
+</div>
+    <script type="text/x-kendo-template" id="mon-prof-pat_name-template">
+        # var ssFio2=function(fa,im,ot) {
+        var sRet="";
+        sRet=((fa || "").trim()+" "+(im || "").trim()+" "+(ot || "").trim()).trim();
+        sRet=sRet.fio();
+        return sRet;
+        } #
+        #= ssFio2(data.fa,data.im,data.ot) #
+    </script>
+
+    <script type="text/x-kendo-template" id="mon-prof-disp_code-template-all">
+        # var ssCode2=function(dispCode) {
+        var sRet="";
+        if (dispCode) {
+            if (dispCode=="ДВ4") {
+                sRet="ВД-1";
+            }
+            if (dispCode=="ДВ2") {
+                sRet="ВД-2";
+            }
+            if (dispCode=="ОПВ") {
+                sRet="Проф";
+            }
+        }
+        return sRet;
+        } #
+        #= ssCode2(disp_code) #
+    </script>
+
+    <!-- grid toolbar template -->
+    <script type="text/x-kendo-template" id="template-monitor-tfoms-grid-toolbar-all">
+        <div class="form-inline toolbar" id="pk_monitor_tfoms_grid_toolbar_all">
+            <span>
+            &nbsp;
+<!--                <form class="form-inline"> -->
+                <button id="all-prof-edit" rel="tooltip" title="Открыть карточку выбранного пациента"  class="k-button" type="button"
+                        data-bind="events:{click: onEditButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-check-outline k-icon-24"></span>
+                            </span>
+                            Открыть мероприятия выбранного пациента
+                </button>
+                &nbsp;
+                <input type="checkbox" id="check-tfoms-all" class="k-checkbox" data-bind="checked:isOnlyNotEnded">
+                <label class="k-checkbox-label" for="check-tfoms-all">Только незавершенные</label>
+<!--                </form> -->
+            </span>
+            &nbsp;
+            <span class="pull-right">
+                <button id="docs-refresh" rel="tooltip" title="Обновить список"  class="k-button" type="button"
+                        data-bind="events:{click: onRefreshButtonClicked}">
+                            <span>
+                                <span class="k-icon k-i-refresh k-icon-24"></span>
+                            </span>
+                </button>
+
+            </span>
+
+        </div>
+    </script>
+
+
+
+</div>

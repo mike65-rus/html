@@ -1,0 +1,72 @@
+<%= include("header.avfp") %>
+
+ <% sVer=SYS(2015)
+        sVer="?ver="+sVer
+ %>
+
+
+<link rel="stylesheet" type="text/css" href="html/css/common.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/forms.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/stac.css<%=sVer%>" media="screen">
+
+<link rel="stylesheet" type="text/css" href="html/css/lab-screen.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/lab-print.css<%=sVer%>" media="print">
+
+<link rel="stylesheet" type="text/css" href="html/css/ldo-screen.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/ldo-print.css<%=sVer%>" media="print">
+
+<link rel="stylesheet" type="text/css" href="html/css/vyp-screen.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/vyp-print.css<%=sVer%>" media="print">
+
+<link rel="stylesheet" type="text/css" href="html/css/label-box.css<%=sVer%>" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/label-box.css<%=sVer%>" media="print">
+<!--
+<link rel="stylesheet" type="text/css" href="html/css/jad-screen.css" media="screen">
+<link rel="stylesheet" type="text/css" href="html/css/jad-screen.css" media="print">
+-->
+<link rel="stylesheet" type="text/css" href="html/StacDoct_main/app/css/app.css<%=sVer%>">
+<link rel="stylesheet" type="text/css" href="html/StacDoct_main/app/css/app-print.css<%=sVer%>"  media="print">
+<link rel="stylesheet" type="text/css" href="html/StacDoct_main/app/css/print-not-signed.css<%=sVer%>" media="print">
+
+</HEAD>
+<body>
+<%= include("headerInfo.avfp") %>
+<div class="container-fluid">
+ <!--- автоматическое перенаправление на Login.avfp, если нет логина или таймаут --->
+<%= include("loginInclude.avfp") %>
+<%= include("StacDoct_Include.avfp") %>
+
+<div class="row-fluid">
+    <div class="well well-small span2" style="padding-top:10px">
+         <div id="menu-ib-left">
+            <ul class="nav nav-tabs nav-stacked main-menu"  id="ib-menu" data-bind="visible:isIbSelected">
+
+                <li data-bind="visible:isIbSelected"><a  class="menu-link" data-bind="{attr: {href:getIbLink},text:getIbMenuHeader}">История болезни</a></li>
+                    <ul class="nav nav-tabs nav-stacked main-menu" id="ib-menu-details" data-bind="visible:isIbHeaderOnScreen">
+<!--                        <li data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbNewsLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Новое</em></a></li> -->
+                        <li data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbKdlLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;КДЛ</em></a></li>
+                        <li data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbLdoLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;ЛДО</em></a></li>
+                        <li data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbDocsLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Документы</em></a></li>
+                        <li title="Диагнозы" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbDiagsLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Диагнозы</em></a></li>
+                        <li data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbRecomLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Рекомендации</em></a></li>
+                        <li title="Прошлые обращения пациента" data-bind="visible:isOpen"><a data-bind="{attr: {href:getIbCasesLink}}"  class="menu-link menu-ib"><em>&nbsp;&nbsp;Обращения</em></a></li>
+                    </ul>
+            </ul>
+            </div>
+    </div>
+    <div class="span10 "  id="app">
+        <div id="error" style="display:none"></div>
+
+    </div>
+</div>
+</div>
+<%=include("footer.avfp")%>
+<% lcBuild=""
+    IF FILE(oProp.AppStartPath+"html\StacDoct_main\app\production.txt")
+        lcBuild="-build"
+    ENDIF
+%>
+<script src="html/StacDoct_main/app/libs/require-min.js" data-main="html/StacDoct_main/app/ibViewerMain<%=lcBuild%>"></script>
+
+</body>
+</HTML>

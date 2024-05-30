@@ -1,0 +1,110 @@
+<%= include('header.avfp') %>
+<BODY  bgColor=#1d5090 leftMargin=0 topMargin=0 marginwidth="0" 
+marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom width="100%" bgColor=#1D5090>
+      &nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="100%">
+      <TABLE cellSpacing=0 cellPadding=12 width="98%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width="6%" bgColor=#f6e1a0>
+            <p align="left">&nbsp;
+          </TD>
+          <TD vAlign=top width=114% bgColor=#fefefe>
+            <div align="center">
+              <table border="0" cellpadding="2" width="100%">
+                <tr>
+                  <td width="80%">
+                    <p align="left"><font face="Arial"><b><font size="4"><a href="<%=oProp.ScriptPath %>">
+                    <img border="0" src="images\activeVFP.gif"></a>&nbsp;<br>
+<%
+* Use this code in each page you want to protect  (CookieLogin and TableAuth routines are in main.prg)
+CookieLogin()  && checks for cookie to authenticate 
+IF !(oSession.VALUE("authenticated"))               && check dbf authentication if no cookie or cookie fails
+	 TableAuth(ALLTRIM(oRequest.FORM("Login")),ALLTRIM(oRequest.FORM("Password")),oRequest.FORM("C1"))    &&values from form
+ENDIF
+IF !(oSession.VALUE("authenticated")) 
+    oSession.VALUE("previous",oProp.Action)  && save target
+    oResponse.Redirect(oProp.ScriptPath+[?action=login])  && if still not authenticated goto login
+ENDIF   
+%>
+                    <br>
+                    Protected List&nbsp;&nbsp;&nbsp; <font face><small><font face="arial,helvetica"><input type="button" value="Go Back" onClick="window.location = '<%=oProp.ScriptPath%>';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <span style="font-weight: 400"><font size="3" face="Arial">
+                    <a href="<%=oProp.ScriptPath+[?action=showhtmlsource&file=]+oProp.Action%>">Show Code</a></font></span><br></font></small></font></font></b></font></td>
+                  <center>
+                  </tr>
+                  <tr>
+                    <td width="149%">
+                      <div align="center">
+ <% 
+ *Settings
+ lnTotPerPage  =10        && total records displayed per page
+ lnpagenumbers =5         && how many page numbers to show
+ lnStart=VAL(oRequest.querystring("page"))  && what page number are we on
+ lcButton=oRequest.querystring("nav")       && which way are we going: next, previous, first, last
+ 
+ *sql
+ SELE * FROM Customer INTO CURSOR tCursor
+ 
+ *create page numbers
+ START=0
+ lnPageMax = 0
+ lnPageBegin = 0
+ lnRowCount = RECCOUNT()
+ SET PROC to oProp.AppStartPath+'prg\pages' ADDITIVE   && Make sure you use ADDITIVE or bad things happen!
+ lcPages= pages(lnTotPerPage,lnpagenumbers,lnStart,lcButton,lnRowCount)
+ %>
+ 
+                        <table border="0" cellpadding="2" width="89%">
+                          <tr>
+                            <th width="40%" bgcolor="#C0C0C0">
+                              <p align="left">Company</p>
+                            </th>
+                            <th width="36%" bgcolor="#C0C0C0">
+                              <p align="left">Contact</p>
+                            </th>
+                            <th width="24%" bgcolor="#C0C0C0">
+                              <p align="left">Title</p>
+                            </th>
+                          </tr>
+            <% FOR lnX = lnPageBegin TO lnPageMax 
+                   IF lnX <= lnRowCount
+			          GOTO lnX %>
+                          <tr>
+                            <td width="40%"><font face="helvetica, arial" size="2"><a href="<%=oProp.ScriptPath +[?action=detail&cust_id=]+ALLTRIM(cust_id)%>">
+							&lt;%=tCursor.company%&gt;</a></font></td>
+                            <td width="36%"><font face="helvetica, arial" size="2">
+							&lt;%=tCursor.Contact%&gt;</font></td>
+                            <td width="24%"><font face="helvetica, arial" size="2" color="#000000">
+							&lt;%=tCursor.Title %&gt;</font></td>
+                          </tr>
+            <%		ENDIF
+            	ENDFOR %>  
+                        </table>
+                      </div>
+                      <div align="center">
+                        <table border="0" cellpadding="2" width="67%">
+                          <tr>
+                            <td width="100%">
+                              
+                              <%= lcPages %>
+                              </td>
+                          </tr>
+                        </table>
+                      </div>
+                      <p align="left"><font size="2">Total 
+					  Customers=&lt;%=reccount()%&gt;</font>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+            </div>
+            <P>&nbsp;</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<%=include("footer.avfp")%>

@@ -1,0 +1,354 @@
+<%
+LOCAL AjaxResponse,lcAction
+*IF !(oSession.VALUE("authenticated"))
+IF .F.
+	lcStr=AjaxError()
+    oResponse.ContentType = "text/json"  &&  charset=windows-1251
+    oResponse.Write(lcStr)
+    oResponse.Flush
+    lcHTMLout=[]
+ELSE
+	lcAction=oRequest.QueryString("action2")
+	=SetLastRequest()
+	DO CASE
+	    CASE lcAction=='month'
+	        lcBuildingId=oRequest.QueryString("building_id")
+        	lcOtdelId=oRequest.QueryString("otdel_id")
+        	lcServiceId=oRequest.QueryString("service_id")
+        	lcData1=oRequest.QueryString("d1")
+        	lcData2=oRequest.QueryString("d2")
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.getCurrentShedule(VAL(lcBuildingId),VAL(lcOtdelId),VAL(lcServiceId),STOD(lcData1),STOD(lcData2),"shed_mon")
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('shed_mon')
+                oJSON.keyforcursors='shed_mon'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('shed_mon'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='day'
+	        lcBuildingId=oRequest.QueryString("building_id")
+        	lcOtdelId=oRequest.QueryString("otdel_id")
+        	lcServiceId=oRequest.QueryString("service_id")
+        	lcData1=oRequest.QueryString("d1")
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.GetAvailableTimes(VAL(lcBuildingId),VAL(lcOtdelId),VAL(lcServiceId),STOD(lcData1),"shed_day2")
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+   		        SELECT * FROM SHED_DAY2 ORDER BY W_TIME_S INTO CURSOR shed_day
+                AjaxResponse.records=RECCOUNT('shed_day')
+                oJSON.keyforcursors='shed_day'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('shed_day'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='reserve'
+	        lcTicketId=oRequest.QueryString("ticket_id")
+        	lcData1=oRequest.QueryString("d1")
+        	lcTime1=oRequest.QueryString("t1")
+	        lcBuildingId=oRequest.QueryString("building_id")
+        	lcOtdelId=oRequest.QueryString("otdel_id")
+        	lcServiceId=oRequest.QueryString("service_id")
+        	lcCabinetId=oRequest.QueryString("cabinet_id")
+        	lcCito=NVL(oRequest.QueryString("is_cito"),"0")
+        	lcPatientId=oRequest.QueryString("patient_id")
+        	lcPatientName=oRequest.QueryString("patient_name")
+        	lcReserverId=oRequest.QueryString("reserver_id")
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.SaveTicket(VAL(lcTicketId),STOD(lcData1),CTOT(lcTime1),VAL(lcServiceId),VAL(lcBuildingId),VAL(lcOtdelId),VAL(lcCabinetId),VAL(lcCito),lcPatientId,lcPatientName,VAL(lcReserverId),"","","",NULL,NULL)
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('ticket')
+                oJSON.keyforcursors='ticket'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ticket'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='delete'
+	        lcTicketId=oRequest.QueryString("ticket_id")
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.DeleteTicket(VAL(lcTicketId))
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('ticket')
+                oJSON.keyforcursors='ticket'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ticket'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='get_big_parts'
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.GetBigParts("big_parts")
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('big_parts')
+                oJSON.keyforcursors='big_parts'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('big_parts'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='get_body_parts'
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.GetBodyParts("body_parts")
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('body_parts')
+                oJSON.keyforcursors='body_parts'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('body_parts'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='service_details'
+	        lcBigPartId=oRequest.QueryString("big_part_id")
+	        lcBodyPartId=oRequest.QueryString("body_part_id")
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.getServiceDetails(VAL(lcBigPartId),VAL(lcBodyPartId),"service_details")
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('service_details')
+                oJSON.keyforcursors='service_details'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('service_details'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='get_ticket_exams'
+	        lcTicketId=oRequest.QueryString("ticket_id")
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.getTicketExams(VAL(lcTicketId),"ticket_exams")
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('ticket_exams')
+                oJSON.keyforcursors='ticket_exams'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ticket_exams'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='get_patient_tickets'
+	        lcPatId=oRequest.QueryString("patient_id")
+	        lcUserId=oRequest.QueryString("user_id")
+
+            oShed=NEWOBJECT("SHEDULE","SHEDULE.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+   		    lnRet=oShed.GetTicketsByPatient(lcPatId,VAL(lcUserId),"p_tickets")
+   		    oShed=NULL
+   		    CLEAR CLASS SHEDULE
+   		    IF lnRet<=0
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ELSE
+                AjaxResponse.records=RECCOUNT('p_tickets')
+                oJSON.keyforcursors='p_tickets'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('p_tickets'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	    CASE lcAction=='show'
+*	        lcAskId=oRequest.QueryString("ask_id")
+*        	lcData1=oRequest.QueryString("d1")
+            lcIds=oRequest.QueryString("ids")
+            lcPacient=NVL(oRequest.QueryString("patient"),"")
+            oLab=NEWOBJECT("LAB","Lab.prg")
+       		oJSON=NEWOBJECT('json2','json2.prg')
+            oJSON.appendBlank=.F.
+
+   	    	AjaxResponse = CREATEOBJECT("Empty")  && Create an object, which will be serialized to JSON format in our response
+   		    ADDPROPERTY(AjaxResponse,"records", 0)  &&Add a property that will indicate whether the script returned search results
+   		    AddProperty(AjaxResponse,"error", "")  &&Add a property that will indicate the error
+
+            oLab.retCursor="AnList"
+   		    lnRet=oLab.GetByIds(lcIds)
+   		    IF lnRet!=0
+   		        oLab=NULL
+   		        CLEAR CLASS lab
+                AjaxResponse.error="Ошибка операции на сервере!<br>Повторите попытку позже!"
+                lcStr=oJSON.stringify(AjaxResponse)
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+            ELSE
+                oCol=oLab.GetDynam('AnList')
+                sHtml=oLab.DynamToHtml(oCol,"",.F.,lcPacient)
+   		        oLab=NULL
+   		        CLEAR CLASS lab
+                CREATE CURSOR IDS (HTML M)
+                INSERT INTO IDS (HTML) VALUES (sHtml)
+                AjaxResponse.records=RECCOUNT('ids')
+                oJSON.keyforcursors='ids'
+                lcStr=oJSON.AddJSONProps(oJSON.stringify(AjaxResponse),oJSON.stringify('ids'))
+                oJSON=NULL
+                oResponse.ContentType = "text/json"  &&  charset=windows-1251
+                oResponse.Write(lcStr)
+                oResponse.Flush
+                lcHTMLout=[]
+   		    ENDIF
+	ENDCASE
+ENDIF
+%>
